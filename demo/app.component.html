@@ -1,0 +1,23 @@
+<section class="container">
+    <h1>Modal</h1>
+    <hr>
+    
+    <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
+    <button type="button" class="btn btn-default" (click)="modal.open('lg')">Large modal</button>
+    <button type="button" class="btn btn-default" (click)="modal.open('sm')">Small modal</button>
+    <button type="button" class="btn btn-default" (click)="animationsEnabled = !animationsEnabled">Toggle Animation ({{ animationsEnabled }})</button>
+    <div [hidden]="!selected">Selection from a modal: {{ selected }}</div>
+
+    <modal [animation]="animationsEnabled" [size]="'lg'" (onClose)="onClose($event)" #modal>
+        <modal-header [show-close]="true">I'm a modal!</modal-header>
+        <modal-body>
+            <ul>
+                <li *ngFor="#item of items">
+                    <a href="#" (click)="$event.preventDefault(); modalSelected = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ modalSelected }}</b>    
+        </modal-body>
+        <modal-footer [show-default-buttons]="true"></modal-footer>
+    </modal>
+</section>

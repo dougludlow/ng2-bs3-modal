@@ -1,0 +1,43 @@
+{
+  "name": "ng2-bs3-modal",
+  "version": "0.1.0",
+  "description": "Angular2 Boostrap3 Modal Component",
+  "main": "dist/",
+  "scripts": {
+    "postinstall": "npm run peer && npm run typings",
+    "peer": "npm install es6-promise@^3.0.2 es6-shim@^0.33.3 reflect-metadata@0.1.2 rxjs@5.0.0-beta.0 zone.js@0.5.11",
+    "typings": "node ./node_modules/.bin/typings install",
+    "lint": "node ./node_modules/.bin/tslint ./src/**/*.ts",
+    "clean": "node ./node_modules/.bin/rimraf ./dist",
+    "tsc": "node ./node_modules/.bin/tsc --project .",
+    "build": "npm run clean && npm run lint && npm run tsc",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dougludlow/ng2-bs3-modal.git"
+  },
+  "keywords": [
+    "angular2",
+    "bootstrap",
+    "modal",
+    "component"
+  ],
+  "author": "Douglas Ludlow <doug.ludlow@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dougludlow/ng2-bs3-modal/issues"
+  },
+  "homepage": "https://github.com/dougludlow/ng2-bs3-modal#readme",
+  "devDependencies": {
+    "rimraf": "^2.5.1",
+    "tslint": "^3.3.0",
+    "typescript": "^1.7.5",
+    "typings": "^0.6.6"
+  },
+  "dependencies": {
+    "angular2": "^2.0.0-beta.3",
+    "bootstrap": "^3.3.6"
+  }
+}
