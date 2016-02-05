@@ -9,7 +9,9 @@
     <div [hidden]="!selected">Selection from a modal: {{ selected }}</div>
 
     <modal [animation]="animationsEnabled" (onClose)="onClose($event)" #modal>
-        <modal-header [show-close]="true">I'm a modal!</modal-header>
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">I'm a modal!</h4>
+        </modal-header>
         <modal-body>
             <ul>
                 <li *ngFor="#item of items">
