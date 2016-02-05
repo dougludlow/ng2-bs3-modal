@@ -10,4 +10,5 @@ Desktop.ini
 
 demo
 index.html
-README.md
+tsconfig.json
+tslint.json
