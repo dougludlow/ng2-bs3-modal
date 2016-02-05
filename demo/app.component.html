@@ -8,7 +8,7 @@
     <button type="button" class="btn btn-default" (click)="animationsEnabled = !animationsEnabled">Toggle Animation ({{ animationsEnabled }})</button>
     <div [hidden]="!selected">Selection from a modal: {{ selected }}</div>
 
-    <modal [animation]="animationsEnabled" [size]="'lg'" (onClose)="onClose($event)" #modal>
+    <modal [animation]="animationsEnabled" (onClose)="onClose($event)" #modal>
         <modal-header [show-close]="true">I'm a modal!</modal-header>
         <modal-body>
             <ul>
