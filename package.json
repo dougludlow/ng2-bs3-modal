@@ -2,11 +2,10 @@
   "name": "ng2-bs3-modal",
   "version": "0.1.0",
   "description": "Angular2 Boostrap3 Modal Component",
-  "main": "dist/",
+  "main": "dist/ng2-bs3-modal.js",
   "scripts": {
-    "postinstall": "npm run peer && npm run typings",
+    "postinstall": "npm run peer",
     "peer": "npm install es6-promise@^3.0.2 es6-shim@^0.33.3 reflect-metadata@0.1.2 rxjs@5.0.0-beta.0 zone.js@0.5.11",
-    "typings": "node ./node_modules/.bin/typings install",
     "lint": "node ./node_modules/.bin/tslint ./src/**/*.ts",
     "clean": "node ./node_modules/.bin/rimraf ./dist",
     "tsc": "node ./node_modules/.bin/tsc --project .",
@@ -33,11 +32,9 @@
   "devDependencies": {
     "rimraf": "^2.5.1",
     "tslint": "^3.3.0",
-    "typescript": "^1.7.5",
-    "typings": "^0.6.6"
+    "typescript": "^1.7.5"
   },
   "dependencies": {
-    "angular2": "^2.0.0-beta.3",
-    "bootstrap": "^3.3.6"
+    "angular2": "^2.0.0-beta.3"
   }
 }

@@ -1,8 +1,6 @@
-import * as jQuery from 'jquery';
-import 'bootstrap';
 import { Component, AfterViewInit, Input, Output, EventEmitter, Type } from 'angular2/core';
 
-const $: any = jQuery.noConflict();
+declare var jQuery: any;
 
 @Component({
     selector: 'modal',
@@ -19,7 +17,7 @@ const $: any = jQuery.noConflict();
 export class ModalComponent implements AfterViewInit {
 
     id: string = uniqueId('modal_');
-    $modal: JQuery;
+    $modal: any;
     result: ModalResult = ModalResult.None;
     hiding: boolean = false;
     overrideSize: string = null;
@@ -28,7 +26,7 @@ export class ModalComponent implements AfterViewInit {
     @Output() onClose: EventEmitter<string> = new EventEmitter();
 
     ngAfterViewInit() {
-        this.$modal = $('#' + this.id);
+        this.$modal = jQuery('#' + this.id);
         this.$modal.appendTo('body').modal({show: false});
         this.$modal
             .on('hide.bs.modal', (e) => {
