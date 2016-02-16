@@ -21,6 +21,7 @@ var ModalFooterComponent = (function () {
     ModalFooterComponent = __decorate([
         core_1.Component({
             selector: 'modal-footer',
+            styles: ["\n        .btn[hidden] { display: none; }\n    "],
             template: "\n        <div class=\"modal-footer\">\n            <ng-content></ng-content>\n            <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\" (click)=\"modal.dismiss()\" [hidden]=\"!showDefaultButtons\">Close</button>\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"modal.close()\" [hidden]=\"!showDefaultButtons\">Save</button>\n        </div>\n    "
         }), 
         __metadata('design:paramtypes', [modal_1.ModalComponent])

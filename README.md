@@ -4,6 +4,16 @@ Angular2 Bootstrap3 Modal Component
 ## Demo
 http://dougludlow.github.io/ng2-bs3-modal/
 
+## Requirements
+
+`ng2-bs3-modal` depends on bootstrap which depends on jquery, you'll need to include both scripts before ng2-bs3-modal:
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
+  
+
+Or, if you're using systemjs, configure it to load them. And import them in your typscript.
+
 ## Install
 
     npm install ng2-bs3-modal
