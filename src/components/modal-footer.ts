@@ -3,6 +3,9 @@ import { ModalComponent } from './modal';
 
 @Component({
     selector: 'modal-footer',
+    styles: [`
+        .btn[hidden] { display: none; }
+    `],
     template: `
         <div class="modal-footer">
             <ng-content></ng-content>
