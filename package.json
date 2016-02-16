@@ -1,6 +1,6 @@
 {
   "name": "ng2-bs3-modal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Angular2 Boostrap3 Modal Component",
   "main": "dist/ng2-bs3-modal.js",
   "scripts": {
@@ -36,5 +36,8 @@
   },
   "dependencies": {
     "angular2": "^2.0.0-beta.3"
+  },
+  "peerDependencies": {
+    "bootsrap": "3.3"
   }
 }
