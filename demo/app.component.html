@@ -6,7 +6,7 @@
     <button type="button" class="btn btn-default" (click)="modal.open('lg')">Large modal</button>
     <button type="button" class="btn btn-default" (click)="modal.open('sm')">Small modal</button>
     <button type="button" class="btn btn-default" (click)="animationsEnabled = !animationsEnabled">Toggle Animation ({{ animationsEnabled }})</button>
-    <button type="button" class="btn btn-default" (click)="noKeyboardModal.open()">No Keyboard</button>
+    <button type="button" class="btn btn-default" (click)="noKeyboardModal.open()">Static</button>
     <div [hidden]="!selected">Selection from a modal: {{ selected }}</div>
 
     <modal [animation]="animationsEnabled" (onClose)="onClose($event)" #modal>
