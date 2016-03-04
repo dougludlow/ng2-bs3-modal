@@ -6,6 +6,8 @@ export declare class ModalComponent implements AfterViewInit {
     hiding: boolean;
     overrideSize: string;
     animation: boolean;
+    backdrop: string;
+    keyboard: boolean;
     size: string;
     onClose: EventEmitter<string>;
     ngAfterViewInit(): void;

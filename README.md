@@ -26,7 +26,9 @@ Then import and include in your component's directives:
         directives: [MODAL_DIRECTIVES]
     })
 
-## Example
+## Examples
+
+### Example: Default modal
 
     <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
     
@@ -39,5 +41,20 @@ Then import and include in your component's directives:
         </modal-body>
         <modal-footer [show-default-buttons]="true"></modal-footer>
     </modal>
-
 ![Example](demo/images/modal.png)
+    
+### Example: Static modal
+This will create a modal that cannot be closed with the escape key or by clicking outside of the modal.
+
+    <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
+    
+    <modal #modal [keyboard]="false" [backdrop]="'static'">
+        <modal-header [show-close]="false">
+            <h4 class="modal-title">I'm a modal!</h4>
+        </modal-header>
+        <modal-body>
+            Hello World!
+        </modal-body>
+        <modal-footer [show-default-buttons]="true"></modal-footer>
+    </modal>
+    

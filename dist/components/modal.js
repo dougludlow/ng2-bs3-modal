@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65,6 +66,14 @@ var ModalComponent = (function () {
     __decorate([
         core_1.Input(), 
         __metadata('design:type', String)
+    ], ModalComponent.prototype, "backdrop", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Boolean)
+    ], ModalComponent.prototype, "keyboard", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
     ], ModalComponent.prototype, "size", void 0);
     __decorate([
         core_1.Output(), 
@@ -73,12 +82,12 @@ var ModalComponent = (function () {
     ModalComponent = __decorate([
         core_1.Component({
             selector: 'modal',
-            template: "\n        <div id=\"{{id}}\" class=\"modal\" [ngClass]=\"{ fade: animation }\" tabindex=\"-1\" role=\"dialog\">\n            <div class=\"modal-dialog\" [ngClass]=\"{ 'modal-sm': isSmall(), 'modal-lg': isLarge() }\">\n                <div class=\"modal-content\">\n                    <ng-content></ng-content>\n                </div>\n            </div>\n        </div>\n    "
+            template: "\n        <div id=\"{{id}}\" class=\"modal\" [ngClass]=\"{ fade: animation }\" tabindex=\"-1\" role=\"dialog\"\n            [attr.data-keyboard]=\"keyboard\" [attr.data-backdrop]=\"backdrop\">\n            <div class=\"modal-dialog\" [ngClass]=\"{ 'modal-sm': isSmall(), 'modal-lg': isLarge() }\">\n                <div class=\"modal-content\">\n                    <ng-content></ng-content>\n                </div>\n            </div>\n        </div>\n    "
         }), 
         __metadata('design:paramtypes', [])
     ], ModalComponent);
     return ModalComponent;
-})();
+}());
 exports.ModalComponent = ModalComponent;
 var ModalSize = (function () {
     function ModalSize() {
@@ -89,7 +98,7 @@ var ModalSize = (function () {
     ModalSize.Small = 'sm';
     ModalSize.Large = 'lg';
     return ModalSize;
-})();
+}());
 exports.ModalSize = ModalSize;
 (function (ModalResult) {
     ModalResult[ModalResult["None"] = 0] = "None";
