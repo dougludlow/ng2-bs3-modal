@@ -5,7 +5,8 @@ declare var jQuery: any;
 @Component({
     selector: 'modal',
     template: `
-        <div id="{{id}}" class="modal" [ngClass]="{ fade: animation }" tabindex="-1" role="dialog">
+        <div id="{{id}}" class="modal" [ngClass]="{ fade: animation }" tabindex="-1" role="dialog"
+            [attr.data-keyboard]="keyboard" [attr.data-backdrop]="backdrop">
             <div class="modal-dialog" [ngClass]="{ 'modal-sm': isSmall(), 'modal-lg': isLarge() }">
                 <div class="modal-content">
                     <ng-content></ng-content>
@@ -22,6 +23,8 @@ export class ModalComponent implements AfterViewInit {
     hiding: boolean = false;
     overrideSize: string = null;
     @Input() animation: boolean = true;
+    @Input() backdrop: string;
+    @Input() keyboard: boolean;
     @Input() size: string;
     @Output() onClose: EventEmitter<string> = new EventEmitter();
 
