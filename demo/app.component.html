@@ -6,6 +6,7 @@
     <button type="button" class="btn btn-default" (click)="modal.open('lg')">Large modal</button>
     <button type="button" class="btn btn-default" (click)="modal.open('sm')">Small modal</button>
     <button type="button" class="btn btn-default" (click)="animationsEnabled = !animationsEnabled">Toggle Animation ({{ animationsEnabled }})</button>
+    <button type="button" class="btn btn-default" (click)="noKeyboardModal.open()">Static</button>
     <div [hidden]="!selected">Selection from a modal: {{ selected }}</div>
 
     <modal [animation]="animationsEnabled" (onClose)="onClose($event)" #modal>
@@ -19,6 +20,21 @@
                 </li>
             </ul>
             Selected: <b>{{ modalSelected }}</b>    
+        </modal-body>
+        <modal-footer [show-default-buttons]="true"></modal-footer>
+    </modal>
+
+    <modal [animation]="animationsEnabled" [keyboard]="false" [backdrop]="'static'" (onClose)="onClose($event)" #noKeyboardModal>
+        <modal-header [show-close]="false">
+            <h4 class="modal-title">Can't close me with your keyboard!</h4>
+        </modal-header>
+        <modal-body>
+            <ul>
+                <li *ngFor="#item of items">
+                    <a href="#" (click)="$event.preventDefault(); modalSelected = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ modalSelected }}</b>
         </modal-body>
         <modal-footer [show-default-buttons]="true"></modal-footer>
     </modal>
