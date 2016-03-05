@@ -234,3 +234,8 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+# Generated output
+/bundles/
+/components/
+/ng2-bs3-modal.*

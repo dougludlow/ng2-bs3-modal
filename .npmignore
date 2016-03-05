@@ -9,6 +9,8 @@ Desktop.ini
 .DS_Store
 
 demo
+test
 index.html
 tsconfig.json
 tslint.json
+*.tgz

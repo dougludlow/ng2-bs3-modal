@@ -20,7 +20,7 @@ Or, if you're using systemjs, configure it to load them. And import them in your
 
 Then import and include in your component's directives:
 
-    import { MODAL_DIRECTIVES } from 'ng2-bs3-modal';
+    import { MODAL_DIRECTIVES } from 'ng2-bs3-modal/ng2-bs3-modal';
 
     @Component({
         directives: [MODAL_DIRECTIVES]
