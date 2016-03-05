@@ -1,5 +1,5 @@
 import { Component } from 'angular2/core';
-import { MODAL_DIRECTIVES, ModalResult } from '../src/ng2-bs3-modal';
+import { MODAL_DIRECTIVES, ModalResult } from '../src/ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'modal-demo',
