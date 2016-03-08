@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter, Type } from 'angular2/core';
+import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, Type } from 'angular2/core';
 
 declare var jQuery: any;
 
@@ -15,7 +15,7 @@ declare var jQuery: any;
         </div>
     `
 })
-export class ModalComponent implements AfterViewInit {
+export class ModalComponent implements AfterViewInit, OnDestroy {
 
     id: string = uniqueId('modal_');
     $modal: any;
@@ -41,6 +41,11 @@ export class ModalComponent implements AfterViewInit {
                 this.hiding = false;
                 this.overrideSize = null;
             });
+    }
+
+    ngOnDestroy() {
+        this.$modal.data('bs.modal', null);
+        this.$modal.remove();
     }
 
     open(size?: string) {
