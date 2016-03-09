@@ -15,7 +15,7 @@ declare var jQuery: any;
         </div>
     `
 })
-export class ModalComponent implements AfterViewInit, OnDestroy {
+export class ModalComponent implements OnDestroy {
 
     id: string = uniqueId('modal_');
     $modal: any;
@@ -28,16 +28,18 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
     @Input() size: string;
     @Output() onClose: EventEmitter<string> = new EventEmitter();
 
-    ngAfterViewInit() {
+    init() {
         this.$modal = jQuery('#' + this.id);
         this.$modal.appendTo('body').modal({show: false});
         this.$modal
-            .on('hide.bs.modal', (e) => {
+            .off('hide.bs.modal.ng2-bs3-modal')
+            .on('hide.bs.modal.ng2-bs3-modal', (e) => {
                 this.hiding = true;
                 if (this.result === ModalResult.None) this.dismiss();
                 this.result = ModalResult.None;
             })
-            .on('hidden.bs.modal', (e) => {
+            .off('hidden.bs.modal.ng2-bs3-modal')
+            .on('hidden.bs.modal.ng2-bs3-modal', (e) => {
                 this.hiding = false;
                 this.overrideSize = null;
             });
@@ -49,6 +51,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
     }
 
     open(size?: string) {
+        this.init();
         if (ModalSize.validSize(size)) this.overrideSize = size;
         this.$modal.modal('show');
     }
