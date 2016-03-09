@@ -17,6 +17,18 @@ Or, if you're using systemjs, configure it to load them. And import them in your
 ## Install
 
     npm install ng2-bs3-modal
+    
+Include a reference to the bundle in your html
+
+    <script src="node_modules/ng2-bs3-modal/bundles/ng2-bs3-modal.js"></script>
+    
+Or if you're using SystemJS, add a mapping to your System.config:
+
+    System.config({
+        map: {
+            'ng2-bs3-modal': 'node_modules/ng2-bs3-modal'
+        }
+    });
 
 Then import and include in your component's directives:
 

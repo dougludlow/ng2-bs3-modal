@@ -17,6 +17,7 @@
         "node_modules",
         "demo",
         "bundles",
-        "components"
+        "components",
+        "test"
     ]
 }
