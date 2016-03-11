@@ -241,3 +241,4 @@ _Pvt_Extensions
 /ng2-bs3-modal.*
 src/**.*.js
 src/**.*.d.ts
+.idea/

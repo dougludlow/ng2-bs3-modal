@@ -46,8 +46,10 @@ export class ModalComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.$modal.data('bs.modal', null);
-        this.$modal.remove();
+        if(this.$modal) {
+            this.$modal.data('bs.modal', null);
+            this.$modal.remove();
+        }
     }
 
     open(size?: string) {
