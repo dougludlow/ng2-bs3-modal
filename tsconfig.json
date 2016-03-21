@@ -1,13 +1,13 @@
 {
     "compilerOptions": {
-        "module": "system",
+        "module": "commonjs",
         "moduleResolution": "node",
         "target": "es5",
         "noImplicitAny": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "inlineSourceMap": true,
-        "declaration": true,
+        "declaration": false,
         "outDir": ".",
         "rootDir": "src/ng2-bs3-modal"
     },
