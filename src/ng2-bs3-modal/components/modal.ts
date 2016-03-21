@@ -22,15 +22,16 @@ export class ModalComponent implements OnDestroy {
     result: ModalResult = ModalResult.None;
     hiding: boolean = false;
     overrideSize: string = null;
+    visible: boolean = false;
     @Input() animation: boolean = true;
     @Input() backdrop: string;
     @Input() keyboard: boolean;
     @Input() size: string;
-    @Output() onClose: EventEmitter<string> = new EventEmitter();
+    @Output() onClose: EventEmitter<ModalResult> = new EventEmitter(false);
 
     init() {
         this.$modal = jQuery('#' + this.id);
-        this.$modal.appendTo('body').modal({show: false});
+        this.$modal.appendTo('body').modal({ show: false });
         this.$modal
             .off('hide.bs.modal.ng2-bs3-modal')
             .on('hide.bs.modal.ng2-bs3-modal', (e) => {
@@ -46,32 +47,48 @@ export class ModalComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        if(this.$modal) {
+        if (this.$modal) {
             this.$modal.data('bs.modal', null);
             this.$modal.remove();
         }
     }
 
     open(size?: string) {
-        this.init();
-        if (ModalSize.validSize(size)) this.overrideSize = size;
-        this.$modal.modal('show');
+        return new Promise((resolve, reject) => {
+            this.init();
+            if (ModalSize.validSize(size)) this.overrideSize = size;
+            this.$modal.one('shown.bs.modal', () => {
+                this.visible = true;
+                resolve();
+            });
+            this.$modal.modal('show');
+        });
     }
 
     close() {
-        this.result = ModalResult.Close;
-        this.onClose.next(this.result);
-        this.hide();
+        return new Promise((resolve, reject) => {
+            this.result = ModalResult.Close;
+            this.onClose.emit(this.result);
+            this.hide(resolve);
+        });
     }
 
     dismiss() {
-        this.result = ModalResult.Dismiss;
-        this.onClose.next(this.result);
-        this.hide();
+        return new Promise((resolve, reject) => {
+            this.result = ModalResult.Dismiss;
+            this.onClose.emit(this.result);
+            this.hide(resolve);
+        });
     }
 
-    private hide() {
-        if (!this.hiding) this.$modal.modal('hide');
+    private hide(resolve) {
+        if (!this.hiding) {
+            this.$modal.one('hidden.bs.modal', () => {
+                this.visible = false;
+                resolve();
+            });
+            this.$modal.modal('hide');
+        }
     }
 
     private isSmall() {
