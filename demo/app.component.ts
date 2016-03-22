@@ -1,20 +1,15 @@
 import { Component } from 'angular2/core';
-import { MODAL_DIRECTIVES, ModalResult } from '../src/ng2-bs3-modal/ng2-bs3-modal';
+import { ROUTER_DIRECTIVES, RouteConfig } from 'angular2/router';
+import { ModalDemoComponent } from './modal-demo.component';
+import { HelloComponent } from './hello.component';
 
 @Component({
     selector: 'modal-demo',
-    templateUrl: 'demo/app.component.html',
-    directives: [MODAL_DIRECTIVES]
+    template: '<router-outlet></router-outlet>',
+    directives: [ROUTER_DIRECTIVES]
 })
-export class AppComponent {
-    items: string[] = ['item1', 'item2', 'item3'];
-    modalSelected: string;
-    selected: string;
-    animationsEnabled: boolean = true;
-
-    onClose(result: ModalResult) {
-        if (result === ModalResult.Close) {
-            this.selected = this.modalSelected;
-        }
-    }
-}
+@RouteConfig([
+    { path: '/', name: 'ModalDemo', component: ModalDemoComponent },
+    { path: '/hello', name: 'Hello', component: HelloComponent }
+])
+export class AppComponent { }
