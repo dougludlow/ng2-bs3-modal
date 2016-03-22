@@ -14,7 +14,8 @@
     "bundles": "npm run tsc-single && npm run uglify",
     "build": "npm run clean && npm run lint && npm run tsc && npm run bundles",
     "prepublish": "npm run build",
-    "test": "node ./node_modules/.bin/karma start"
+    "test": "node ./node_modules/.bin/karma start --single-run",
+    "test-watch": "node ./node_modules/.bin/karma start"
   },
   "repository": {
     "type": "git",
@@ -41,14 +42,15 @@
     "karma": "^0.13.21",
     "karma-chrome-launcher": "^0.2.2",
     "karma-jasmine": "^0.3.7",
-    "karma-phantomjs2-launcher": "^0.5.0",
+    "karma-phantomjs-launcher": "^1.0.0",
     "karma-spec-reporter": "0.0.24",
+    "phantomjs-prebuilt": "^2.1.6",
     "reflect-metadata": "^0.1.2",
     "rimraf": "^2.5.1",
     "rxjs": "5.0.0-beta.2",
     "systemjs": "^0.19.23",
-    "tslint": "^3.4.0-dev.1",
-    "typescript": "^1.9.0-dev.20160217",
+    "tslint": "^3.6.0-dev.1",
+    "typescript": "^1.9.0-dev.20160322",
     "uglify-js": "^2.6.2",
     "zone.js": "0.5.15"
   },

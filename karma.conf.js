@@ -7,8 +7,8 @@ module.exports = function (config) {
         singleRun: false,
         frameworks: ['jasmine'],
         reporters: ['spec'],
-        //browsers: ['PhantomJS2'],
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
+        //browsers: ['Chrome'],
         files: [
             'node_modules/es6-shim/es6-shim.min.js',
             'node_modules/systemjs/dist/system-polyfills.js',
