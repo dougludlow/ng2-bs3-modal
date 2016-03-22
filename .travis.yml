@@ -7,5 +7,5 @@ before_install:
 - npm install -g npm@latest
 
 script:
-- npm run install:typings
+- npm run build
 - npm test
