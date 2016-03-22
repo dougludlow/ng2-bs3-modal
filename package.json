@@ -12,8 +12,9 @@
     "tsc-single": "node ./node_modules/.bin/tsc --project . --rootDir ./src --module system --outFile ./bundles/ng2-bs3-modal.js",
     "uglify": "node ./node_modules/.bin/uglifyjs ./bundles/ng2-bs3-modal.js --output ./bundles/ng2-bs3-modal.min.js",
     "bundles": "npm run tsc-single && npm run uglify",
-    "build": "npm run clean && npm run lint && npm run tsc && npm run bundles",
+    "build": "npm run clean && npm run typings && npm run lint && npm run tsc && npm run bundles",
     "prepublish": "npm run build",
+    "typings": "node ./node_modules/.bin/typings install",
     "test": "node ./node_modules/.bin/karma start --single-run",
     "test-watch": "node ./node_modules/.bin/karma start"
   },
@@ -51,6 +52,7 @@
     "systemjs": "^0.19.23",
     "tslint": "3.6.0-dev.1",
     "typescript": "1.9.0-dev.20160322",
+    "typings": "^0.7.9",
     "uglify-js": "^2.6.2",
     "zone.js": "0.5.15"
   },
