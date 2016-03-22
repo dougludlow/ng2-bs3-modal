@@ -33,6 +33,10 @@ export class ModalComponent implements OnDestroy {
         this.$modal = jQuery('#' + this.id);
         this.$modal.appendTo('body').modal({ show: false });
         this.$modal
+            .off('shown.bs.modal.ng2-bs3-modal')
+            .on('shown.bs.modal.ng2-bs3-modal', (e) => {
+                this.visible = true;
+            })
             .off('hide.bs.modal.ng2-bs3-modal')
             .on('hide.bs.modal.ng2-bs3-modal', (e) => {
                 this.hiding = true;
@@ -43,14 +47,27 @@ export class ModalComponent implements OnDestroy {
             .on('hidden.bs.modal.ng2-bs3-modal', (e) => {
                 this.hiding = false;
                 this.overrideSize = null;
+                this.visible = false;
             });
     }
 
     ngOnDestroy() {
         if (this.$modal) {
-            this.$modal.data('bs.modal', null);
-            this.$modal.remove();
+            if (this.visible) {
+                this.$modal.one('hidden.bs.modal', () => {
+                   this.destroy();
+                });
+                this.$modal.hide();
+            }
+            else {
+                this.destroy();
+            }
         }
+    }
+
+    private destroy() {
+        this.$modal.data('bs.modal', null);
+        this.$modal.remove();
     }
 
     open(size?: string) {
@@ -58,7 +75,6 @@ export class ModalComponent implements OnDestroy {
             this.init();
             if (ModalSize.validSize(size)) this.overrideSize = size;
             this.$modal.one('shown.bs.modal', () => {
-                this.visible = true;
                 resolve();
             });
             this.$modal.modal('show');
@@ -84,7 +100,6 @@ export class ModalComponent implements OnDestroy {
     private hide(resolve) {
         if (!this.hiding) {
             this.$modal.one('hidden.bs.modal', () => {
-                this.visible = false;
                 resolve();
             });
             this.$modal.modal('hide');
