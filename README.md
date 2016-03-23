@@ -37,38 +37,6 @@ Then import and include in your component's directives:
     @Component({
         directives: [MODAL_DIRECTIVES]
     })
-
-## Examples
-
-### Example: Default modal
-
-    <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
-    
-    <modal #modal>
-        <modal-header [show-close]="true">
-            <h4 class="modal-title">I'm a modal!</h4>
-        </modal-header>
-        <modal-body>
-            Hello World!
-        </modal-body>
-        <modal-footer [show-default-buttons]="true"></modal-footer>
-    </modal>
-![Example](demo/images/modal.png)
-    
-### Example: Static modal
-This will create a modal that cannot be closed with the escape key or by clicking outside of the modal.
-
-    <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
-    
-    <modal #modal [keyboard]="false" [backdrop]="'static'">
-        <modal-header [show-close]="false">
-            <h4 class="modal-title">I'm a modal!</h4>
-        </modal-header>
-        <modal-body>
-            Hello World!
-        </modal-body>
-        <modal-footer [show-default-buttons]="true"></modal-footer>
-    </modal>
     
 ## API
 
@@ -99,3 +67,55 @@ This will create a modal that cannot be closed with the escape key or by clickin
 - `onDismiss: EventEmitter`
     
    Emits when `ModalComponent.dismiss()` is called, or when the modal is dismissed with the keyboard or backdrop. 
+
+## Examples
+
+### Default modal
+
+    <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
+    
+    <modal #modal>
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">I'm a modal!</h4>
+        </modal-header>
+        <modal-body>
+            Hello World!
+        </modal-body>
+        <modal-footer [show-default-buttons]="true"></modal-footer>
+    </modal>
+![Example](demo/images/modal.png)
+    
+### Static modal
+
+This will create a modal that cannot be closed with the escape key or by clicking outside of the modal.
+
+    <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
+    
+    <modal #modal [keyboard]="false" [backdrop]="'static'">
+        <modal-header [show-close]="false">
+            <h4 class="modal-title">I'm a modal!</h4>
+        </modal-header>
+        <modal-body>
+            Hello World!
+        </modal-body>
+        <modal-footer [show-default-buttons]="true"></modal-footer>
+    </modal>
+    
+ ### Closing the modal from the host/parent component
+ 
+    @Component({
+        selector: 'parent-component',
+        template: `
+            <modal #myModal>
+                ...
+            </modal>
+        `
+    })
+    export class ParentComponent {
+        @ViewChild('myModal')
+        modal: ModalComponent
+
+        close() {
+            this.modal.close();
+        }
+    }
