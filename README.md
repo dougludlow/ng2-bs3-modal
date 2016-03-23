@@ -40,7 +40,9 @@ Then import and include in your component's directives:
     
 ## API
 
-### Inputs
+### ModalComponent
+
+#### Inputs
 
 - `animation: boolean`, default: `true`
 
@@ -58,7 +60,7 @@ Then import and include in your component's directives:
 
    Specify `'sm'` for small and `'lg'` for large.
 
-### Outputs
+#### Outputs
 
 - `onClose: EventEmitter`
 
@@ -67,6 +69,22 @@ Then import and include in your component's directives:
 - `onDismiss: EventEmitter`
     
    Emits when `ModalComponent.dismiss()` is called, or when the modal is dismissed with the keyboard or backdrop. 
+
+### ModalHeaderComponent
+
+#### Inputs
+
+- `show-close: boolean`, default: `false`
+
+   Show or hide the close button in the header. Specify `true` to show.
+   
+### ModalFooterComponent
+
+#### Inputs
+
+- `show-default-buttons: boolean`, default: `false`
+
+   Show or hide the default 'Save' and 'Close' buttons in the header. Specify `true` to show.
 
 ## Examples
 
@@ -83,14 +101,13 @@ Then import and include in your component's directives:
         </modal-body>
         <modal-footer [show-default-buttons]="true"></modal-footer>
     </modal>
+    
 ![Example](demo/images/modal.png)
     
 ### Static modal
 
 This will create a modal that cannot be closed with the escape key or by clicking outside of the modal.
 
-    <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
-    
     <modal #modal [keyboard]="false" [backdrop]="'static'">
         <modal-header [show-close]="false">
             <h4 class="modal-title">I'm a modal!</h4>
@@ -100,6 +117,23 @@ This will create a modal that cannot be closed with the escape key or by clickin
         </modal-body>
         <modal-footer [show-default-buttons]="true"></modal-footer>
     </modal>
+    
+### Use custom buttons in footer
+    
+    <modal #modal>
+        <modal-header>
+            <h4 class="modal-title">I'm a modal!</h4>
+        </modal-header>
+        <modal-body>
+            Hello World!
+        </modal-body>
+        <modal-footer>
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="modal.close()">Ok</button>
+        </modal-footer>
+    </modal>
+    
+![Example](demo/images/modal-custom-footer.png)
     
 ### Closing the modal from the host/parent component
  
