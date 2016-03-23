@@ -21,8 +21,8 @@ export class ModalComponent implements OnDestroy, CanDeactivate {
     overrideSize: string = null;
     visible: boolean = false;
     @Input() animation: boolean = true;
-    @Input() backdrop: string;
-    @Input() keyboard: boolean;
+    @Input() backdrop: any = true;
+    @Input() keyboard: boolean = true;
     @Input() size: string;
     @Output() onClose: EventEmitter<any> = new EventEmitter(false);
     @Output() onDismiss: EventEmitter<any> = new EventEmitter(false);

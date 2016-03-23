@@ -70,3 +70,32 @@ This will create a modal that cannot be closed with the escape key or by clickin
         <modal-footer [show-default-buttons]="true"></modal-footer>
     </modal>
     
+## API
+
+### Inputs
+
+- `animation: boolean`, default: `true`
+
+   Specify `false` to simply show the modal rather than having it fade in/out of view.
+   
+- `backdrop: string | boolean`, default: `true`
+
+   Specify `'static'` for a backdrop which doesn't close the modal on click or `false` for no backdrop.
+   
+- `keyboard: boolean`, default: `true`
+
+   Closes the modal when escape key is pressed. Specify `false` to disable.
+   
+- `size: string`, default: `undefined`
+
+   Specify `'sm'` for small and `'lg'` for large.
+
+### Outputs
+
+- `onClose: EventEmitter`
+
+   Emits when `ModalComponent.close()` is called. 
+
+- `onDismiss: EventEmitter`
+    
+   Emits when `ModalComponent.dismiss()` is called, or modal is dissmissed with keyboard or backdrop. 
