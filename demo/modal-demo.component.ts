@@ -15,15 +15,15 @@ export class ModalDemoComponent {
 
     constructor(private router: Router) { }
 
-    onClose(result: ModalResult) {
-        if (result === ModalResult.Close) {
-            this.selected = this.modalSelected;
-        }
+    closed() {
+        this.selected = '(closed) ' + this.modalSelected;
+    }
+
+    dismissed() {
+        this.selected = '(dismissed)';
     }
 
     navigate(result: ModalResult) {
-        if (result === ModalResult.Close) {
-            this.router.navigateByUrl('/hello');
-        }
+        this.router.navigateByUrl('/hello');
     }
 }

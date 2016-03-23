@@ -1,11 +1,11 @@
-import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, Type } from 'angular2/core';
-
-declare var jQuery: any;
+import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, Type, ElementRef } from 'angular2/core';
+import { CanDeactivate, ComponentInstruction } from 'angular2/router';
+import { ModalInstance, ModalResult } from './modal-instance';
 
 @Component({
     selector: 'modal',
     template: `
-        <div id="{{id}}" class="modal" [ngClass]="{ fade: animation }" tabindex="-1" role="dialog"
+        <div class="modal" [ngClass]="{ fade: animation }" tabindex="-1" role="dialog"
             [attr.data-keyboard]="keyboard" [attr.data-backdrop]="backdrop">
             <div class="modal-dialog" [ngClass]="{ 'modal-sm': isSmall(), 'modal-lg': isLarge() }">
                 <div class="modal-content">
@@ -15,95 +15,49 @@ declare var jQuery: any;
         </div>
     `
 })
-export class ModalComponent implements OnDestroy {
+export class ModalComponent implements OnDestroy, CanDeactivate {
 
-    id: string = uniqueId('modal_');
-    $modal: any;
-    result: ModalResult = ModalResult.None;
-    hiding: boolean = false;
+    instance: ModalInstance;
     overrideSize: string = null;
     visible: boolean = false;
     @Input() animation: boolean = true;
     @Input() backdrop: string;
     @Input() keyboard: boolean;
     @Input() size: string;
-    @Output() onClose: EventEmitter<ModalResult> = new EventEmitter(false);
+    @Output() onClose: EventEmitter<any> = new EventEmitter(false);
+    @Output() onDismiss: EventEmitter<any> = new EventEmitter(false);
 
-    init() {
-        this.$modal = jQuery('#' + this.id);
-        this.$modal.appendTo('body').modal({ show: false });
-        this.$modal
-            .off('shown.bs.modal.ng2-bs3-modal')
-            .on('shown.bs.modal.ng2-bs3-modal', (e) => {
-                this.visible = true;
-            })
-            .off('hide.bs.modal.ng2-bs3-modal')
-            .on('hide.bs.modal.ng2-bs3-modal', (e) => {
-                this.hiding = true;
-                if (this.result === ModalResult.None) this.dismiss();
-                this.result = ModalResult.None;
-            })
-            .off('hidden.bs.modal.ng2-bs3-modal')
-            .on('hidden.bs.modal.ng2-bs3-modal', (e) => {
-                this.hiding = false;
-                this.overrideSize = null;
-                this.visible = false;
-            });
-    }
-
-    ngOnDestroy() {
-        if (this.$modal) {
-            if (this.visible) {
-                this.$modal.one('hidden.bs.modal', () => {
-                   this.destroy();
-                });
-                this.$modal.hide();
-            }
-            else {
-                this.destroy();
-            }
-        }
-    }
-
-    private destroy() {
-        this.$modal.data('bs.modal', null);
-        this.$modal.remove();
-    }
-
-    open(size?: string) {
-        return new Promise((resolve, reject) => {
-            this.init();
-            if (ModalSize.validSize(size)) this.overrideSize = size;
-            this.$modal.one('shown.bs.modal', () => {
-                resolve();
-            });
-            this.$modal.modal('show');
+    constructor(el: ElementRef) {
+        this.instance = new ModalInstance(el);
+        this.instance.hidden.subscribe((result) => {
+            if (result = ModalResult.Dismiss)
+                this.onDismiss.emit(undefined);
         });
     }
 
+    ngOnDestroy() {
+        this.instance.destroy();
+    }
+
+    routerCanDeactivate(next: ComponentInstruction, prev: ComponentInstruction): any {
+        return this.instance.destroy();
+    }
+
+    open(size?: string) {
+        if (ModalSize.validSize(size)) this.overrideSize = size;
+        return this.instance.open();
+    }
+
     close() {
-        return new Promise((resolve, reject) => {
-            this.result = ModalResult.Close;
-            this.onClose.emit(this.result);
-            this.hide(resolve);
+        return this.instance.close().then(() => {
+            this.onClose.emit(undefined);
         });
     }
 
     dismiss() {
-        return new Promise((resolve, reject) => {
-            this.result = ModalResult.Dismiss;
-            this.onClose.emit(this.result);
-            this.hide(resolve);
+        return this.instance.dismiss().then(() => {
+            this.onDismiss.emit(undefined);
         });
-    }
-
-    private hide(resolve) {
-        if (!this.hiding) {
-            this.$modal.one('hidden.bs.modal', () => {
-                resolve();
-            });
-            this.$modal.modal('hide');
-        }
     }
 
     private isSmall() {
@@ -122,15 +76,4 @@ export class ModalSize {
     static validSize(size: string) {
         return size && (size === ModalSize.Small || size === ModalSize.Large);
     }
-}
-
-export enum ModalResult {
-    None,
-    Close,
-    Dismiss
-}
-
-let id: number = 0;
-export function uniqueId(prefix: string): string {
-    return prefix + ++id;
 }
