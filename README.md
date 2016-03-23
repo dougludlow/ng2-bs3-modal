@@ -98,4 +98,4 @@ This will create a modal that cannot be closed with the escape key or by clickin
 
 - `onDismiss: EventEmitter`
     
-   Emits when `ModalComponent.dismiss()` is called, or modal is dissmissed with keyboard or backdrop. 
+   Emits when `ModalComponent.dismiss()` is called, or modal is dismissed with keyboard or backdrop. 
