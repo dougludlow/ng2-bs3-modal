@@ -25,7 +25,7 @@
         <modal-footer [show-default-buttons]="true"></modal-footer>
     </modal>
 
-    <modal [animation]="animationsEnabled" [keyboard]="false" [backdrop]="'static'" (onClose)="onClose()" #noKeyboardModal>
+    <modal [animation]="animationsEnabled" [keyboard]="false" [backdrop]="'static'" (onClose)="closed()" #noKeyboardModal>
         <modal-header [show-close]="false">
             <h4 class="modal-title">Can't close me with your keyboard!</h4>
         </modal-header>
