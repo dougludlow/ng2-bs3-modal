@@ -1,7 +1,9 @@
 import { ElementRef } from 'angular2/core';
 import { Observable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs/Subscriber';
+import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/publish';
 
 declare var jQuery: any;
 
@@ -13,9 +15,9 @@ export class ModalInstance {
 
     $modal: any;
     shown: Observable<any>;
-    shownSubscriber: Subscriber<any>;
+    shownObserver: Observer<any>;
     hidden: Observable<ModalResult>;
-    hiddenSubscriber: Subscriber<ModalResult>;
+    hiddenObserver: Observer<ModalResult>;
     result: ModalResult;
     visible: boolean = false;
 
@@ -57,13 +59,16 @@ export class ModalInstance {
     }
 
     private init() {
-        this.shown = new Observable<any>((subscriber: Subscriber<any>) => {
-            this.shownSubscriber = subscriber;
+        this.shown = new Observable<any>(observer => {
+            this.shownObserver = observer;
         });
 
-        this.hidden = new Observable<ModalResult>((subscriber: Subscriber<ModalResult>) => {
-            this.hiddenSubscriber = subscriber;
+        this.hidden = new Observable<ModalResult>(observer => {
+            this.hiddenObserver = observer;
         });
+
+        this.shown.subscribe(() => {});
+        this.hidden.subscribe(() => {});
     }
 
     private create() {
@@ -76,8 +81,8 @@ export class ModalInstance {
             .off(`${this.shownEventName}.${this.suffix}`)
             .on(`${this.shownEventName}.${this.suffix}`, () => {
                 this.visible = true;
-                this.shownSubscriber.next();
-                this.shownSubscriber.complete();
+                this.shownObserver.next(undefined);
+                this.shownObserver.complete();
             })
             .off(`${this.hiddenEventName}.${this.suffix}`)
             .on(`${this.hiddenEventName}.${this.suffix}`, () => {
@@ -85,8 +90,8 @@ export class ModalInstance {
                 if (this.result === ModalResult.None) {
                     this.result = ModalResult.Dismiss;
                 };
-                this.hiddenSubscriber.next(this.result);
-                this.hiddenSubscriber.complete();
+                this.hiddenObserver.next(this.result);
+                this.hiddenObserver.complete();
             });
     }
 }
