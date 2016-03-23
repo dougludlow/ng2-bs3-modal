@@ -101,7 +101,7 @@ This will create a modal that cannot be closed with the escape key or by clickin
         <modal-footer [show-default-buttons]="true"></modal-footer>
     </modal>
     
- ### Closing the modal from the host/parent component
+### Closing the modal from the host/parent component
  
     @Component({
         selector: 'parent-component',
