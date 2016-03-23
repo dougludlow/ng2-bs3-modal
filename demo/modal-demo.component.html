@@ -10,7 +10,7 @@
     <button type="button" class="btn btn-default" (click)="navigateModal.open()">Navigation Modal</button>
     <div [hidden]="!selected">Selection from a modal: {{ selected }}</div>
 
-    <modal [animation]="animationsEnabled" (onClose)="onClose($event)" #modal>
+    <modal [animation]="animationsEnabled" (onClose)="closed()" (onDismiss)="dismissed()" #modal>
         <modal-header [show-close]="true">
             <h4 class="modal-title">I'm a modal!</h4>
         </modal-header>
@@ -25,7 +25,7 @@
         <modal-footer [show-default-buttons]="true"></modal-footer>
     </modal>
 
-    <modal [animation]="animationsEnabled" [keyboard]="false" [backdrop]="'static'" (onClose)="onClose($event)" #noKeyboardModal>
+    <modal [animation]="animationsEnabled" [keyboard]="false" [backdrop]="'static'" (onClose)="onClose()" #noKeyboardModal>
         <modal-header [show-close]="false">
             <h4 class="modal-title">Can't close me with your keyboard!</h4>
         </modal-header>
@@ -40,7 +40,7 @@
         <modal-footer [show-default-buttons]="true"></modal-footer>
     </modal>
     
-    <modal [animation]="animationsEnabled" (onClose)="navigate($event)" #navigateModal>
+    <modal [animation]="animationsEnabled" (onClose)="navigate()" #navigateModal>
         <modal-header [show-close]="true">
             <h4 class="modal-title">I'm a modal!</h4>
         </modal-header>
