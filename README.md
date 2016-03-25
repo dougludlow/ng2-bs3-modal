@@ -37,6 +37,9 @@ Then import and include in your component's directives:
     @Component({
         directives: [MODAL_DIRECTIVES]
     })
+    export class MyComponent {
+        ...    
+    }
     
 ## API
 
