@@ -1,6 +1,6 @@
-import { Component } from 'angular2/core';
+import { Component, ViewChild } from 'angular2/core';
 import { Router } from 'angular2/router';
-import { MODAL_DIRECTIVES, ModalResult } from '../src/ng2-bs3-modal/ng2-bs3-modal';
+import { MODAL_DIRECTIVES, ModalComponent } from '../src/ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'modal-demo-component',
@@ -8,6 +8,9 @@ import { MODAL_DIRECTIVES, ModalResult } from '../src/ng2-bs3-modal/ng2-bs3-moda
     directives: [MODAL_DIRECTIVES]
 })
 export class ModalDemoComponent {
+
+    @ViewChild('modal')
+    modal: ModalComponent;
     items: string[] = ['item1', 'item2', 'item3'];
     modalSelected: string;
     selected: string;
@@ -23,7 +26,11 @@ export class ModalDemoComponent {
         this.selected = '(dismissed)';
     }
 
-    navigate(result: ModalResult) {
+    navigate() {
         this.router.navigateByUrl('/hello');
+    }
+
+    open() {
+        this.modal.open();
     }
 }

@@ -70,6 +70,20 @@ Then import and include in your component's directives:
     
    Emits when `ModalComponent.dismiss()` is called, or when the modal is dismissed with the keyboard or backdrop. 
 
+#### Methods
+
+- `open(size?: string): Promise`
+
+   Opens the modal. Size is optional. Specify `'sm'` for small and `'lg'` for large to override size. Returns a promise that resolves when the modal is completely shown.
+   
+- `close(): Promise`
+
+   Closes the modal. Causes `onClose` to be emitted. Returns a promise that resolves when the modal is completely hidden.
+
+- `dismiss(): Promise`
+
+   Dismisses the modal. Causes `onDismiss` to be emitted. Returns a promise that resolves when the modal is completely hidden.
+
 ### ModalHeaderComponent
 
 #### Inputs
@@ -135,10 +149,14 @@ This will create a modal that cannot be closed with the escape key or by clickin
     
 ![Example](demo/images/modal-custom-footer.png)
     
-### Closing the modal from the host/parent component
+### Opening and closing the modal from the host/parent component
+ 
+    import { Component, ViewChild } from 'angular/core';
+    import { MODAL_DIRECTIVES, ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
  
     @Component({
         selector: 'parent-component',
+        directives: [MODAL_DIRECTIVES],
         template: `
             <modal #myModal>
                 ...
@@ -151,5 +169,9 @@ This will create a modal that cannot be closed with the escape key or by clickin
 
         close() {
             this.modal.close();
+        }
+        
+        open() {
+            this.modal.open();
         }
     }

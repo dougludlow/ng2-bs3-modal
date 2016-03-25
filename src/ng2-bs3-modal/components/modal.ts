@@ -43,19 +43,23 @@ export class ModalComponent implements OnDestroy, CanDeactivate {
         return this.instance.destroy();
     }
 
-    open(size?: string) {
+    open(size?: string): Promise<any> {
         if (ModalSize.validSize(size)) this.overrideSize = size;
-        return this.instance.open();
+        return this.instance.open().then(() => {
+            this.visible = this.instance.visible;
+        });
     }
 
-    close() {
+    close(): Promise<any> {
         return this.instance.close().then(() => {
+            this.visible = this.instance.visible;
             this.onClose.emit(undefined);
         });
     }
 
-    dismiss() {
+    dismiss(): Promise<any> {
         return this.instance.dismiss().then(() => {
+            this.visible = this.instance.visible;
             this.onDismiss.emit(undefined);
         });
     }
