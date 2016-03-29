@@ -8,38 +8,47 @@ http://dougludlow.github.io/ng2-bs3-modal/
 
 `ng2-bs3-modal` depends on bootstrap which depends on jquery, you'll need to include both scripts before ng2-bs3-modal:
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
-  
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
+```  
 
 Or, if you're using systemjs, configure it to load them. And import them in your typscript.
 
 ## Install
 
-    npm install ng2-bs3-modal
+```bash
+npm install ng2-bs3-modal
+```
     
 Include a reference to the bundle in your html
 
-    <script src="node_modules/ng2-bs3-modal/bundles/ng2-bs3-modal.js"></script>
+```html
+<script src="node_modules/ng2-bs3-modal/bundles/ng2-bs3-modal.js"></script>
+```
     
 Or if you're using SystemJS, add a mapping to your System.config:
 
-    System.config({
-        map: {
-            'ng2-bs3-modal': 'node_modules/ng2-bs3-modal'
-        }
-    });
+```javascript
+System.config({
+    map: {
+        'ng2-bs3-modal': 'node_modules/ng2-bs3-modal'
+    }
+});
+```
 
 Then import and include in your component's directives:
 
-    import { MODAL_DIRECTIVES } from 'ng2-bs3-modal/ng2-bs3-modal';
+```typescript
+import { MODAL_DIRECTIVES } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-    @Component({
-        directives: [MODAL_DIRECTIVES]
-    })
-    export class MyComponent {
-        ...    
-    }
+@Component({
+    directives: [MODAL_DIRECTIVES]
+})
+export class MyComponent {
+    ...    
+}
+```
     
 ## API
 
@@ -107,17 +116,19 @@ Then import and include in your component's directives:
 
 ### Default modal
 
-    <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
-    
-    <modal #modal>
-        <modal-header [show-close]="true">
-            <h4 class="modal-title">I'm a modal!</h4>
-        </modal-header>
-        <modal-body>
-            Hello World!
-        </modal-body>
-        <modal-footer [show-default-buttons]="true"></modal-footer>
-    </modal>
+```html
+<button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
+
+<modal #modal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">I'm a modal!</h4>
+    </modal-header>
+    <modal-body>
+        Hello World!
+    </modal-body>
+    <modal-footer [show-default-buttons]="true"></modal-footer>
+</modal>
+```
     
 ![Example](demo/images/modal.png)
     
@@ -125,56 +136,62 @@ Then import and include in your component's directives:
 
 This will create a modal that cannot be closed with the escape key or by clicking outside of the modal.
 
-    <modal #modal [keyboard]="false" [backdrop]="'static'">
-        <modal-header [show-close]="false">
-            <h4 class="modal-title">I'm a modal!</h4>
-        </modal-header>
-        <modal-body>
-            Hello World!
-        </modal-body>
-        <modal-footer [show-default-buttons]="true"></modal-footer>
-    </modal>
+```html
+<modal #modal [keyboard]="false" [backdrop]="'static'">
+    <modal-header [show-close]="false">
+        <h4 class="modal-title">I'm a modal!</h4>
+    </modal-header>
+    <modal-body>
+        Hello World!
+    </modal-body>
+    <modal-footer [show-default-buttons]="true"></modal-footer>
+</modal>
+```
     
 ### Use custom buttons in footer
-    
-    <modal #modal>
-        <modal-header>
-            <h4 class="modal-title">I'm a modal!</h4>
-        </modal-header>
-        <modal-body>
-            Hello World!
-        </modal-body>
-        <modal-footer>
-            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-            <button type="button" class="btn btn-primary" (click)="modal.close()">Ok</button>
-        </modal-footer>
-    </modal>
+
+```html    
+<modal #modal>
+    <modal-header>
+        <h4 class="modal-title">I'm a modal!</h4>
+    </modal-header>
+    <modal-body>
+        Hello World!
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="modal.close()">Ok</button>
+    </modal-footer>
+</modal>
+```
     
 ![Example](demo/images/modal-custom-footer.png)
     
 ### Opening and closing the modal from the host/parent component
- 
-    import { Component, ViewChild } from 'angular/core';
-    import { MODAL_DIRECTIVES, ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
- 
-    @Component({
-        selector: 'parent-component',
-        directives: [MODAL_DIRECTIVES],
-        template: `
-            <modal #myModal>
-                ...
-            </modal>
-        `
-    })
-    export class ParentComponent {
-        @ViewChild('myModal')
-        modal: ModalComponent
 
-        close() {
-            this.modal.close();
-        }
-        
-        open() {
-            this.modal.open();
-        }
+```typescript
+import { Component, ViewChild } from 'angular/core';
+import { MODAL_DIRECTIVES, ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+
+@Component({
+    selector: 'parent-component',
+    directives: [MODAL_DIRECTIVES],
+    template: `
+        <modal #myModal>
+            ...
+        </modal>
+    `
+})
+export class ParentComponent {
+    @ViewChild('myModal')
+    modal: ModalComponent;
+
+    close() {
+        this.modal.close();
     }
+    
+    open() {
+        this.modal.open();
+    }
+}
+```
