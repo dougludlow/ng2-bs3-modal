@@ -18,7 +18,7 @@ Or, if you're using systemjs, configure it to load them. And import them in your
 ## Install
 
 ```bash
-> npm install ng2-bs3-modal
+> npm install --save ng2-bs3-modal
 ```
     
 Include a reference to the bundle in your html:
