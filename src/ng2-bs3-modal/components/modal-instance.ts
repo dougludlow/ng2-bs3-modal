@@ -89,7 +89,7 @@ export class ModalInstance {
                 this.visible = false;
                 if (this.result === ModalResult.None) {
                     this.result = ModalResult.Dismiss;
-                };
+                }
                 this.hiddenObserver.next(this.result);
                 this.hiddenObserver.complete();
             });
