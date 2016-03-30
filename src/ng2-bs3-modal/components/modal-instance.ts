@@ -1,5 +1,6 @@
 import { ElementRef } from 'angular2/core';
 import { Observable } from 'rxjs/Observable';
+import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
 import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/share';
@@ -14,9 +15,9 @@ export class ModalInstance {
     private hiddenEventName: string = 'hidden.bs.modal';
 
     $modal: any;
-    shown: Observable<any>;
+    shown: ConnectableObservable<any>;
     shownObserver: Observer<any>;
-    hidden: Observable<ModalResult>;
+    hidden: ConnectableObservable<ModalResult>;
     hiddenObserver: Observer<ModalResult>;
     result: ModalResult;
     visible: boolean = false;
@@ -61,14 +62,14 @@ export class ModalInstance {
     private init() {
         this.shown = new Observable<any>(observer => {
             this.shownObserver = observer;
-        });
+        }).publish();
 
         this.hidden = new Observable<ModalResult>(observer => {
             this.hiddenObserver = observer;
-        });
+        }).publish();
 
-        this.shown.subscribe(() => {});
-        this.hidden.subscribe(() => {});
+        this.hidden.connect();
+        this.shown.connect();
     }
 
     private create() {
