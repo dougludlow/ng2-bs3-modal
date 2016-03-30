@@ -43,8 +43,10 @@ export class ModalInstance {
 
     destroy(): Promise<any> {
         return this.hide().then(() => {
-            this.$modal.data('bs.modal', null);
-            this.$modal.remove();
+            if (this.$modal) {
+                this.$modal.data('bs.modal', null);
+                this.$modal.remove();
+            }
         });
     }
 
@@ -55,8 +57,11 @@ export class ModalInstance {
     }
 
     private hide(): Promise<ModalResult> {
-        if (this.$modal) this.$modal.modal('hide');
-        return this.hidden.toPromise();
+        if (this.$modal) {
+            this.$modal.modal('hide');
+            return this.hidden.toPromise();
+        }
+        return Promise.resolve(this.result);
     }
 
     private init() {

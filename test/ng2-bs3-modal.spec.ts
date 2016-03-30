@@ -15,7 +15,7 @@ import { SpyLocation } from 'angular2/src/mock/location_mock';
 import { TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS } from 'angular2/platform/testing/browser';
 import { MockApplicationRef } from 'angular2/src/mock/mock_application_ref';
 import { DynamicComponentLoader } from 'angular2/src/core/linker/dynamic_component_loader';
-import { Component, ViewChild, ApplicationRef, provide, OnDestroy } from 'angular2/core';
+import { Component, ViewChild, ApplicationRef, provide, OnDestroy, Input } from 'angular2/core';
 import { Router, RouteConfig, ROUTER_DIRECTIVES, ROUTER_PRIMARY_COMPONENT, RouteRegistry, Location } from 'angular2/router';
 import { RootRouter } from 'angular2/src/router/router';
 import { ModalComponent, MODAL_DIRECTIVES } from '../src/ng2-bs3-modal/ng2-bs3-modal';
@@ -59,29 +59,82 @@ describe('ModalComponent', () => {
             });
         }));
 
-    describe('with routing', () => {
+    it('should emit onClose when modal is closed', done => {
+        builder.createAsync(TestComponent)
+            .then(f => { fixture = f; })
+            .then(() => { testComponent = fixture.componentInstance; })
+            .then(() => {
+                fixture.detectChanges();
+                testComponent.modal.onClose.subscribe(() => {
+                    done();
+                });
+            })
+            .then(() => testComponent.modal.open())
+            .then(() => testComponent.modal.close());
+    });
 
-        it('should not throw an error when navigating in modal dismiss/close', (done) => {
-            builder.createAsync(TestAppComponent)
-                .then((f) => { fixture = f; })
-                .then((_) => router.navigateByUrl('/test1'))
-                .then(() => {
-                    fixture.detectChanges();
-                    testComponent = fixture.componentInstance.testComponent;
+    it('should emit onClose when modal is closed and animation is disabled', done => {
+        builder.createAsync(TestComponent)
+            .then(f => { fixture = f; })
+            .then(() => { testComponent = fixture.componentInstance; })
+            .then(() => {
+                testComponent.animate = false;
+                fixture.detectChanges();
+                testComponent.modal.onClose.subscribe(() => {
+                    done();
+                });
+            })
+            .then(() => testComponent.modal.open())
+            .then(() => testComponent.modal.close());
+    });
 
-                    testComponent.modal.onClose.subscribe(() => {
-                        testComponent.modal.close();
-                        router.navigateByUrl('/test2').then(() => {
-                            fixture.detectChanges();
-                            let content = fixture.debugElement.nativeElement.querySelector('test-component2');
-                            expect(content).toHaveText('hello');
-                            setTimeout(() => done(), 1000);
-                        });
+    it('should emit onDismiss when modal is dimissed', done => {
+        builder.createAsync(TestComponent)
+            .then(f => { fixture = f; })
+            .then(() => { testComponent = fixture.componentInstance; })
+            .then(() => {
+                fixture.detectChanges();
+                testComponent.modal.onDismiss.subscribe(() => {
+                    done();
+                });
+            })
+            .then(() => testComponent.modal.open())
+            .then(() => testComponent.modal.dismiss());
+    });
+
+    it('should emit onDismiss when modal is dimissed and animation is disabled', done => {
+        builder.createAsync(TestComponent)
+            .then(f => { fixture = f; })
+            .then(() => { testComponent = fixture.componentInstance; })
+            .then(() => {
+                testComponent.animate = false;
+                fixture.detectChanges();
+                testComponent.modal.onDismiss.subscribe(() => {
+                    done();
+                });
+            })
+            .then(() => testComponent.modal.open())
+            .then(() => testComponent.modal.dismiss());
+    });
+
+    it('should not throw an error when navigating in modal dismiss/close', (done) => {
+        builder.createAsync(TestAppComponent)
+            .then(f => { fixture = f; })
+            .then(() => router.navigateByUrl('/test1'))
+            .then(() => {
+                fixture.detectChanges();
+                testComponent = fixture.componentInstance.testComponent;
+                testComponent.modal.onClose.subscribe(() => {
+                    router.navigateByUrl('/test2').then(() => {
+                        fixture.detectChanges();
+                        let content = fixture.debugElement.nativeElement.querySelector('test-component2');
+                        expect(content).toHaveText('hello');
+                        setTimeout(() => done(), 1000);
                     });
-                })
-                .then(() => testComponent.modal.open())
-                .then(() => testComponent.modal.close());
-        });
+                });
+            })
+            .then(() => testComponent.modal.open())
+            .then(() => testComponent.modal.close())
     });
 });
 
@@ -91,7 +144,7 @@ describe('ModalComponent', () => {
     template: `
         <button type="button" class="btn btn-default" (click)="modal.open()" (onClose)="onClose()">Open me!</button>
 
-        <modal #modal>
+        <modal #modal [animation]="animate">
             <modal-header [show-close]="true">
                 <h4 class="modal-title">I'm a modal!</h4>
             </modal-header>
@@ -105,6 +158,8 @@ describe('ModalComponent', () => {
 class TestComponent {
     @ViewChild(ModalComponent)
     modal: ModalComponent;
+
+    @Input() animate: boolean = true;
 }
 
 @Component({
