@@ -49,6 +49,8 @@ export class MyComponent {
     ...    
 }
 ```
+
+See the example demo projects for [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm) and [SystemJS](https://github.com/dougludlow/ng2-bs3-modal-demo-systemjs).
     
 ## API
 
