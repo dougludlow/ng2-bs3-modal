@@ -1,6 +1,7 @@
 import {
     beforeEach,
     beforeEachProviders,
+    afterEach,
     describe,
     expect,
     it,
@@ -43,21 +44,31 @@ describe('ModalComponent', () => {
         router = r;
     }));
 
+    afterEach(() => {
+        fixture && fixture.destroy();
+    });
+
     it('should render',
         injectAsync([TestComponentBuilder], (builder: TestComponentBuilder) => {
-            return builder.createAsync(TestComponent).then((fixture: ComponentFixture) => {
-                const element = fixture.nativeElement;
-                expect(element.querySelectorAll('.modal').length).toBe(1);
+            return builder.createAsync(TestComponent).then(f => {
+                fixture = f;
+                fixture.detectChanges();
+                expect(document.querySelectorAll('.modal').length).toBe(1);
             });
         }));
 
-    it('should cleanup when destroyed',
-        injectAsync([TestComponentBuilder], (builder: TestComponentBuilder) => {
-            return builder.createAsync(TestComponent).then((fixture: ComponentFixture) => {
-                fixture.destroy();
+    it('should cleanup when destroyed', done => {
+        builder.createAsync(TestComponent).then(f => {
+            fixture = f;
+            testComponent = fixture.componentInstance;
+            fixture.detectChanges();
+            testComponent.modal.ngOnDestroy();
+            setTimeout(() => {
                 expect(document.querySelectorAll('.modal').length).toBe(0);
-            });
-        }));
+                done();
+            }, 1000);
+        });
+    });
 
     it('should emit onClose when modal is closed', done => {
         builder.createAsync(TestComponent)
@@ -102,6 +113,27 @@ describe('ModalComponent', () => {
             .then(() => testComponent.modal.dismiss());
     });
 
+    it('should emit onDismiss only once', done => {
+        let times = 0;
+
+        setTimeout(() => {
+            expect(times).toBe(1);
+            done();
+        }, 1000);
+
+        builder.createAsync(TestComponent)
+            .then(f => { fixture = f; })
+            .then(() => { testComponent = fixture.componentInstance; })
+            .then(() => {
+                fixture.detectChanges();
+                testComponent.modal.onDismiss.subscribe(() => {
+                    times++;
+                });
+            })
+            .then(() => testComponent.modal.open())
+            .then(() => testComponent.modal.dismiss());
+    });
+
     it('should emit onDismiss when modal is dimissed and animation is disabled', done => {
         builder.createAsync(TestComponent)
             .then(f => { fixture = f; })
@@ -117,7 +149,46 @@ describe('ModalComponent', () => {
             .then(() => testComponent.modal.dismiss());
     });
 
-    it('should not throw an error when navigating in modal dismiss/close', (done) => {
+    it('should emit onDismiss when modal is dimissed a second time from backdrop', done => {
+        let times = 0;
+        builder.createAsync(TestComponent)
+            .then(f => { fixture = f; })
+            .then(() => { testComponent = fixture.componentInstance; })
+            .then(() => {
+                fixture.detectChanges();
+                testComponent.modal.onDismiss.subscribe(() => {
+                    times++;
+                    if (times === 2) done();
+                });
+            })
+            .then(() => testComponent.modal.open())
+            .then(() => testComponent.modal.dismiss())
+            .then(() => testComponent.modal.open())
+            .then(() => {
+                document.querySelector('.modal.in').click();
+            });
+    });
+
+    it('should emit onDismiss when modal is closed, opened, then dimissed from backdrop', done => {
+        let times = 0;
+        builder.createAsync(TestComponent)
+            .then(f => { fixture = f; })
+            .then(() => { testComponent = fixture.componentInstance; })
+            .then(() => {
+                fixture.detectChanges();
+                testComponent.modal.onDismiss.subscribe(() => {
+                    done();
+                });
+            })
+            .then(() => testComponent.modal.open())
+            .then(() => testComponent.modal.close())
+            .then(() => testComponent.modal.open())
+            .then(() => {
+                document.querySelector('.modal.in').click();
+            });
+    });
+
+    it('should not throw an error when navigating on modal close', done => {
         builder.createAsync(TestAppComponent)
             .then(f => { fixture = f; })
             .then(() => router.navigateByUrl('/test1'))
@@ -134,7 +205,7 @@ describe('ModalComponent', () => {
                 });
             })
             .then(() => testComponent.modal.open())
-            .then(() => testComponent.modal.close())
+            .then(() => testComponent.modal.close());
     });
 });
 

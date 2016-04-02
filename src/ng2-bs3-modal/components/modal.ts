@@ -15,7 +15,7 @@ import { ModalInstance, ModalResult } from './modal-instance';
         </div>
     `
 })
-export class ModalComponent implements OnDestroy, CanDeactivate {
+export class ModalComponent implements AfterViewInit, OnDestroy, CanDeactivate {
 
     instance: ModalInstance;
     overrideSize: string = null;
@@ -27,20 +27,24 @@ export class ModalComponent implements OnDestroy, CanDeactivate {
     @Output() onClose: EventEmitter<any> = new EventEmitter(false);
     @Output() onDismiss: EventEmitter<any> = new EventEmitter(false);
 
-    constructor(el: ElementRef) {
-        this.instance = new ModalInstance(el);
+    constructor(private element: ElementRef) {
+    }
+
+    ngAfterViewInit() {
+        this.instance = new ModalInstance(this.element);
         this.instance.hidden.subscribe((result) => {
-            if (result = ModalResult.Dismiss)
+            this.visible = this.instance.visible;
+            if (result === ModalResult.Dismiss)
                 this.onDismiss.emit(undefined);
         });
     }
 
     ngOnDestroy() {
-        this.instance.destroy();
+        return this.instance && this.instance.destroy();
     }
 
     routerCanDeactivate(next: ComponentInstruction, prev: ComponentInstruction): any {
-        return this.instance.destroy();
+        return this.ngOnDestroy();
     }
 
     open(size?: string): Promise<any> {
@@ -52,15 +56,13 @@ export class ModalComponent implements OnDestroy, CanDeactivate {
 
     close(): Promise<any> {
         return this.instance.close().then(() => {
-            this.visible = this.instance.visible;
             this.onClose.emit(undefined);
         });
     }
 
     dismiss(): Promise<any> {
         return this.instance.dismiss().then(() => {
-            this.visible = this.instance.visible;
-            this.onDismiss.emit(undefined);
+            // this.onDismiss.emit(undefined);
         });
     }
 

@@ -1,24 +1,19 @@
 import { ElementRef } from 'angular2/core';
 import { Observable } from 'rxjs/Observable';
-import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
-import { Observer } from 'rxjs/Observer';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/publish';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/fromEvent';
 
 declare var jQuery: any;
 
 export class ModalInstance {
 
-    private suffix: string = 'ng2-bs3-modal';
-    private shownEventName: string = 'shown.bs.modal';
-    private hiddenEventName: string = 'hidden.bs.modal';
+    private suffix: string = '.ng2-bs3-modal';
+    private shownEventName: string = 'shown.bs.modal' + this.suffix;
+    private hiddenEventName: string = 'hidden.bs.modal' + this.suffix;
 
     $modal: any;
-    shown: ConnectableObservable<any>;
-    shownObserver: Observer<any>;
-    hidden: ConnectableObservable<ModalResult>;
-    hiddenObserver: Observer<ModalResult>;
+    shown: Observable<void>;
+    hidden: Observable<ModalResult>;
     result: ModalResult;
     visible: boolean = false;
 
@@ -27,7 +22,6 @@ export class ModalInstance {
     }
 
     open(): Promise<any> {
-        this.create();
         return this.show();
     }
 
@@ -51,55 +45,48 @@ export class ModalInstance {
     }
 
     private show() {
-        this.$modal.appendTo('body');
+        let promise = toPromise(this.shown);
         this.$modal.modal('show');
-        return this.shown.toPromise();
+        return promise;
     }
 
     private hide(): Promise<ModalResult> {
-        if (this.$modal) {
+        if (this.$modal && this.visible) {
+            let promise = toPromise(this.hidden);
             this.$modal.modal('hide');
-            return this.hidden.toPromise();
+            return promise;
         }
         return Promise.resolve(this.result);
     }
 
     private init() {
-        this.shown = new Observable<any>(observer => {
-            this.shownObserver = observer;
-        }).publish();
+        this.$modal = jQuery(this.element.nativeElement.firstElementChild);
+        this.$modal.appendTo('body').modal({ show: false });
 
-        this.hidden = new Observable<ModalResult>(observer => {
-            this.hiddenObserver = observer;
-        }).publish();
-
-        this.hidden.connect();
-        this.shown.connect();
-    }
-
-    private create() {
-        if (!this.$modal) {
-            this.$modal = jQuery(this.element.nativeElement.firstElementChild);
-            this.$modal.appendTo('body').modal({ show: false });
-        }
-
-        this.$modal
-            .off(`${this.shownEventName}.${this.suffix}`)
-            .on(`${this.shownEventName}.${this.suffix}`, () => {
+        this.shown = Observable.fromEvent(this.$modal, this.shownEventName)
+            .map(() => {
                 this.visible = true;
-                this.shownObserver.next(undefined);
-                this.shownObserver.complete();
-            })
-            .off(`${this.hiddenEventName}.${this.suffix}`)
-            .on(`${this.hiddenEventName}.${this.suffix}`, () => {
+            });
+
+        this.hidden = Observable.fromEvent(this.$modal, this.hiddenEventName)
+            .map(() => {
+                let result = (!this.result || this.result === ModalResult.None)
+                    ? ModalResult.Dismiss : this.result;
+
+                this.result = ModalResult.None;
                 this.visible = false;
-                if (this.result === ModalResult.None) {
-                    this.result = ModalResult.Dismiss;
-                }
-                this.hiddenObserver.next(this.result);
-                this.hiddenObserver.complete();
+
+                return result;
             });
     }
+}
+
+function toPromise<T>(observable: Observable<T>): Promise<T> {
+    return new Promise((resolve, reject) => {
+        observable.subscribe(next => {
+            resolve(next);
+        });
+    });
 }
 
 export enum ModalResult {

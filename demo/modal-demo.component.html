@@ -12,7 +12,7 @@
         <button type="button" class="btn btn-default" (click)="animationsEnabled = !animationsEnabled">Toggle Animation ({{ animationsEnabled }})</button>
         <button type="button" class="btn btn-default" (click)="open()">Open from component</button>
     </p>
-    <p [hidden]="!selected">Selection from a modal: {{ selected }}</p>
+    <p [hidden]="!selected">Selection from modal: {{ selected }}</p>
 
     <modal [animation]="animationsEnabled" (onClose)="closed()" (onDismiss)="dismissed()" #modal>
         <modal-header [show-close]="true">
