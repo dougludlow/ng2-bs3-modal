@@ -238,6 +238,7 @@ _Pvt_Extensions
 # Generated output
 /bundles/
 /components/
+/directives/
 /ng2-bs3-modal.*
 src/**.*.js
 src/**.*.d.ts
