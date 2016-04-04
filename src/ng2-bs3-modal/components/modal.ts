@@ -26,6 +26,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy, CanDeactivate {
     @Input() size: string;
     @Output() onClose: EventEmitter<any> = new EventEmitter(false);
     @Output() onDismiss: EventEmitter<any> = new EventEmitter(false);
+    @Output() onOpen: EventEmitter<any> = new EventEmitter(false);
 
     constructor(private element: ElementRef) {
     }
@@ -36,6 +37,9 @@ export class ModalComponent implements AfterViewInit, OnDestroy, CanDeactivate {
             this.visible = this.instance.visible;
             if (result === ModalResult.Dismiss)
                 this.onDismiss.emit(undefined);
+        });
+        this.instance.shown.subscribe(() => {
+            this.onOpen.emit(undefined);
         });
     }
 

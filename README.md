@@ -84,6 +84,10 @@ See the example demo projects for [npm](https://github.com/dougludlow/ng2-bs3-mo
     
    Emits when `ModalComponent.dismiss()` is called, or when the modal is dismissed with the keyboard or backdrop. 
 
+- `onOpen: EventEmitter`
+    
+   Emits when `ModalComponent.open()` is called.  
+
 #### Methods
 
 - `open(size?: string): Promise`
@@ -196,4 +200,21 @@ export class ParentComponent {
         this.modal.open();
     }
 }
+```
+
+### Autofocus on a textbox when modal is opened
+
+```html    
+<modal #modal>
+    <modal-header>
+        <h4 class="modal-title">I'm a modal!</h4>
+    </modal-header>
+    <modal-body>
+        <div class="form-group">
+            <label for="textbox">I'm a textbox!</label>
+            <input autofocus type="text" class="form-control" id="textbox">
+        </div>        
+    </modal-body>
+    <modal-footer [show-default-buttons]="true"></modal-footer>
+</modal>
 ```
