@@ -50,7 +50,7 @@ export class MyComponent {
 }
 ```
 
-See the examples for [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm), [SystemJS](https://github.com/dougludlow/ng2-bs3-modal-demo-systemjs), [jspm](https://github.com/dougludlow/ng2-bs3-modal-demo-jspm), and [angular-cli](https://github.com/dougludlow/ng2-bs3-modal/issues/31).
+See examples for [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm), [SystemJS](https://github.com/dougludlow/ng2-bs3-modal-demo-systemjs), [jspm](https://github.com/dougludlow/ng2-bs3-modal-demo-jspm), and [angular-cli](https://github.com/dougludlow/ng2-bs3-modal/issues/31).
     
 ## API
 
