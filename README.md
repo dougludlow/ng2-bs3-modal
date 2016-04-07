@@ -218,3 +218,28 @@ export class ParentComponent {
     <modal-footer [show-default-buttons]="true"></modal-footer>
 </modal>
 ```
+
+## Building
+
+```bash
+git clone https://github.com/dougludlow/ng2-bs3-modal.git
+npm install
+npm run build
+```
+
+## Testing
+
+```bash
+npm test
+```
+
+To tell karma to watch for changes:
+```bash
+npm run test-watch
+```
+
+## Bugs/Contributions
+
+Report all bugs and feature requests on the [issue tracker](https://github.com/dougludlow/ng2-bs3-modal/issues).
+
+Contributions are welcome! Feel free to open a [pull request](https://github.com/dougludlow/ng2-bs3-modal/pulls). 
