@@ -1,6 +1,6 @@
 {
   "name": "ng2-bs3-modal",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Angular2 Boostrap3 Modal Component",
   "main": "ng2-bs3-modal.js",
   "scripts": {
@@ -50,8 +50,8 @@
     "rimraf": "^2.5.1",
     "rxjs": "5.0.0-beta.2",
     "systemjs": "^0.19.23",
-    "tslint": "3.6.0-dev.1",
-    "typescript": "1.9.0-dev.20160322",
+    "tslint": "^3.7.1",
+    "typescript": "^1.8.9",
     "typings": "^0.7.9",
     "uglify-js": "^2.6.2",
     "zone.js": "0.6.6"
