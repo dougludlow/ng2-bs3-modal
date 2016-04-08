@@ -10,8 +10,8 @@ export class ModalInstance {
     private suffix: string = '.ng2-bs3-modal';
     private shownEventName: string = 'shown.bs.modal' + this.suffix;
     private hiddenEventName: string = 'hidden.bs.modal' + this.suffix;
+    private $modal: any;
 
-    $modal: any;
     shown: Observable<void>;
     hidden: Observable<ModalResult>;
     result: ModalResult;
@@ -46,7 +46,7 @@ export class ModalInstance {
 
     private show() {
         let promise = toPromise(this.shown);
-        this.$modal.modal('show');
+        this.$modal.modal();
         return promise;
     }
 
@@ -60,8 +60,8 @@ export class ModalInstance {
     }
 
     private init() {
-        this.$modal = jQuery(this.element.nativeElement.firstElementChild);
-        this.$modal.appendTo('body').modal({ show: false });
+        this.$modal = jQuery(this.element.nativeElement);
+        this.$modal.appendTo('body');
 
         this.shown = Observable.fromEvent(this.$modal, this.shownEventName)
             .map(() => {
