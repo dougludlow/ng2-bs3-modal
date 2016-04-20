@@ -3,14 +3,11 @@ import { ModalComponent } from './modal';
 
 @Component({
     selector: 'modal-footer',
-    styles: [`
-        .btn[hidden] { display: none; }
-    `],
     template: `
         <div class="modal-footer">
             <ng-content></ng-content>
-            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()" [hidden]="!showDefaultButtons">Close</button>
-            <button type="button" class="btn btn-primary" (click)="modal.close()" [hidden]="!showDefaultButtons">Save</button>
+            <button *ngIf="showDefaultButtons" type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Close</button>
+            <button *ngIf="showDefaultButtons" type="button" class="btn btn-primary" (click)="modal.close()">Save</button>
         </div>
     `
 })

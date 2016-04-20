@@ -12,7 +12,7 @@
         <button type="button" class="btn btn-default" (click)="animationsEnabled = !animationsEnabled">Toggle Animation ({{ animationsEnabled }})</button>
         <button type="button" class="btn btn-default" (click)="open()">Open from component</button>
     </p>
-    <p [hidden]="!selected">Selection from modal: {{ selected }}</p>
+    <p *ngIf="selected">Selection from modal: {{ selected }}</p>
 
     <modal [animation]="animationsEnabled" (onClose)="closed()" (onDismiss)="dismissed()" #modal>
         <modal-header [show-close]="true">
@@ -52,8 +52,8 @@
             <p>I will navigate to another route when you close the modal.</p>
         </modal-body>
         <modal-footer>
-            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="navigateModal.dismiss()" [hidden]="!showDefaultButtons">Close</button>
-            <button type="button" class="btn btn-primary" autofocus (click)="navigateModal.close()" [hidden]="!showDefaultButtons">Go</button>
+            <button *ngIf="showDefaultButtons" type="button" class="btn btn-default" data-dismiss="modal" (click)="navigateModal.dismiss()">Close</button>
+            <button *ngIf="showDefaultButtons" type="button" class="btn btn-primary" autofocus (click)="navigateModal.close()">Go</button>
         </modal-footer>
     </modal>
 </section>
