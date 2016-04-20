@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/dougludlow/ng2-bs3-modal#readme",
   "devDependencies": {
-    "angular2": "^2.0.0-beta.14",
+    "angular2": "^2.0.0-beta.15",
     "bootstrap": "^3.3.6",
     "es6-shim": "^0.35.0",
     "jasmine": "^2.4.1",
@@ -54,7 +54,7 @@
     "typescript": "^1.8.9",
     "typings": "^0.7.9",
     "uglify-js": "^2.6.2",
-    "zone.js": "0.6.6"
+    "zone.js": "^0.6.12"
   },
   "peerDependencies": {
     "angular2": "^2.0.0-beta.9",
