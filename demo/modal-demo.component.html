@@ -52,8 +52,8 @@
             <p>I will navigate to another route when you close the modal.</p>
         </modal-body>
         <modal-footer>
-            <button *ngIf="showDefaultButtons" type="button" class="btn btn-default" data-dismiss="modal" (click)="navigateModal.dismiss()">Close</button>
-            <button *ngIf="showDefaultButtons" type="button" class="btn btn-primary" autofocus (click)="navigateModal.close()">Go</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="navigateModal.dismiss()">Close</button>
+            <button type="button" class="btn btn-primary" autofocus (click)="navigateModal.close()">Go</button>
         </modal-footer>
     </modal>
 </section>
