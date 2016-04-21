@@ -46,6 +46,7 @@ export class ModalInstance {
 
     private show() {
         let promise = toPromise(this.shown);
+        this.resetData();
         this.$modal.modal();
         return promise;
     }
@@ -79,6 +80,20 @@ export class ModalInstance {
                 return result;
             });
     }
+
+    private resetData() {
+        this.$modal.removeData();
+        this.$modal.data('backdrop', booleanOrValue(this.$modal.attr('data-backdrop')));
+        this.$modal.data('keyboard', booleanOrValue(this.$modal.attr('data-keyboard')));
+    }
+}
+
+function booleanOrValue(value) {
+    if (value === 'true')
+        return true;
+    else if (value === 'false')
+        return false;
+    return value;
 }
 
 function toPromise<T>(observable: Observable<T>): Promise<T> {
