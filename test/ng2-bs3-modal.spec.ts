@@ -207,6 +207,20 @@ describe('ModalComponent', () => {
             .then(() => testComponent.modal.open())
             .then(() => testComponent.modal.close());
     });
+
+    it('should emit onOpen when modal is opened', done => {
+        let times = 0;
+        builder.createAsync(TestComponent)
+            .then(f => { fixture = f; })
+            .then(() => { testComponent = fixture.componentInstance; })
+            .then(() => {
+                fixture.detectChanges();
+                testComponent.modal.onOpen.subscribe(() => {
+                    done();
+                });
+            })
+            .then(() => testComponent.modal.open());
+    });
 });
 
 @Component({
