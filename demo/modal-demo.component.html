@@ -77,7 +77,7 @@
         </modal-footer>
     </modal>
 
-    <modal style="z-index: 1049" [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+    <modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
         (onOpen)="opened()" #validationModal>
         <form #modalForm="ngForm">
             <modal-header [show-close]="true">
