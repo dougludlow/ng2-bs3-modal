@@ -31,8 +31,6 @@ export class ModalDemoComponent {
     keyboard: boolean = true;
     backdrop: string | boolean = true;
 
-    @ViewChild('modalForm') modalForm;
-
     constructor(private router: Router) { }
 
     closed() {
@@ -45,7 +43,6 @@ export class ModalDemoComponent {
 
     opened() {
         this.output = '(opened)';
-        console.log(this.modalForm);
     }
 
     navigate() {
