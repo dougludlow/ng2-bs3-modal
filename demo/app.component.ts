@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core';
-import { ROUTER_DIRECTIVES, RouteConfig } from 'angular2/router';
+import { Component, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES, Routes, Router } from '@angular/router';
 import { ModalDemoComponent } from './modal-demo.component';
 import { HelloComponent } from './hello.component';
 
@@ -8,8 +8,15 @@ import { HelloComponent } from './hello.component';
     template: '<router-outlet></router-outlet>',
     directives: [ROUTER_DIRECTIVES]
 })
-@RouteConfig([
-    { path: '/', name: 'ModalDemo', component: ModalDemoComponent },
-    { path: '/hello', name: 'Hello', component: HelloComponent }
+@Routes([
+    { path: '/', component: ModalDemoComponent },
+    { path: '/hello', component: HelloComponent }
 ])
-export class AppComponent { }
+export class AppComponent implements OnInit {
+
+    constructor(private router: Router) { }
+
+    ngOnInit() {
+        this.router.navigate(['/']);
+    }
+}

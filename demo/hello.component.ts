@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core';
-import { ROUTER_DIRECTIVES } from 'angular2/router';
+import { Component } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
     selector: 'hello-component',
@@ -7,7 +7,7 @@ import { ROUTER_DIRECTIVES } from 'angular2/router';
     template: `
         <section class="container">
             <h1>Hello</h1>
-            <p><a [routerLink]="['ModalDemo']">Go back...</a></p>
+            <p><a [routerLink]="['/']">Go back...</a></p>
         </section>
     `
 })

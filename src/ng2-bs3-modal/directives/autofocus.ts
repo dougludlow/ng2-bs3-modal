@@ -1,4 +1,4 @@
-import { Directive, ElementRef } from 'angular2/core';
+import { Directive, ElementRef } from '@angular/core';
 import { ModalComponent } from '../components/modal';
 
 @Directive({
@@ -6,8 +6,10 @@ import { ModalComponent } from '../components/modal';
 })
 export class AutofocusDirective {
     constructor(private el: ElementRef, private modal: ModalComponent) {
-        this.modal.onOpen.subscribe(() => {
-            this.el.nativeElement.focus();
-        });
+        if (modal != null) {
+            this.modal.onOpen.subscribe(() => {
+                this.el.nativeElement.focus();
+            });
+        }
     }
 }

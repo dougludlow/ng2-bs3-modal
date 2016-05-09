@@ -1,61 +1,69 @@
 import {
     beforeEach,
-    beforeEachProviders,
     afterEach,
+    ddescribe,
+    xdescribe,
     describe,
     expect,
-    it,
+    iit,
     inject,
-    injectAsync,
-    setBaseTestProviders,
-    TestComponentBuilder,
-    ComponentFixture,
-} from 'angular2/testing';
-import { DirectiveResolver } from 'angular2/src/core/linker/directive_resolver';
-import { SpyLocation } from 'angular2/src/mock/location_mock';
-import { TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS } from 'angular2/platform/testing/browser';
-import { MockApplicationRef } from 'angular2/src/mock/mock_application_ref';
-import { DynamicComponentLoader } from 'angular2/src/core/linker/dynamic_component_loader';
-import { Component, ViewChild, ApplicationRef, provide, OnDestroy, Input } from 'angular2/core';
-import { Router, RouteConfig, ROUTER_DIRECTIVES, ROUTER_PRIMARY_COMPONENT, RouteRegistry, Location } from 'angular2/router';
-import { RootRouter } from 'angular2/src/router/router';
+    beforeEachProviders,
+    it,
+    xit
+} from '@angular/core/testing';
+import { ComponentFixture, TestComponentBuilder } from '@angular/compiler/testing';
+import { SpyLocation } from '@angular/common/testing';
+import { Component, ComponentResolver, ViewChild, ContentChild, provide, OnDestroy, Input } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router, Routes, ROUTER_DIRECTIVES, RouterOutletMap, RouterUrlSerializer, DefaultRouterUrlSerializer } from '@angular/router';
 import { ModalComponent, MODAL_DIRECTIVES } from '../src/ng2-bs3-modal/ng2-bs3-modal';
 
-describe('ModalComponent', () => {
+// Needed because ViewChild isn't resolved anymore in the new router
+// https://github.com/angular/angular/issues/4452
+class GlueService {
+    testComponent: TestComponent;
+}
 
-    setBaseTestProviders(TEST_BROWSER_PLATFORM_PROVIDERS, TEST_BROWSER_APPLICATION_PROVIDERS);
+describe('ModalComponent', () => {
 
     let modal: ModalComponent;
     let builder: TestComponentBuilder;
     let router: Router;
-    let fixture: ComponentFixture;
+    let fixture: ComponentFixture<TestComponent>;
     let testComponent: TestComponent;
+    let location: Location;
+    let glue: GlueService;
 
     beforeEachProviders(() => [
-        RouteRegistry,
-        DirectiveResolver,
+        provide(RouterUrlSerializer, { useClass: DefaultRouterUrlSerializer }),
+        RouterOutletMap,
         provide(Location, { useClass: SpyLocation }),
-        provide(ROUTER_PRIMARY_COMPONENT, { useValue: TestAppComponent }),
-        provide(Router, { useClass: RootRouter })
+        provide(Router, {
+            useFactory: (resolver, urlParser, outletMap, location) => new Router('RootComponent', TestAppComponent, resolver, urlParser, outletMap, location),
+            deps: [ComponentResolver, RouterUrlSerializer, RouterOutletMap, Location]
+        }),
+        GlueService
     ]);
 
-    beforeEach(inject([TestComponentBuilder, Router], (tcb, r) => {
+    beforeEach(inject([TestComponentBuilder, Router, Location, GlueService], (tcb, r, l, g) => {
         builder = tcb;
         router = r;
+        location = l;
+        glue = g;
     }));
 
     afterEach(() => {
         fixture && fixture.destroy();
     });
 
-    it('should render',
-        injectAsync([TestComponentBuilder], (builder: TestComponentBuilder) => {
-            return builder.createAsync(TestComponent).then(f => {
-                fixture = f;
-                fixture.detectChanges();
-                expect(document.querySelectorAll('.modal').length).toBe(1);
-            });
-        }));
+    it('should render', done => {
+        builder.createAsync(TestComponent).then(f => {
+            fixture = f;
+            fixture.detectChanges();
+            expect(document.querySelectorAll('.modal').length).toBe(1);
+            done();
+        });
+    });
 
     it('should cleanup when destroyed', done => {
         builder.createAsync(TestComponent).then(f => {
@@ -165,7 +173,7 @@ describe('ModalComponent', () => {
             .then(() => testComponent.modal.dismiss())
             .then(() => testComponent.modal.open())
             .then(() => {
-                document.querySelector('.modal.in').click();
+                (<HTMLElement>document.querySelector('.modal.in')).click();
             });
     });
 
@@ -184,7 +192,7 @@ describe('ModalComponent', () => {
             .then(() => testComponent.modal.close())
             .then(() => testComponent.modal.open())
             .then(() => {
-                document.querySelector('.modal.in').click();
+                (<HTMLElement>document.querySelector('.modal.in')).click();
             });
     });
 
@@ -193,8 +201,8 @@ describe('ModalComponent', () => {
             .then(f => { fixture = f; })
             .then(() => router.navigateByUrl('/test1'))
             .then(() => {
-                fixture.detectChanges();
-                testComponent = fixture.componentInstance.testComponent;
+                fixture.detectChanges(true);
+                testComponent = glue.testComponent;
                 testComponent.modal.onClose.subscribe(() => {
                     router.navigateByUrl('/test2').then(() => {
                         fixture.detectChanges();
@@ -205,7 +213,8 @@ describe('ModalComponent', () => {
                 });
             })
             .then(() => testComponent.modal.open())
-            .then(() => testComponent.modal.close());
+            .then(() => testComponent.modal.close())
+            .catch((e) => console.error(e.stack));
     });
 
     it('should emit onOpen when modal is opened', done => {
@@ -245,6 +254,10 @@ class TestComponent {
     modal: ModalComponent;
 
     @Input() animate: boolean = true;
+
+    constructor(glue: GlueService) {
+        glue.testComponent = this;
+    }
 }
 
 @Component({
@@ -262,11 +275,9 @@ class TestComponent2 {
         <router-outlet></router-outlet>
     `
 })
-@RouteConfig([
+@Routes([
     { path: '/test1', component: TestComponent },
     { path: '/test2', component: TestComponent2 }
 ])
 class TestAppComponent {
-    @ViewChild(TestComponent)
-    testComponent: TestComponent;
-} 
+}

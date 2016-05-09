@@ -1,4 +1,4 @@
-import { Type } from 'angular2/core';
+import { Type } from '@angular/core';
 
 import { ModalComponent } from './components/modal';
 import { ModalHeaderComponent } from './components/modal-header';

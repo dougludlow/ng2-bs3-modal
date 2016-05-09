@@ -1,5 +1,5 @@
-import { Component, OnDestroy, Input, Output, EventEmitter, Type, ElementRef, HostBinding } from 'angular2/core';
-import { CanDeactivate } from 'angular2/router';
+import { Component, OnDestroy, Input, Output, EventEmitter, Type, ElementRef, HostBinding } from '@angular/core';
+import { CanDeactivate } from '@angular/router';
 import { ModalInstance, ModalResult } from './modal-instance';
 
 @Component({

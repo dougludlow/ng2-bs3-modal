@@ -35,7 +35,12 @@
   },
   "homepage": "https://github.com/dougludlow/ng2-bs3-modal#readme",
   "devDependencies": {
-    "angular2": "^2.0.0-beta.15",
+    "@angular/common": "^2.0.0-rc.1",
+    "@angular/compiler": "^2.0.0-rc.1",
+    "@angular/core": "^2.0.0-rc.1",
+    "@angular/platform-browser": "^2.0.0-rc.1",
+    "@angular/platform-browser-dynamic": "^2.0.0-rc.1",
+    "@angular/router": "^2.0.0-rc.1",
     "bootstrap": "^3.3.6",
     "es6-shim": "^0.35.0",
     "jasmine": "^2.4.1",
@@ -46,9 +51,9 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-spec-reporter": "0.0.24",
     "phantomjs-prebuilt": "2.1.7",
-    "reflect-metadata": "0.1.2",
+    "reflect-metadata": "^0.1.3",
     "rimraf": "^2.5.1",
-    "rxjs": "5.0.0-beta.2",
+    "rxjs": "^5.0.0-beta.6",
     "systemjs": "^0.19.23",
     "tslint": "^3.7.1",
     "typescript": "^1.8.9",
@@ -57,7 +62,11 @@
     "zone.js": "^0.6.12"
   },
   "peerDependencies": {
-    "angular2": "^2.0.0-beta.9",
+    "@angular/common": "^2.0.0-rc.1",
+    "@angular/compiler": "^2.0.0-rc.1",
+    "@angular/core": "^2.0.0-rc.1",
+    "@angular/platform-browser": "^2.0.0-rc.1",
+    "@angular/platform-browser-dynamic": "^2.0.0-rc.1",
     "bootstrap": "~3.3.x"
   }
 }

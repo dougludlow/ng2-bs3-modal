@@ -1,5 +1,5 @@
-import { Component, ViewChild } from 'angular2/core';
-import { Router } from 'angular2/router';
+import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { MODAL_DIRECTIVES, ModalComponent } from '../src/ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Type } from 'angular2/core';
+import { Component, Input, Output, EventEmitter, Type } from '@angular/core';
 import { ModalComponent } from './modal';
 
 @Component({

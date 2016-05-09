@@ -40,7 +40,7 @@
         </modal-header>
         <modal-body>
             <ul>
-                <li *ngFor="#item of items">
+                <li *ngFor="let item of items">
                     <a href="#" (click)="$event.preventDefault(); selected = item">{{ item }}</a>
                 </li>
             </ul>
