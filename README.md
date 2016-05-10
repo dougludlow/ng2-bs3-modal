@@ -31,6 +31,7 @@ Or, if you're using [SystemJS](https://github.com/systemjs/systemjs), add a mapp
 
 ```javascript
 System.config({
+    defaultJSExtensions: true,
     map: {
         'ng2-bs3-modal': 'node_modules/ng2-bs3-modal'
     }
