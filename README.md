@@ -174,10 +174,10 @@ This will create a modal that cannot be closed with the escape key or by clickin
     
 ![Example](demo/images/modal-custom-footer.png)
     
-### Opening and closing the modal from the host/parent component
+### Opening and closing the modal from a parent component
 
 ```typescript
-import { Component, ViewChild } from 'angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MODAL_DIRECTIVES, ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
