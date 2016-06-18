@@ -8,6 +8,7 @@
         <button type="button" class="btn btn-default" (click)="animation = !animation">Toggle Animation ({{ animation }})</button>
         <button type="button" class="btn btn-default" (click)="keyboard = !keyboard">Toggle Keyboard ({{ keyboard }})</button>
         <button type="button" class="btn btn-default" (click)="index = index + 1; backdrop = backdropOptions[index%3]">Toggle Backdrop ({{ backdrop }})</button>
+        <button type="button" class="btn btn-default" (click)="cssClass = css ? '' : 'red-text'; css = !css">Custom CSS ({{ cssClass }})</button>
     </p>
     <br />
 
@@ -34,7 +35,7 @@
     <pre>{{ output }}</pre>
 
     <modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
-        (onOpen)="opened()" #modal>
+        (onOpen)="opened()" [cssClass]="cssClass" #modal  >
         <modal-header [show-close]="true">
             <h4 class="modal-title">I'm a modal!</h4>
         </modal-header>
@@ -49,7 +50,7 @@
         <modal-footer [show-default-buttons]="true"></modal-footer>
     </modal>
 
-    <modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="navigate()" (onOpen)="opened()" #navigateModal>
+    <modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="navigate()" (onOpen)="opened()" [cssClass]="cssClass" #navigateModal>
         <modal-header [show-close]="true">
             <h4 class="modal-title">I'm a modal!</h4>
         </modal-header>
@@ -63,7 +64,7 @@
     </modal>
 
     <modal style="z-index: 1049" [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
-        (onOpen)="opened()" #parentModal>
+        (onOpen)="opened()" [cssClass]="cssClass" #parentModal>
         <modal-header [show-close]="true">
             <h4 class="modal-title">I'm a modal!</h4>
         </modal-header>
@@ -78,7 +79,7 @@
     </modal>
 
     <modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
-        (onOpen)="opened()" #validationModal>
+        (onOpen)="opened()" [cssClass]="cssClass" #validationModal>
         <form #modalForm="ngForm">
             <modal-header [show-close]="true">
                 <h4 class="modal-title">I'm a modal!</h4>
