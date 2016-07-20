@@ -18,7 +18,7 @@ System.config({
         '@angular/platform-browser': { main: 'index.js', defaultExtension: 'js' },
         '@angular/platform-browser-dynamic': { main: 'index.js', defaultExtension: 'js' },
         '@angular/router': { main: 'index.js', defaultExtension: 'js' },
-        'rxjs': { defaultExtension: 'js' },
+        'rxjs': { defaultExtension: 'js' }
     },
     map: {
         '@angular/common': 'node_modules/@angular/common',

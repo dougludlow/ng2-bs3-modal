@@ -1,21 +1,19 @@
 import {
-    beforeEach,
-    afterEach,
-    ddescribe,
-    xdescribe,
-    describe,
-    expect,
-    iit,
-    inject,
-    beforeEachProviders,
-    it,
-    xit
+    inject, addProviders,
+    ComponentFixture, TestComponentBuilder
 } from '@angular/core/testing';
-import { ComponentFixture, TestComponentBuilder } from '@angular/compiler/testing';
 import { SpyLocation } from '@angular/common/testing';
 import { Component, ComponentResolver, ViewChild, ContentChild, provide, OnDestroy, Input } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router, Routes, ROUTER_DIRECTIVES, RouterOutletMap, RouterUrlSerializer, DefaultRouterUrlSerializer } from '@angular/router';
+import {
+    Router,
+    Routes,
+    ROUTER_DIRECTIVES,
+    ROUTER_PROVIDERS,
+    RouterOutletMap,
+    RouterUrlSerializer,
+    DefaultRouterUrlSerializer
+} from '@angular/router';
 import { ModalComponent, MODAL_DIRECTIVES } from '../src/ng2-bs3-modal/ng2-bs3-modal';
 
 // Needed because ViewChild isn't resolved anymore in the new router
@@ -34,18 +32,22 @@ describe('ModalComponent', () => {
     let location: Location;
     let glue: GlueService;
 
-    beforeEachProviders(() => [
-        provide(RouterUrlSerializer, { useClass: DefaultRouterUrlSerializer }),
-        RouterOutletMap,
-        provide(Location, { useClass: SpyLocation }),
-        provide(Router, {
-            useFactory: (resolver, urlParser, outletMap, location) => new Router('RootComponent', TestAppComponent, resolver, urlParser, outletMap, location),
-            deps: [ComponentResolver, RouterUrlSerializer, RouterOutletMap, Location]
-        }),
-        GlueService
-    ]);
-
     beforeEach(inject([TestComponentBuilder, Router, Location, GlueService], (tcb, r, l, g) => {
+
+        console.log(r);
+
+        addProviders([
+            RouterOutletMap,
+            GlueService,
+            {provide: RouterUrlSerializer, useClass: DefaultRouterUrlSerializer},
+            {provide: Location, useClass: SpyLocation},
+            {
+                provide: Router,
+                useFactory: (resolver, urlParser, outletMap, location) => new Router('RootComponent', TestAppComponent, resolver, urlParser, outletMap, location),
+                //deps: [ComponentResolver, RouterUrlSerializer, RouterOutletMap, Location]
+            },
+        ]);
+
         builder = tcb;
         router = r;
         location = l;
@@ -80,8 +82,12 @@ describe('ModalComponent', () => {
 
     it('should emit onClose when modal is closed', done => {
         builder.createAsync(TestComponent)
-            .then(f => { fixture = f; })
-            .then(() => { testComponent = fixture.componentInstance; })
+            .then(f => {
+                fixture = f;
+            })
+            .then(() => {
+                testComponent = fixture.componentInstance;
+            })
             .then(() => {
                 fixture.detectChanges();
                 testComponent.modal.onClose.subscribe(() => {
@@ -94,8 +100,12 @@ describe('ModalComponent', () => {
 
     it('should emit onClose when modal is closed and animation is disabled', done => {
         builder.createAsync(TestComponent)
-            .then(f => { fixture = f; })
-            .then(() => { testComponent = fixture.componentInstance; })
+            .then(f => {
+                fixture = f;
+            })
+            .then(() => {
+                testComponent = fixture.componentInstance;
+            })
             .then(() => {
                 testComponent.animate = false;
                 fixture.detectChanges();
@@ -109,8 +119,12 @@ describe('ModalComponent', () => {
 
     it('should emit onDismiss when modal is dimissed', done => {
         builder.createAsync(TestComponent)
-            .then(f => { fixture = f; })
-            .then(() => { testComponent = fixture.componentInstance; })
+            .then(f => {
+                fixture = f;
+            })
+            .then(() => {
+                testComponent = fixture.componentInstance;
+            })
             .then(() => {
                 fixture.detectChanges();
                 testComponent.modal.onDismiss.subscribe(() => {
@@ -130,8 +144,12 @@ describe('ModalComponent', () => {
         }, 1000);
 
         builder.createAsync(TestComponent)
-            .then(f => { fixture = f; })
-            .then(() => { testComponent = fixture.componentInstance; })
+            .then(f => {
+                fixture = f;
+            })
+            .then(() => {
+                testComponent = fixture.componentInstance;
+            })
             .then(() => {
                 fixture.detectChanges();
                 testComponent.modal.onDismiss.subscribe(() => {
@@ -144,8 +162,12 @@ describe('ModalComponent', () => {
 
     it('should emit onDismiss when modal is dimissed and animation is disabled', done => {
         builder.createAsync(TestComponent)
-            .then(f => { fixture = f; })
-            .then(() => { testComponent = fixture.componentInstance; })
+            .then(f => {
+                fixture = f;
+            })
+            .then(() => {
+                testComponent = fixture.componentInstance;
+            })
             .then(() => {
                 testComponent.animate = false;
                 fixture.detectChanges();
@@ -160,8 +182,12 @@ describe('ModalComponent', () => {
     it('should emit onDismiss when modal is dimissed a second time from backdrop', done => {
         let times = 0;
         builder.createAsync(TestComponent)
-            .then(f => { fixture = f; })
-            .then(() => { testComponent = fixture.componentInstance; })
+            .then(f => {
+                fixture = f;
+            })
+            .then(() => {
+                testComponent = fixture.componentInstance;
+            })
             .then(() => {
                 fixture.detectChanges();
                 testComponent.modal.onDismiss.subscribe(() => {
@@ -180,8 +206,12 @@ describe('ModalComponent', () => {
     it('should emit onDismiss when modal is closed, opened, then dimissed from backdrop', done => {
         let times = 0;
         builder.createAsync(TestComponent)
-            .then(f => { fixture = f; })
-            .then(() => { testComponent = fixture.componentInstance; })
+            .then(f => {
+                fixture = f;
+            })
+            .then(() => {
+                testComponent = fixture.componentInstance;
+            })
             .then(() => {
                 fixture.detectChanges();
                 testComponent.modal.onDismiss.subscribe(() => {
@@ -198,7 +228,9 @@ describe('ModalComponent', () => {
 
     it('should not throw an error when navigating on modal close', done => {
         builder.createAsync(TestAppComponent)
-            .then(f => { fixture = f; })
+            .then(f => {
+                fixture = f;
+            })
             .then(() => router.navigateByUrl('/test1'))
             .then(() => {
                 fixture.detectChanges(true);
@@ -220,8 +252,12 @@ describe('ModalComponent', () => {
     it('should emit onOpen when modal is opened', done => {
         let times = 0;
         builder.createAsync(TestComponent)
-            .then(f => { fixture = f; })
-            .then(() => { testComponent = fixture.componentInstance; })
+            .then(f => {
+                fixture = f;
+            })
+            .then(() => {
+                testComponent = fixture.componentInstance;
+            })
             .then(() => {
                 fixture.detectChanges();
                 testComponent.modal.onOpen.subscribe(() => {
@@ -270,14 +306,15 @@ class TestComponent2 {
 
 @Component({
     selector: 'app-component',
+    providers: [...ROUTER_PROVIDERS],
     directives: [ROUTER_DIRECTIVES],
     template: `
         <router-outlet></router-outlet>
     `
 })
 @Routes([
-    { path: '/test1', component: TestComponent },
-    { path: '/test2', component: TestComponent2 }
+    {path: '/test1', component: TestComponent},
+    {path: '/test2', component: TestComponent2}
 ])
 class TestAppComponent {
 }
