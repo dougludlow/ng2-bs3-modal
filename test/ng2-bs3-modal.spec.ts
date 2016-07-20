@@ -1,4 +1,5 @@
 import {
+    async,
     inject,
     addProviders,
     ComponentFixture,
@@ -6,11 +7,15 @@ import {
 } from '@angular/core/testing';
 import { SpyLocation } from '@angular/common/testing';
 import {
+    Injector,
     Component,
     ComponentResolver,
     ViewChild,
     Input
 } from '@angular/core';
+import{
+    APP_BASE_HREF
+} from '@angular/common';
 import { Location } from '@angular/common';
 import {
     Router,
@@ -19,9 +24,11 @@ import {
     provideRouter,
     RouterConfig,
     DefaultUrlSerializer,
-    UrlSerializer
+    UrlSerializer,
+    ActivatedRoute
 } from '@angular/router';
 import { ModalComponent, MODAL_DIRECTIVES } from '../src/ng2-bs3-modal/ng2-bs3-modal';
+//import 'zone.js'
 
 // Needed because ViewChild isn't resolved anymore in the new router
 // https://github.com/angular/angular/issues/4452
@@ -29,256 +36,186 @@ class GlueService {
     testComponent: TestComponent;
 }
 
+class MockRouter {
+
+}
+
+
 describe('ModalComponent', () => {
 
-    let modal: ModalComponent;
-    let builder: TestComponentBuilder;
+    let fixture: ComponentFixture;
+    let component: TestComponent;
     let router: Router;
-    let fixture: ComponentFixture<TestComponent>;
-    let testComponent: TestComponent;
-    let location: Location;
-    let glue: GlueService;
 
     const routes: RouterConfig = [
         {path: 'test1', component: TestComponent},
         {path: 'test2', component: TestComponent2}
     ];
 
-
-    beforeEach(inject([TestComponentBuilder, Router, Location, GlueService], (tcb, r, l, g) => {
-
+    beforeEach(() => {
 
         addProviders([
-            RouterOutletMap,
             GlueService,
+            provideRouter(routes),
+            {provide: APP_BASE_HREF, useValue: '/'},
+            {provide: UrlSerializer, useClass: DefaultUrlSerializer },
+
+            RouterOutletMap,
             {provide: UrlSerializer, useClass: DefaultUrlSerializer},
             {provide: Location, useClass: SpyLocation},
-            Router/*
+            //{provide: LocationStrategy, useClass: MockLocationStrategy},
             {
                 provide: Router,
-                useFactory: (resolver, urlParser, outletMap, location) => new Router('RootComponent', resolver, urlParser, outletMap, location, routes),
-                deps: [ComponentResolver, UrlSerializer, RouterOutletMap, Location]
-            },*/
+                useFactory: (resolver: ComponentResolver, urlSerializer: UrlSerializer, outletMap: RouterOutletMap, location: Location, injector: Injector) => {
+                    return new (<any>Router)(
+                        TestComponent, resolver, urlSerializer, outletMap, location, injector, routes);
+                },
+                deps: [ComponentResolver, UrlSerializer, RouterOutletMap, Location, Injector]
+            },
+            {provide: ActivatedRoute, useFactory: (r: Router) => r.routerState.root, deps: [Router]},
         ]);
 
-        builder = tcb;
-        router = r;
-        location = l;
-        glue = g;
-    }));
+    });
+
+    beforeEach(async(inject([TestComponentBuilder], (tcb) => {
+
+        //router = r;
+        return tcb
+            .createAsync(TestComponent)
+            .then((componentFixture: ComponentFixture) => {
+                fixture = componentFixture;
+                component = componentFixture.componentInstance;
+            });
+
+    })));
 
     afterEach(() => {
         fixture && fixture.destroy();
     });
 
-    it('should render', done => {
-        builder.createAsync(TestComponent).then(f => {
-            fixture = f;
-            fixture.detectChanges();
-            expect(document.querySelectorAll('.modal').length).toBe(1);
-            done();
-        });
+    it('should render', () => {
+        fixture.detectChanges();
+        expect(document.querySelectorAll('.modal').length).toBe(1);
     });
 
     it('should cleanup when destroyed', done => {
-        builder.createAsync(TestComponent).then(f => {
-            fixture = f;
-            testComponent = fixture.componentInstance;
-            fixture.detectChanges();
-            testComponent.modal.ngOnDestroy();
-            setTimeout(() => {
-                expect(document.querySelectorAll('.modal').length).toBe(0);
-                done();
-            }, 1000);
-        });
+        fixture.detectChanges();
+        component.modal.ngOnDestroy();
+        setTimeout(() => {
+            expect(document.querySelectorAll('.modal').length).toBe(0);
+            done();
+        }, 1000);
     });
 
     it('should emit onClose when modal is closed', done => {
-        builder.createAsync(TestComponent)
-            .then(f => {
-                fixture = f;
-            })
-            .then(() => {
-                testComponent = fixture.componentInstance;
-            })
-            .then(() => {
-                fixture.detectChanges();
-                testComponent.modal.onClose.subscribe(() => {
-                    done();
-                });
-            })
-            .then(() => testComponent.modal.open())
-            .then(() => testComponent.modal.close());
+        fixture.detectChanges();
+        component.modal.onClose.subscribe(() => {
+            done();
+        });
+        component.modal.open();
+        component.modal.close();
     });
 
     it('should emit onClose when modal is closed and animation is disabled', done => {
-        builder.createAsync(TestComponent)
-            .then(f => {
-                fixture = f;
-            })
-            .then(() => {
-                testComponent = fixture.componentInstance;
-            })
-            .then(() => {
-                testComponent.animate = false;
-                fixture.detectChanges();
-                testComponent.modal.onClose.subscribe(() => {
-                    done();
-                });
-            })
-            .then(() => testComponent.modal.open())
-            .then(() => testComponent.modal.close());
+        component.animate = false;
+        fixture.detectChanges();
+        component.modal.onClose.subscribe(() => {
+            done();
+        });
+        component.modal.open();
+        component.modal.close();
     });
 
     it('should emit onDismiss when modal is dimissed', done => {
-        builder.createAsync(TestComponent)
-            .then(f => {
-                fixture = f;
-            })
-            .then(() => {
-                testComponent = fixture.componentInstance;
-            })
-            .then(() => {
-                fixture.detectChanges();
-                testComponent.modal.onDismiss.subscribe(() => {
-                    done();
-                });
-            })
-            .then(() => testComponent.modal.open())
-            .then(() => testComponent.modal.dismiss());
+        component.modal.onDismiss.subscribe(() => {
+            done();
+        });
+        component.modal.open();
+        component.modal.dismiss();
     });
 
+    // failing
     it('should emit onDismiss only once', done => {
         let times = 0;
+
+        fixture.detectChanges();
+        component.modal.onDismiss.subscribe(() => {
+            times++;
+        });
+        component.modal.open();
+        component.modal.dismiss();
 
         setTimeout(() => {
             expect(times).toBe(1);
             done();
         }, 1000);
-
-        builder.createAsync(TestComponent)
-            .then(f => {
-                fixture = f;
-            })
-            .then(() => {
-                testComponent = fixture.componentInstance;
-            })
-            .then(() => {
-                fixture.detectChanges();
-                testComponent.modal.onDismiss.subscribe(() => {
-                    times++;
-                });
-            })
-            .then(() => testComponent.modal.open())
-            .then(() => testComponent.modal.dismiss());
     });
 
     it('should emit onDismiss when modal is dimissed and animation is disabled', done => {
-        builder.createAsync(TestComponent)
-            .then(f => {
-                fixture = f;
-            })
-            .then(() => {
-                testComponent = fixture.componentInstance;
-            })
-            .then(() => {
-                testComponent.animate = false;
-                fixture.detectChanges();
-                testComponent.modal.onDismiss.subscribe(() => {
-                    done();
-                });
-            })
-            .then(() => testComponent.modal.open())
-            .then(() => testComponent.modal.dismiss());
+        component.animate = false;
+        fixture.detectChanges();
+        component.modal.onDismiss.subscribe(() => {
+            done();
+        });
+        component.modal.open();
+        component.modal.dismiss();
     });
 
     it('should emit onDismiss when modal is dimissed a second time from backdrop', done => {
         let times = 0;
-        builder.createAsync(TestComponent)
-            .then(f => {
-                fixture = f;
-            })
-            .then(() => {
-                testComponent = fixture.componentInstance;
-            })
-            .then(() => {
-                fixture.detectChanges();
-                testComponent.modal.onDismiss.subscribe(() => {
-                    times++;
-                    if (times === 2) done();
-                });
-            })
-            .then(() => testComponent.modal.open())
-            .then(() => testComponent.modal.dismiss())
-            .then(() => testComponent.modal.open())
-            .then(() => {
-                (<HTMLElement>document.querySelector('.modal.in')).click();
-            });
+
+        fixture.detectChanges();
+        component.modal.onDismiss.subscribe(() => {
+            times++;
+            if (times === 2) done();
+        });
+        component.modal.open();
+        component.modal.dismiss();
+        component.modal.open();
+        (<HTMLElement>document.querySelector('.modal.in')).click();
     });
 
     it('should emit onDismiss when modal is closed, opened, then dimissed from backdrop', done => {
         let times = 0;
-        builder.createAsync(TestComponent)
-            .then(f => {
-                fixture = f;
-            })
-            .then(() => {
-                testComponent = fixture.componentInstance;
-            })
-            .then(() => {
-                fixture.detectChanges();
-                testComponent.modal.onDismiss.subscribe(() => {
-                    done();
-                });
-            })
-            .then(() => testComponent.modal.open())
-            .then(() => testComponent.modal.close())
-            .then(() => testComponent.modal.open())
-            .then(() => {
-                (<HTMLElement>document.querySelector('.modal.in')).click();
-            });
+        fixture.detectChanges();
+        component.modal.onDismiss.subscribe(() => {
+            done();
+        });
+        component.modal.open();
+        component.modal.close();
+        component.modal.open();
+        (<HTMLElement>document.querySelector('.modal.in')).click();
+
     });
 
     it('should not throw an error when navigating on modal close', done => {
-        builder.createAsync(TestAppComponent)
-            .then(f => {
-                fixture = f;
-            })
-            .then(() => router.navigateByUrl('/test1'))
-            .then(() => {
-                fixture.detectChanges(true);
-                testComponent = glue.testComponent;
-                testComponent.modal.onClose.subscribe(() => {
-                    router.navigateByUrl('/test2').then(() => {
-                        fixture.detectChanges();
-                        let content = fixture.debugElement.nativeElement.querySelector('test-component2');
-                        expect(content).toHaveText('hello');
-                        setTimeout(() => done(), 1000);
-                    });
-                });
-            })
-            .then(() => testComponent.modal.open())
-            .then(() => testComponent.modal.close())
-            .catch((e) => console.error(e.stack));
+        router.navigateByUrl('/test1');
+
+        fixture.detectChanges(true);
+        component = glue.testComponent;
+        component.modal.onClose.subscribe(() => {
+            router.navigateByUrl('/test2').then(() => {
+                fixture.detectChanges();
+                let content = fixture.debugElement.nativeElement.querySelector('test-component2');
+                expect(content).toHaveText('hello');
+                setTimeout(() => done(), 1000);
+            });
+        });
+
+        component.modal.open();
+        component.modal.close();
     });
 
     it('should emit onOpen when modal is opened', done => {
         let times = 0;
-        builder.createAsync(TestComponent)
-            .then(f => {
-                fixture = f;
-            })
-            .then(() => {
-                testComponent = fixture.componentInstance;
-            })
-            .then(() => {
-                fixture.detectChanges();
-                testComponent.modal.onOpen.subscribe(() => {
-                    done();
-                });
-            })
-            .then(() => testComponent.modal.open());
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+        component.modal.onOpen.subscribe(() => {
+            done();
+        });
+        component.modal.open();
     });
+
 });
 
 @Component({
@@ -325,6 +262,4 @@ class TestComponent2 {
     `
 })
 class TestAppComponent {
-    constructor(private router: Router) {
-    }
 }
