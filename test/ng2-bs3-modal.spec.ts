@@ -1,18 +1,25 @@
 import {
-    inject, addProviders,
-    ComponentFixture, TestComponentBuilder
+    inject,
+    addProviders,
+    ComponentFixture,
+    TestComponentBuilder
 } from '@angular/core/testing';
 import { SpyLocation } from '@angular/common/testing';
-import { Component, ComponentResolver, ViewChild, ContentChild, provide, OnDestroy, Input } from '@angular/core';
+import {
+    Component,
+    ComponentResolver,
+    ViewChild,
+    Input
+} from '@angular/core';
 import { Location } from '@angular/common';
 import {
     Router,
-    Routes,
     ROUTER_DIRECTIVES,
-    ROUTER_PROVIDERS,
     RouterOutletMap,
-    RouterUrlSerializer,
-    DefaultRouterUrlSerializer
+    provideRouter,
+    RouterConfig,
+    DefaultUrlSerializer,
+    UrlSerializer
 } from '@angular/router';
 import { ModalComponent, MODAL_DIRECTIVES } from '../src/ng2-bs3-modal/ng2-bs3-modal';
 
@@ -32,20 +39,26 @@ describe('ModalComponent', () => {
     let location: Location;
     let glue: GlueService;
 
+    const routes: RouterConfig = [
+        {path: 'test1', component: TestComponent},
+        {path: 'test2', component: TestComponent2}
+    ];
+
+
     beforeEach(inject([TestComponentBuilder, Router, Location, GlueService], (tcb, r, l, g) => {
 
-        console.log(r);
 
         addProviders([
             RouterOutletMap,
             GlueService,
-            {provide: RouterUrlSerializer, useClass: DefaultRouterUrlSerializer},
+            {provide: UrlSerializer, useClass: DefaultUrlSerializer},
             {provide: Location, useClass: SpyLocation},
+            Router/*
             {
                 provide: Router,
-                useFactory: (resolver, urlParser, outletMap, location) => new Router('RootComponent', TestAppComponent, resolver, urlParser, outletMap, location),
-                //deps: [ComponentResolver, RouterUrlSerializer, RouterOutletMap, Location]
-            },
+                useFactory: (resolver, urlParser, outletMap, location) => new Router('RootComponent', resolver, urlParser, outletMap, location, routes),
+                deps: [ComponentResolver, UrlSerializer, RouterOutletMap, Location]
+            },*/
         ]);
 
         builder = tcb;
@@ -306,15 +319,12 @@ class TestComponent2 {
 
 @Component({
     selector: 'app-component',
-    providers: [...ROUTER_PROVIDERS],
     directives: [ROUTER_DIRECTIVES],
     template: `
         <router-outlet></router-outlet>
     `
 })
-@Routes([
-    {path: '/test1', component: TestComponent},
-    {path: '/test2', component: TestComponent2}
-])
 class TestAppComponent {
+    constructor(private router: Router) {
+    }
 }
