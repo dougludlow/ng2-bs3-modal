@@ -127,7 +127,7 @@ describe('ModalComponent', () => {
         setTimeout(() => {
             expect(times).toBe(1);
             done();
-        }, 1000);
+        }, 2000);
 
         builder.createAsync(TestComponent)
             .then(f => { fixture = f; })

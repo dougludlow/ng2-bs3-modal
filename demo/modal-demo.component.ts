@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 import { MODAL_DIRECTIVES, ModalComponent } from '../src/ng2-bs3-modal/ng2-bs3-modal';
 
@@ -12,8 +12,12 @@ import { MODAL_DIRECTIVES, ModalComponent } from '../src/ng2-bs3-modal/ng2-bs3-m
         }`,
         `.ng-invalid {
             border-left: 5px solid #d9534f; /* red */
+        }`,
+        `.red-text {
+            color: #d9534f !important; /* red */
         }`
-    ]
+    ],
+    encapsulation: ViewEncapsulation.None
 })
 export class ModalDemoComponent {
 
@@ -26,10 +30,12 @@ export class ModalDemoComponent {
 
     index: number = 0;
     backdropOptions = [true, false, 'static'];
+    cssClass: string = '';
 
     animation: boolean = true;
     keyboard: boolean = true;
     backdrop: string | boolean = true;
+    css: boolean = false;
 
     constructor(private router: Router) { }
 
