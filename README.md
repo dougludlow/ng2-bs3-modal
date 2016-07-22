@@ -117,7 +117,7 @@ See examples for [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm), [S
 
 - `show-default-buttons: boolean`, default: `false`
 
-   Show or hide the default 'Save' and 'Close' buttons in the header. Specify `true` to show.
+   Show or hide the default 'Save' and 'Close' buttons in the footer. Specify `true` to show.
 
 ## Examples
 
