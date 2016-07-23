@@ -117,7 +117,15 @@ See examples for [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm), [S
 
 - `show-default-buttons: boolean`, default: `false`
 
-   Show or hide the default 'Save' and 'Close' buttons in the footer. Specify `true` to show.
+   Show or hide the default 'Close' and 'Dismiss' buttons in the footer. Specify `true` to show.
+
+- `close-button-label: string`, default: `'Close'`
+
+   Change the label in the default 'Close' button in the footer. Has no effect if show-default-buttons aren't set.
+
+- `dismiss-button-label: string`, default: `'Dismiss'`
+
+   Change the label in the default 'Dismiss' button in the footer. Has no effect if show-default-buttons aren't set.
 
 ## Examples
 
