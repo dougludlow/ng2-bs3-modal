@@ -183,9 +183,6 @@ describe('ModalComponent', () => {
         component.modal.open();
         component.modal.close();
         component.modal.open();
-        //console.log('click 1');
-        //(<HTMLElement>document.querySelector('.modal.in')).click();
-        //component.modal.dismiss();
 
     });
 
@@ -208,7 +205,6 @@ describe('ModalComponent', () => {
     });
 
     it('should emit onOpen when modal is opened', done => {
-        let times = 0;
         component = fixture.componentInstance;
         fixture.detectChanges();
         component.modal.onOpen.subscribe(() => {

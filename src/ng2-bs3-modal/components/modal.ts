@@ -9,7 +9,7 @@ import { ModalInstance, ModalResult } from './modal-instance';
         'tabindex': '-1'
     },
     template: `
-        <div class="modal-dialog" [ngClass]="{ 'modal-sm': isSmall(), 'modal-lg': isLarge() }">
+        <div class="modal-dialog" [ngClass]="getCssClasses()">
             <div class="modal-content">
                 <ng-content></ng-content>
             </div>
@@ -27,6 +27,7 @@ export class ModalComponent implements OnDestroy {
     @Input() backdrop: string | boolean = true;
     @Input() keyboard: boolean = true;
     @Input() size: string;
+    @Input() cssClass: string = '';
 
     @Output() onClose: EventEmitter<any> = new EventEmitter(false);
     @Output() onDismiss: EventEmitter<any> = new EventEmitter(false);
@@ -49,9 +50,7 @@ export class ModalComponent implements OnDestroy {
 
         this.instance.hidden.subscribe((result) => {
             this.visible = this.instance.visible;
-            console.log('hello');
             if (result === ModalResult.Dismiss) {
-                console.log('on dismiss');
                 this.onDismiss.emit(undefined);
             }
         });
@@ -86,6 +85,24 @@ export class ModalComponent implements OnDestroy {
         return this.instance.dismiss().then(() => {
             this.onDismiss.emit(undefined);
         });
+    }
+
+    getCssClasses(): string {
+        let classes: string[] = [];
+
+        if (this.isSmall()) {
+            classes.push('modal-sm');
+        }
+
+        if (this.isLarge()) {
+            classes.push('modal-lg');
+        }
+
+        if (this.cssClass !== '') {
+            classes.push(this.cssClass);
+        }
+
+        return classes.join(' ');
     }
 
     private isSmall() {
