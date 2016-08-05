@@ -33,17 +33,26 @@ export class ModalComponent implements OnDestroy {
     @Output() onDismiss: EventEmitter<any> = new EventEmitter(false);
     @Output() onOpen: EventEmitter<any> = new EventEmitter(false);
 
-    @HostBinding('class.fade') get fadeClass(): boolean { return this.animation; }
-    @HostBinding('attr.data-keyboard') get dataKeyboardAttr(): boolean { return this.keyboard; }
-    @HostBinding('attr.data-backdrop') get dataBackdropAttr(): string | boolean { return this.backdrop; }
+    @HostBinding('class.fade') get fadeClass(): boolean {
+        return this.animation;
+    }
+
+    @HostBinding('attr.data-keyboard') get dataKeyboardAttr(): boolean {
+        return this.keyboard;
+    }
+
+    @HostBinding('attr.data-backdrop') get dataBackdropAttr(): string | boolean {
+        return this.backdrop;
+    }
 
     constructor(private element: ElementRef) {
         this.instance = new ModalInstance(this.element);
 
         this.instance.hidden.subscribe((result) => {
             this.visible = this.instance.visible;
-            if (result === ModalResult.Dismiss)
+            if (result === ModalResult.Dismiss) {
                 this.onDismiss.emit(undefined);
+            }
         });
 
         this.instance.shown.subscribe(() => {

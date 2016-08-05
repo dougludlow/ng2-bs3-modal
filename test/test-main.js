@@ -18,7 +18,7 @@ System.config({
         '@angular/platform-browser': { main: 'index.js', defaultExtension: 'js' },
         '@angular/platform-browser-dynamic': { main: 'index.js', defaultExtension: 'js' },
         '@angular/router': { main: 'index.js', defaultExtension: 'js' },
-        'rxjs': { defaultExtension: 'js' },
+        'rxjs': { defaultExtension: 'js' }
     },
     map: {
         '@angular/common': 'node_modules/@angular/common',
@@ -27,7 +27,8 @@ System.config({
         '@angular/platform-browser': 'node_modules/@angular/platform-browser',
         '@angular/platform-browser-dynamic': 'node_modules/@angular/platform-browser-dynamic',
         '@angular/router': 'node_modules/@angular/router',
-        'rxjs': 'node_modules/rxjs'
+        'rxjs': 'node_modules/rxjs',
+        'zone.js': 'node_modules/zone.js'
     }
 });
 
