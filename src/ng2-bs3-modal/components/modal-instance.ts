@@ -66,19 +66,17 @@ export class ModalInstance {
 
         this.shown = Observable.fromEvent(this.$modal, this.shownEventName)
             .map(() => {
-
                 this.visible = true;
             });
 
         this.hidden = Observable.fromEvent(this.$modal, this.hiddenEventName)
-            .map((res) => {
+            .map(() => {
                 let result = (!this.result || this.result === ModalResult.None)
                     ? ModalResult.Dismiss : this.result;
 
                 this.result = ModalResult.None;
                 this.visible = false;
 
-                console.log('closed', result);
                 return result;
             });
     }

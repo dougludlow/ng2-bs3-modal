@@ -82,9 +82,7 @@ export class ModalComponent implements OnDestroy {
     }
 
     dismiss(): Promise<void> {
-        return this.instance.dismiss().then(() => {
-            this.onDismiss.emit(undefined);
-        });
+        return this.instance.dismiss();
     }
 
     getCssClasses(): string {
