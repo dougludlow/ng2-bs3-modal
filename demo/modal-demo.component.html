@@ -8,7 +8,7 @@
         <button type="button" class="btn btn-default" (click)="animation = !animation">Toggle Animation ({{ animation }})</button>
         <button type="button" class="btn btn-default" (click)="keyboard = !keyboard">Toggle Keyboard ({{ keyboard }})</button>
         <button type="button" class="btn btn-default" (click)="index = index + 1; backdrop = backdropOptions[index%3]">Toggle Backdrop ({{ backdrop }})</button>
-        <button type="button" class="btn btn-default" (click)="cssClass = css ? '' : 'red-text'; css = !css">Custom CSS ({{ cssClass }})</button>
+        <button type="button" class="btn btn-default" (click)="cssClass = css ? '' : 'red-text'; css = !css">Toggle CSS Class ({{ cssClass ? cssClass : 'none' }})</button>
     </p>
     <br />
 
