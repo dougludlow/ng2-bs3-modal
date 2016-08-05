@@ -75,6 +75,10 @@ See examples for [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm), [S
 
    Specify `'sm'` for small and `'lg'` for large.
 
+- `cssClass: string`, default: `undefined`
+
+   Applies the given cssClass to the modal. Can be used to style the modal, suchas giving it a custom size.
+
 #### Outputs
 
 - `onClose: EventEmitter`
