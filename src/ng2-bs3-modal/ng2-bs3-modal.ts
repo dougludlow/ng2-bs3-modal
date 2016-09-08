@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 
 import { ModalComponent } from './components/modal';
 import { ModalHeaderComponent } from './components/modal-header';
@@ -12,10 +12,16 @@ export * from './components/modal-body';
 export * from './components/modal-footer';
 export * from './components/modal-instance';
 
-export const MODAL_DIRECTIVES: Type[] = [
+export const MODAL_DIRECTIVES: Type<any>[] = [
     ModalComponent,
     ModalHeaderComponent,
     ModalBodyComponent,
     ModalFooterComponent,
     AutofocusDirective
 ];
+
+@NgModule({
+    declarations: MODAL_DIRECTIVES,
+    exports: MODAL_DIRECTIVES
+})
+export class Ng2Bs3ModalModule { }

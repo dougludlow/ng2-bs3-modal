@@ -38,17 +38,16 @@ System.config({
 });
 ```
 
-Then import and include in your component's directives:
+Support for declaring `directives` on components was dropped in *Angular 2.0.0-rc.6*. The `ng2-bs3-modal` module must now be imported into consuming modules:
 
 ```typescript
-import { MODAL_DIRECTIVES } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-@Component({
-    directives: [MODAL_DIRECTIVES]
+@NgModule({
+    imports: [ Ng2Bs3ModalModule ]
+    ...
 })
-export class MyComponent {
-    ...    
-}
+export class MyApplicationModule { }
 ```
 
 See examples for [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm), [SystemJS](https://github.com/dougludlow/ng2-bs3-modal-demo-systemjs), [jspm](https://github.com/dougludlow/ng2-bs3-modal-demo-jspm), and [angular-cli](https://github.com/dougludlow/ng2-bs3-modal/issues/31).
