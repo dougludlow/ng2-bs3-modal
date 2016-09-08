@@ -13,7 +13,7 @@ import { ModalComponent } from './modal';
 })
 export class ModalFooterComponent {
     @Input('show-default-buttons') showDefaultButtons: boolean = false;
-    @Input('dismiss-button-label') dismissButtonLabel: string = "Dismiss";
-    @Input('close-button-label') closeButtonLabel: string = "Close";
+    @Input('dismiss-button-label') dismissButtonLabel: string = 'Dismiss';
+    @Input('close-button-label') closeButtonLabel: string = 'Close';
     constructor(private modal: ModalComponent) { }
 }
