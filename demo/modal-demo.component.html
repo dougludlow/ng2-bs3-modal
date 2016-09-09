@@ -87,11 +87,11 @@
             <modal-body>
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" required [(ngModel)]="model.firstName" ngControl="firstName" #firstName="ngForm">
+                    <input type="text" class="form-control" required [(ngModel)]="model.firstName" name="firstName" id="firstName">
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" class="form-control" required [(ngModel)]="model.lastName" ngControl="lastName" #lastName="ngForm">
+                    <input type="text" class="form-control" required [(ngModel)]="model.lastName" name="lastName" id="lastName">
                 </div>
             </modal-body>
             <modal-footer>

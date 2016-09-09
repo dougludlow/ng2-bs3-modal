@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">  
     <title>Angular2 Bootstrap3 Modal Component</title>
-    <base href="/ng2-bs3-modal/">
+    <base href="/">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.css">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.0/es6-shim.min.js"></script>
-    <script src="https://unpkg.com/zone.js@0.6.12?main=browser"></script>
+    <script src="https://unpkg.com/zone.js@0.6.17?main=browser"></script>
     <script src="https://unpkg.com/reflect-metadata@0.1.3"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.27/system.js"></script>
-    <script src="https://unpkg.com/typescript@1.8.10/lib/typescript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.38/system.js"></script>
+    <script src="https://unpkg.com/typescript@2.0.0/lib/typescript.js"></script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
     
     <script>
       System.config({
-        baseURL: '/ng2-bs3-modal/',
+        baseURL: '/',
         transpiler: 'typescript', 
         typescriptOptions: {
             emitDecoratorMetadata: true,
@@ -28,22 +28,21 @@
         packages: {
             'demo': {main: 'main', defaultExtension: 'ts'},
             'src': {defaultExtension: 'ts'},
-            '@angular/common': {main: 'index.js', defaultExtension: 'js'},
-            '@angular/compiler': {main: 'index.js', defaultExtension: 'js'},
-            '@angular/core': {main: 'index.js', defaultExtension: 'js'},
-            '@angular/platform-browser': {main: 'index.js', defaultExtension: 'js'},
-            '@angular/platform-browser-dynamic': {main: 'index.js', defaultExtension: 'js'},
-            '@angular/router': {main: 'index.js', defaultExtension: 'js'},
             'rxjs': { defaultExtension: 'js' }
         },
+        paths: {
+            'npm:': 'https://unpkg.com/'
+        },
         map: {
-            '@angular/common': 'https://unpkg.com/@angular/common@2.0.0-rc.4',
-            '@angular/compiler': 'https://unpkg.com/@angular/compiler@2.0.0-rc.4',
-            '@angular/core': 'https://unpkg.com/@angular/core@2.0.0-rc.4',
-            '@angular/platform-browser': 'https://unpkg.com/@angular/platform-browser@2.0.0-rc.4',
-            '@angular/platform-browser-dynamic': 'https://unpkg.com/@angular/platform-browser-dynamic@2.0.0-rc.4',
-            '@angular/router': 'https://unpkg.com/@angular/router@3.0.0-beta.2',
-            'rxjs': 'https://unpkg.com/rxjs@5.0.0-beta.6'
+            '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
+            '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
+            '@angular/compiler': 'npm:@angular/compiler/bundles/compiler.umd.js',
+            '@angular/platform-browser': 'npm:@angular/platform-browser/bundles/platform-browser.umd.js',
+            '@angular/platform-browser-dynamic': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
+            '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
+            '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
+            '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
+            'rxjs': 'npm:rxjs',
         }
       });
       System.import('demo').catch(function(err){ console.error(err); });

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Type } from '@angular/core';
+import { Component, Input, Inject } from '@angular/core';
 import { ModalComponent } from './modal';
 
 @Component({
@@ -15,5 +15,5 @@ export class ModalFooterComponent {
     @Input('show-default-buttons') showDefaultButtons: boolean = false;
     @Input('dismiss-button-label') dismissButtonLabel: string = 'Dismiss';
     @Input('close-button-label') closeButtonLabel: string = 'Close';
-    constructor(private modal: ModalComponent) { }
+    constructor(@Inject(ModalComponent) private modal: ModalComponent) { }
 }

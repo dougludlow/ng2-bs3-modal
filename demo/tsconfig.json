@@ -8,12 +8,5 @@
         "experimentalDecorators": true,
         "inlineSourceMap": true,
         "declaration": false
-    },
-    "exclude": [
-        "node_modules",
-        "demo",
-        "bundles",
-        "components",
-        "test"
-    ]
+    }
 }

@@ -1,8 +1,8 @@
 {
-  "dependencies": {},
-  "devDependencies": {},
-  "ambientDependencies": {
-    "es6-shim": "github:DefinitelyTyped/DefinitelyTyped/es6-shim/es6-shim.d.ts#4de74cb527395c13ba20b438c3a7a419ad931f1c",
-    "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#d594ef506d1efe2fea15f8f39099d19b39436b71"
+  "globalDevDependencies": {
+    "jasmine": "registry:dt/jasmine#2.2.0+20160621224255"
+  },
+  "globalDependencies": {
+    "core-js": "registry:dt/core-js#0.0.0+20160725163759"
   }
 }

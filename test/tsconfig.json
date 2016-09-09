@@ -7,6 +7,7 @@
     },
     "files": [
         "ng2-bs3-modal.spec.ts",
-        "../typings/broswer.d.ts"
+        "../typings/index.d.ts",
+        "jasmine.d.ts"
     ]
 }

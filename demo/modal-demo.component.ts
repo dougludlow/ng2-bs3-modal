@@ -1,16 +1,15 @@
 import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
-import { MODAL_DIRECTIVES, ModalComponent } from '../src/ng2-bs3-modal/ng2-bs3-modal';
+import { ModalComponent } from '../src/ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'modal-demo-component',
     templateUrl: 'demo/modal-demo.component.html',
-    directives: [MODAL_DIRECTIVES],
     styles: [
         `.ng-valid[required] {
             border-left: 5px solid #5cb85c; /* green */
         }`,
-        `.ng-invalid {
+        `.ng-invalid:not(.ng-untouched):not(form) {
             border-left: 5px solid #d9534f; /* red */
         }`,
         `.red-text {

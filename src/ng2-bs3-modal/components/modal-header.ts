@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Type } from '@angular/core';
+import { Component, Input, Inject } from '@angular/core';
 import { ModalComponent } from './modal';
 
 @Component({
@@ -14,5 +14,5 @@ import { ModalComponent } from './modal';
 })
 export class ModalHeaderComponent {
     @Input('show-close') showClose: boolean = false;
-    constructor(private modal: ModalComponent) { }
+    constructor(@Inject(ModalComponent) private modal: ModalComponent) { }
 }

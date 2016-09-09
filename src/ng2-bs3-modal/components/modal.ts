@@ -1,4 +1,4 @@
-import { Component, OnDestroy, Input, Output, EventEmitter, Type, ElementRef, HostBinding } from '@angular/core';
+import { Component, OnDestroy, Input, Output, EventEmitter, Type, ElementRef, HostBinding, Inject } from '@angular/core';
 import { ModalInstance, ModalResult } from './modal-instance';
 
 @Component({
@@ -45,7 +45,7 @@ export class ModalComponent implements OnDestroy {
         return this.backdrop;
     }
 
-    constructor(private element: ElementRef) {
+    constructor(@Inject(ElementRef) private element: ElementRef) {
         this.instance = new ModalInstance(this.element);
 
         this.instance.hidden.subscribe((result) => {
