@@ -1,6 +1,6 @@
 {
   "name": "ng2-bs3-modal",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Angular2 Boostrap3 Modal Component",
   "main": "ng2-bs3-modal.js",
   "scripts": {

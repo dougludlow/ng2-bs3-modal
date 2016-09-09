@@ -239,6 +239,14 @@ npm install
 npm run build
 ```
 
+## Running 
+
+```bash
+npm start
+```
+
+Navigate to http://127.0.0.1:8080 in your browser.
+
 ## Testing
 
 ```bash
