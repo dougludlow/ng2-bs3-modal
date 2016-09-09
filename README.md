@@ -98,9 +98,9 @@ See examples for [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm), [S
 
    Opens the modal. Size is optional. Specify `'sm'` for small and `'lg'` for large to override size. Returns a promise that resolves when the modal is completely shown.
    
-- `close(): Promise`
+- `close(value?: any): Promise<any>`
 
-   Closes the modal. Causes `onClose` to be emitted. Returns a promise that resolves when the modal is completely hidden.
+   Closes the modal. Causes `onClose` to be emitted. Returns a promise that resolves the value passed to `close` when the modal is completely hidden.
 
 - `dismiss(): Promise`
 

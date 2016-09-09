@@ -75,9 +75,9 @@ export class ModalComponent implements OnDestroy {
         });
     }
 
-    close(): Promise<void> {
+    close(value?: any): Promise<void> {
         return this.instance.close().then(() => {
-            this.onClose.emit(undefined);
+            this.onClose.emit(value);
         });
     }
 
