@@ -15,5 +15,5 @@ export class ModalFooterComponent {
     @Input('show-default-buttons') showDefaultButtons: boolean = false;
     @Input('dismiss-button-label') dismissButtonLabel: string = 'Dismiss';
     @Input('close-button-label') closeButtonLabel: string = 'Close';
-    constructor(@Inject(ModalComponent) private modal: ModalComponent) { }
+    constructor(private modal: ModalComponent) { }
 }

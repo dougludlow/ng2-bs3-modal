@@ -5,8 +5,8 @@ import { ModalComponent } from '../components/modal';
     selector: '[autofocus]'
 })
 export class AutofocusDirective {
-    constructor(@Inject(ElementRef) private el: ElementRef, @Inject(ModalComponent) @Optional() private modal: ModalComponent) {
-        if (!modal) {
+    constructor(private el: ElementRef, @Optional() private modal: ModalComponent) {
+        if (modal) {
             this.modal.onOpen.subscribe(() => {
                 this.el.nativeElement.focus();
             });

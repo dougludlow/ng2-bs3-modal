@@ -239,7 +239,9 @@ _Pvt_Extensions
 /bundles/
 /components/
 /directives/
+/test/
 /ng2-bs3-modal.*
+/ng2-bs3-modal.spec.*
 src/**.*.js
 src/**.*.d.ts
 .idea/

@@ -4,7 +4,7 @@ module.exports = function (config) {
     config.set({
 
         basePath: '.',
-        singleRun: false,
+        singleRun: true,
         frameworks: ['jasmine'],
         reporters: ['spec'],
         browsers: ['PhantomJS'],
@@ -41,11 +41,12 @@ module.exports = function (config) {
             { pattern: 'node_modules/@angular/**/*.js', included: false, watched: false },
             { pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false },
 
-            // Project files
-            { pattern: 'src/**/*.ts', included: false, served: true },
-            { pattern: 'test/**/*.ts', included: false, served: true },
+            { pattern: 'systemjs.config.js', included: false, watched: false },
+            'karma-test-shim.js',
 
-            'test/test-main.js',
+            // Project files
+            { pattern: 'src/**/*.ts', included: false, served: true, watched: true },
+            { pattern: 'test/**/*.ts', included: false, served: true,  watched: true },
         ]
     });
 };

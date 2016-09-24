@@ -45,7 +45,7 @@ export class ModalComponent implements OnDestroy {
         return this.backdrop;
     }
 
-    constructor(@Inject(ElementRef) private element: ElementRef) {
+    constructor(private element: ElementRef) {
         this.instance = new ModalInstance(this.element);
 
         this.instance.hidden.subscribe((result) => {
