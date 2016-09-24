@@ -14,7 +14,7 @@ export class ModalInstance {
 
     shown: Observable<void>;
     hidden: Observable<ModalResult>;
-    result: ModalResult;
+    result: any;
     visible: boolean = false;
 
     constructor(private element: ElementRef) {
