@@ -17,6 +17,7 @@
         "bundles",
         "components",
         "directives",
+        "src/test",
         "**/*.spec.ts"
     ]
 }

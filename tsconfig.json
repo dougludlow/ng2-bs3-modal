@@ -3,12 +3,12 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "target": "es5",
-        "noImplicitAny": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "inlineSourceMap": true,
         "declaration": true,
-        "outDir": "./"
+        "outDir": "",
+        "rootDir": "./src/ng2-bs3-modal"
     },
     "exclude": [
         "node_modules",
