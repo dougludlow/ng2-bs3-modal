@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { TestBed, ComponentFixture, fakeAsync, tick, flushMicrotasks } from '@angular/core/testing';
 
 import { Ng2Bs3ModalModule, ModalComponent } from '../ng2-bs3-modal';
-import { createRoot, advance } from '../test/common';
+import { createRoot, advance } from '../../test/common';
 
 describe('AutofocusDirective', () => {
 

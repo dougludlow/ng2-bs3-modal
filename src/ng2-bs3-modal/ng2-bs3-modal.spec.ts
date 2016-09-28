@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Ng2Bs3ModalModule, ModalComponent } from './ng2-bs3-modal';
-import { createRoot, advance, ticks } from './test/common';
+import { createRoot, advance, ticks } from '../test/common';
 
 describe('ModalComponent', () => {
 

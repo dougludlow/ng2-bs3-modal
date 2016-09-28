@@ -1,14 +1,15 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "system",
         "moduleResolution": "node",
         "target": "es5",
         "noImplicitAny": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "inlineSourceMap": true,
-        "declaration": true,
-        "outDir": "./"
+        "declaration": false,
+        "rootDir": "./src",
+        "outFile": "./bundles/ng2-bs3-modal.js"
     },
     "exclude": [
         "node_modules",
@@ -16,7 +17,6 @@
         "bundles",
         "components",
         "directives",
-        "src/test",
         "**/*.spec.ts"
     ]
 }

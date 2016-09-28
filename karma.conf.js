@@ -46,7 +46,6 @@ module.exports = function (config) {
 
             // Project files
             { pattern: 'src/**/*.ts', included: false, served: true, watched: true },
-            { pattern: 'test/**/*.ts', included: false, served: true,  watched: true },
         ]
     });
 };

@@ -1,6 +1,6 @@
 import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalComponent } from '../src/ng2-bs3-modal';
+import { ModalComponent } from '../src/ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'modal-demo-component',
