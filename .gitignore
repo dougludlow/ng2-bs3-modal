@@ -241,7 +241,7 @@ _Pvt_Extensions
 /directives/
 /test/
 /ng2-bs3-modal.*
-/ng2-bs3-modal.spec.*
 src/**.*.js
 src/**.*.d.ts
+**/*.ngfactory.ts
 .idea/
