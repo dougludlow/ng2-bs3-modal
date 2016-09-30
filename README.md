@@ -6,7 +6,7 @@ http://dougludlow.github.io/ng2-bs3-modal/
 
 ## Dependencies
 
-`ng2-bs3-modal` depends on `bootstrap` which depends on `jquery`, you'll need to include both scripts before `ng2-bs3-modal` or somehow make them available globally depending on your build system.
+`ng2-bs3-modal` depends on `bootstrap` which depends on `jquery`, you'll need to include both scripts before `ng2-bs3-modal` or somehow make them available globally, depending on your build system.
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
@@ -16,7 +16,7 @@ http://dougludlow.github.io/ng2-bs3-modal/
 ## Install
 
 ```bash
-> npm install --save ng2-bs3-modal
+npm install --save ng2-bs3-modal
 ```
 
 Then include the `ng2-bs3-modal` in your project.
@@ -288,9 +288,9 @@ Navigate to http://127.0.0.1:8080 in your browser.
 npm test
 ```
 
-To tell karma to watch for changes:
+To have karma to watch for changes:
 ```bash
-npm run test-watch
+npm run test:w
 ```
 
 ## Bugs/Contributions
