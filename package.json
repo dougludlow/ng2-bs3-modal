@@ -7,7 +7,7 @@
     "start": "static",
     "peer": "npm install es6-promise@^3.0.2 es6-shim@^0.33.3 reflect-metadata@0.1.2 rxjs@5.0.0-beta.0 zone.js@0.5.14",
     "lint": "tslint ./src/**/*.ts",
-    "clean": "rimraf bundles components directives ng2-bs3-modal.*",
+    "clean": "rimraf bundles components directives **/*.ngfactory.ts ng2-bs3-modal.* ",
     "tsc": "ngc -p .",
     "tsc:single": "tsc -p tsconfig.bundle.json",
     "uglify": "uglifyjs ./bundles/ng2-bs3-modal.js --output ./bundles/ng2-bs3-modal.min.js",

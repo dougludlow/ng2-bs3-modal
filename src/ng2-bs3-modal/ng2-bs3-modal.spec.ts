@@ -57,8 +57,9 @@ describe('ModalComponent', () => {
         modal.onClose.subscribe(spy);
 
         modal.open();
+        ticks(150, 300); // backdrop, modal transitions
         modal.close();
-        ticks(150, 300, 300, 150); // backdrop, modal transitions
+        ticks(300, 150); // backdrop, modal transitions
 
         expect(spy).toHaveBeenCalled();
     }));
@@ -99,11 +100,12 @@ describe('ModalComponent', () => {
 
         fixture.componentInstance.animate = true;
         fixture.detectChanges();
-        modal.onClose.subscribe(spy);
+        modal.onDismiss.subscribe(spy);
 
         modal.open();
-        modal.close();
-        ticks(150, 300, 300, 150); // backdrop, modal transitions
+        ticks(150, 300); // backdrop, modal transitions
+        modal.dismiss();
+        ticks(300, 150); // backdrop, modal transitions
 
         expect(spy).toHaveBeenCalled();
     }));
@@ -111,15 +113,34 @@ describe('ModalComponent', () => {
     it('should emit onDismiss only once', fakeAsync(() => {
         const fixture = createRoot(TestComponent);
         const modal = fixture.componentInstance.modal;
-        const spy = jasmine.createSpy('');
+        const spy = jasmine.createSpy('').and.callFake(() => {});
 
         fixture.componentInstance.animate = true;
         fixture.detectChanges();
-        modal.onClose.subscribe(spy);
+        modal.onDismiss.subscribe(spy);
 
         modal.open();
-        modal.close();
-        ticks(150, 300, 300, 150); // backdrop, modal transitions
+        ticks(150, 300); // backdrop, modal transitions
+        modal.dismiss();
+        ticks(300, 150); // backdrop, modal transitions
+
+        expect(spy).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should emit onDismiss only once when showDefaultButtons is false', fakeAsync(() => {
+        const fixture = createRoot(TestComponent);
+        const modal = fixture.componentInstance.modal;
+        const spy = jasmine.createSpy('').and.callFake(() => {});
+
+        fixture.componentInstance.animate = true;
+        fixture.componentInstance.defaultButtons = false;
+        fixture.detectChanges();
+        modal.onDismiss.subscribe(spy);
+
+        modal.open();
+        ticks(150, 300); // backdrop, modal transitions
+        modal.dismiss();
+        ticks(300, 150); // backdrop, modal transitions
 
         expect(spy).toHaveBeenCalledTimes(1);
     }));
@@ -134,10 +155,13 @@ describe('ModalComponent', () => {
         modal.onDismiss.subscribe(spy);
 
         modal.open();
+        ticks(150, 300); // backdrop, modal transitions
         modal.close();
+        ticks(300, 150); // backdrop, modal transitions
         modal.open();
+        ticks(150, 300); // backdrop, modal transitions
         (<HTMLElement>document.querySelector('.modal')).click();
-        ticks(150, 300, 300, 150, 150, 300, 300, 150); // backdrop, modal transitions
+        ticks(300, 150); // backdrop, modal transitions
 
         expect(spy).toHaveBeenCalled();
     }));
@@ -152,10 +176,35 @@ describe('ModalComponent', () => {
         modal.onDismiss.subscribe(spy);
 
         modal.open();
+        ticks(150, 300); // backdrop, modal transitions
         modal.dismiss();
+        ticks(300, 150); // backdrop, modal transitions
         modal.open();
+        ticks(150, 300); // backdrop, modal transitions
         (<HTMLElement>document.querySelector('.modal')).click();
-        ticks(150, 300, 300, 150, 150, 300, 300, 150); // backdrop, modal transitions
+        ticks(300, 150); // backdrop, modal transitions
+
+        expect(spy).toHaveBeenCalledTimes(2);
+    }));
+
+    it('should emit onDismiss when modal is dismissed a second time from backdrop and showDefaultButtons is false', fakeAsync(() => {
+        const fixture = createRoot(TestComponent);
+        const modal = fixture.componentInstance.modal;
+        const spy = jasmine.createSpy('');
+
+        fixture.componentInstance.animate = true;
+        fixture.componentInstance.defaultButtons = false;
+        fixture.detectChanges();
+        modal.onDismiss.subscribe(spy);
+
+        modal.open();
+        ticks(150, 300); // backdrop, modal transitions
+        modal.dismiss();
+        ticks(300, 150); // backdrop, modal transitions
+        modal.open();
+        ticks(150, 300); // backdrop, modal transitions
+        (<HTMLElement>document.querySelector('.modal')).click();
+        ticks(300, 150); // backdrop, modal transitions
 
         expect(spy).toHaveBeenCalledTimes(2);
     }));
@@ -216,7 +265,7 @@ class GlueService {
             <modal-body>
                 Hello World!
             </modal-body>
-            <modal-footer [show-default-buttons]="true"></modal-footer>
+            <modal-footer [show-default-buttons]="defaultButtons"></modal-footer>
         </modal>
     `
 })
@@ -224,6 +273,7 @@ class TestComponent {
     @ViewChild(ModalComponent)
     modal: ModalComponent;
     animate: boolean = false;
+    defaultButtons: boolean = true;
 
     constructor( @Inject(GlueService) glue: GlueService) {
         glue.testComponent = this;
