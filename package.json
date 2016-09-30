@@ -1,6 +1,6 @@
 {
   "name": "ng2-bs3-modal",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Angular2 Boostrap3 Modal Component",
   "main": "ng2-bs3-modal.js",
   "scripts": {
@@ -72,8 +72,5 @@
     "@angular/platform-browser": "^2.0.0",
     "@angular/platform-browser-dynamic": "^2.0.0",
     "bootstrap": "~3.3.x"
-  },
-  "dependencies": {
-    "typescript": "^2.0.3"
   }
 }
