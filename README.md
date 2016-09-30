@@ -6,14 +6,12 @@ http://dougludlow.github.io/ng2-bs3-modal/
 
 ## Dependencies
 
-`ng2-bs3-modal` depends on bootstrap which depends on jquery, you'll need to include both scripts before ng2-bs3-modal:
+`ng2-bs3-modal` depends on `bootstrap` which depends on `jquery`, you'll need to include both scripts before `ng2-bs3-modal` or make them available globally.
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
-```  
-
-Or, if you're using [SystemJS](https://github.com/systemjs/systemjs), configure it to load them. And import them in your typscript.
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
+```
 
 ## Install
 
@@ -21,13 +19,13 @@ Or, if you're using [SystemJS](https://github.com/systemjs/systemjs), configure 
 > npm install --save ng2-bs3-modal
 ```
     
-Include a reference to the bundle in your html:
+Using [SystemJS](https://github.com/systemjs/systemjs), include a reference to the systemjs bundle in your html:
 
 ```html
 <script src="node_modules/ng2-bs3-modal/bundles/ng2-bs3-modal.js"></script>
 ```
-    
-Or, if you're using [SystemJS](https://github.com/systemjs/systemjs), add a mapping to your System.config:
+
+Alternatively, you can add a mapping to your `System.config`:
 
 ```javascript
 System.config({
@@ -38,20 +36,28 @@ System.config({
 });
 ```
 
-Support for declaring `directives` on components was dropped in *Angular 2.0.0-rc.6*. The `ng2-bs3-modal` module must now be imported into consuming modules:
+Then include the module in the `imports` collection of your app's module:
 
 ```typescript
+import { NgModule } from '@angular/core';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @NgModule({
     imports: [ Ng2Bs3ModalModule ]
     ...
 })
-export class MyApplicationModule { }
+export class MyAppModule { }
 ```
 
-See examples for [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm), [SystemJS](https://github.com/dougludlow/ng2-bs3-modal-demo-systemjs), [jspm](https://github.com/dougludlow/ng2-bs3-modal-demo-jspm), and [angular-cli](https://github.com/dougludlow/ng2-bs3-modal/issues/31).
-    
+## Example Projects
+
+The following is a list of basic demo projects that use the ng2-bs3-modal:
+
+- [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm)
+- [SystemJS](https://github.com/dougludlow/ng2-bs3-modal-demo-systemjs)
+- [jspm](https://github.com/dougludlow/ng2-bs3-modal-demo-jspm)
+- [angular-cli](https://github.com/dougludlow/ng2-bs3-modal-demo-angular-cli)
+
 ## API
 
 ### ModalComponent
@@ -130,7 +136,7 @@ See examples for [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm), [S
 
    Change the label in the default 'Dismiss' button in the footer. Has no effect if show-default-buttons aren't set.
 
-## Examples
+## Example Usage
 
 ### Default modal
 
@@ -189,11 +195,10 @@ This will create a modal that cannot be closed with the escape key or by clickin
 
 ```typescript
 import { Component, ViewChild } from '@angular/core';
-import { MODAL_DIRECTIVES, ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'parent-component',
-    directives: [MODAL_DIRECTIVES],
     template: `
         <modal #myModal>
             ...
@@ -211,6 +216,34 @@ export class ParentComponent {
     open() {
         this.modal.open();
     }
+}
+```
+
+### Multiple modals in a component
+
+```typescript
+import { Component, ViewChild } from '@angular/core';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+
+@Component({
+    selector: 'parent-component',
+    template: `
+        <modal #myFirstModal>
+            ...
+        </modal>
+        <modal #mySecondModal>
+            ...
+        </modal>
+    `
+})
+export class ParentComponent {
+    @ViewChild('myFirstModal')
+    modal1: ModalComponent;
+    
+    @ViewChild('mySecondModal')
+    modal2: ModalComponent;
+    
+    ...
 }
 ```
 
