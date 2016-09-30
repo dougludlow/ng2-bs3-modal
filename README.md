@@ -6,7 +6,7 @@ http://dougludlow.github.io/ng2-bs3-modal/
 
 ## Dependencies
 
-`ng2-bs3-modal` depends on `bootstrap` which depends on `jquery`, you'll need to include both scripts before `ng2-bs3-modal` or make them available globally.
+`ng2-bs3-modal` depends on `bootstrap` which depends on `jquery`, you'll need to include both scripts before `ng2-bs3-modal` or somehow make them available globally depending on your build system.
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
@@ -18,14 +18,10 @@ http://dougludlow.github.io/ng2-bs3-modal/
 ```bash
 > npm install --save ng2-bs3-modal
 ```
-    
-Using [SystemJS](https://github.com/systemjs/systemjs), include a reference to the systemjs bundle in your html:
 
-```html
-<script src="node_modules/ng2-bs3-modal/bundles/ng2-bs3-modal.js"></script>
-```
+Then include the `ng2-bs3-modal` in your project.
 
-Alternatively, you can add a mapping to your `System.config`:
+Using [SystemJS](https://github.com/systemjs/systemjs), you can add a mapping to your `System.config`:
 
 ```javascript
 System.config({
@@ -34,6 +30,12 @@ System.config({
         'ng2-bs3-modal': 'node_modules/ng2-bs3-modal'
     }
 });
+```
+
+Or you can include a reference to the bundle in your html:
+
+```html
+<script src="node_modules/ng2-bs3-modal/bundles/ng2-bs3-modal.js"></script>
 ```
 
 Then include the module in the `imports` collection of your app's module:
