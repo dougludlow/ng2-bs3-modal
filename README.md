@@ -87,7 +87,7 @@ Feel free to request more.
 
 - `cssClass: string`, default: `undefined`
 
-   Applies the given cssClass to the modal. Can be used to style the modal, suchas giving it a custom size.
+   Applies the given class to the modal. Can be used to styles the modal; for example, giving it a custom size.
 
 #### Outputs
 
