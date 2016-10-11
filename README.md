@@ -315,11 +315,11 @@ Note: If you are updating items asynchronously, make sure you are using `trackBy
         <modal-body>
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" class="form-control" required [(ngModel)]="model.firstName" name="firstName" id="firstName">
+                <input type="text" class="form-control" required [(ngModel)]="firstName" name="firstName" id="firstName">
             </div>
             <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input type="text" class="form-control" required [(ngModel)]="model.lastName" name="lastName" id="lastName">
+                <input type="text" class="form-control" required [(ngModel)]="lastName" name="lastName" id="lastName">
             </div>
         </modal-body>
         <modal-footer>
