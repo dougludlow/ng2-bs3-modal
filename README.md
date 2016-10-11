@@ -4,6 +4,10 @@ Angular2 Bootstrap3 Modal Component
 ## Demo
 http://dougludlow.github.io/ng2-bs3-modal/
 
+## Prerequisites
+
+`ng2-bs3-modal` requires Typescript v2.0.0 or greater if you're Typescript in your project. Also ensure that your editor (Visual Studio Code, Atom, Webstorm, etc.) supports Typescript <= v2.0.0 or you will see errors.
+
 ## Dependencies
 
 `ng2-bs3-modal` depends on `bootstrap` which depends on `jquery`, you'll need to include both scripts before `ng2-bs3-modal` or somehow make them available globally, depending on your build system.
@@ -250,6 +254,80 @@ export class ParentComponent {
     
     ...
 }
+```
+
+### Modal with a custom size
+
+```typescript
+import { Component, ViewChild } from '@angular/core';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+
+@Component({
+    selector: 'parent-component',
+    styles: ['>>> .modal-xl { width: 1100px; }'],
+    template: `
+        <modal cssClass="modal-xl" #modal>
+            ...
+        </modal>
+    `
+})
+export class ParentComponent {
+    ...
+}
+```
+
+Note: Angular2 emulates the shadow dom by prefixing component styles with a unique identifier. Because the modal is attached to the body tag, it doesn't pick up these styles. You will need to add the `/deep/` or `>>>` selector in order for the style to take effect. See [Component Styles](https://angular.io/docs/ts/latest/guide/component-styles.html#!#-deep-).
+
+### Modal in NgFor
+
+```typescript
+import { Component, ViewChildren } from '@angular/core';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+
+@Component({
+    selector: 'parent-component',
+    template: `
+        <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
+        <div *ngFor="let item in items; trackBy: item.id">
+            <modal #modal>
+                ...
+            </modal>
+        </div>
+    `
+})
+export class ParentComponent {
+    @ViewChildren(ModalComponent)
+    modals: QueryList<ModalComponent>; // How to access a collection of modals
+    ...
+}
+```
+
+Note: If you are updating items asynchronously, make sure you are using `trackBy` in the `ngFor` directive so that Angular doesn't teardown and redraw the elements each time the collection is changed. See [NgFor Directive](https://angular.io/docs/ts/latest/api/common/index/NgFor-directive.html) for more details.
+
+### Modal with validation
+
+``` html
+<modal #validationModal>
+    <form #modalForm="ngForm">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">I'm a modal!</h4>
+        </modal-header>
+        <modal-body>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" required [(ngModel)]="model.firstName" name="firstName" id="firstName">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" required [(ngModel)]="model.lastName" name="lastName" id="lastName">
+            </div>
+        </modal-body>
+        <modal-footer>
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="validationModal.dismiss()">Cancel</button>
+            <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="validationModal.close()">Save</button>
+        </modal-footer>
+    </form>
+</modal>
 ```
 
 ### Autofocus on a textbox when modal is opened
