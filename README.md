@@ -228,6 +228,32 @@ export class ParentComponent {
 }
 ```
 
+### Opening the modal when the parent component loads
+
+```typescript
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+
+@Component({
+    selector: 'parent-component',
+    template: `
+        <modal #myModal>
+            ...
+        </modal>
+    `
+})
+export class ParentComponent implements AfterViewInit {
+    @ViewChild('myModal')
+    modal: ModalComponent;
+
+    ngAfterViewInit() {
+        this.modal.open();
+    }
+}
+```
+
+Note: `ViewChild` doesn't resolve the `modal` property until `AfterViewInit`. `OnInit` is too early and will result in an "undefined" error.
+
 ### Multiple modals in a component
 
 ```typescript
