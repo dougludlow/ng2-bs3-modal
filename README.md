@@ -57,7 +57,7 @@ export class MyAppModule { }
 
 ## Example Projects
 
-The following is a list of basic demo projects that use the ng2-bs3-modal:
+The following is a list of basic demo projects that use the `ng2-bs3-modal`:
 
 - [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm)
 - [SystemJS](https://github.com/dougludlow/ng2-bs3-modal-demo-systemjs)
