@@ -6,7 +6,7 @@ http://dougludlow.github.io/ng2-bs3-modal/
 
 ## Prerequisites
 
-`ng2-bs3-modal` requires Typescript v2.0.0 or greater if you're Typescript in your project. Also ensure that your editor (Visual Studio Code, Atom, Webstorm, etc.) supports Typescript <= v2.0.0 or you will see errors.
+`ng2-bs3-modal` requires Typescript v2.0.0 or greater if you're Typescript in your project. Also ensure that your editor (Visual Studio Code, Atom, Webstorm, etc.) supports Typescript >= v2.0.0 or you will see errors.
 
 ## Dependencies
 
