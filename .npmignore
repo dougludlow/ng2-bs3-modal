@@ -3,6 +3,7 @@
 
 node_modules
 npm-debug.log
+yarn.lock
 
 Thumbs.db
 Desktop.ini
@@ -14,3 +15,5 @@ index.html
 tsconfig.json
 tslint.json
 *.tgz
+src/**/*.js
+src/**/*.js.map

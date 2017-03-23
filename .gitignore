@@ -185,6 +185,7 @@ node_modules/
 orleans.codegen.cs
 typings/
 *.tgz
+yarn.lock
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -236,12 +237,15 @@ _Pvt_Extensions
 .fake/
 
 # Generated output
+/aot/
 /bundles/
 /components/
 /directives/
 /test/
 /ng2-bs3-modal.*
-src/**.*.js
+src/**/*.js
+src/**/*.js.map
 src/**.*.d.ts
 **/*.ngfactory.ts
+**/*.ngsummary.json
 .idea/

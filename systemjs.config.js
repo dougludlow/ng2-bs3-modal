@@ -1,8 +1,9 @@
 System.config({
-    transpiler: 'typescript',
+    transpiler: 'ts',
     typescriptOptions: {
         emitDecoratorMetadata: true,
         experimentalDecorators: true,
+        module: 'commonjs'
     },
     paths: {
         'npm:': 'https://unpkg.com/'

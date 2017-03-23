@@ -3,8 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/fromEvent';
 
-declare var jQuery: any;
-
 export class ModalInstance {
 
     private suffix: string = '.ng2-bs3-modal';

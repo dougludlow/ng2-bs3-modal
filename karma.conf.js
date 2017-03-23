@@ -10,16 +10,12 @@ module.exports = function (config) {
         browsers: ['PhantomJS'],
         // browsers: ['Chrome'],
         files: [
-            'node_modules/typescript/lib/typescript.js',
             'node_modules/jquery/dist/jquery.js',
             'node_modules/bootstrap/dist/js/bootstrap.js',
             'node_modules/jasmine-jquery-matchers/dist/jasmine-jquery-matchers.js',
 
-            // System.js for module loading
-            'node_modules/systemjs/dist/system.src.js',
-            'node_modules/systemjs/dist/system-polyfills.js',
-
             // Polyfills
+            'node_modules/es6-shim/es6-shim.js',
             'node_modules/core-js/client/shim.js',
             'node_modules/reflect-metadata/Reflect.js',
 
@@ -31,6 +27,13 @@ module.exports = function (config) {
             'node_modules/zone.js/dist/jasmine-patch.js',
             'node_modules/zone.js/dist/async-test.js',
             'node_modules/zone.js/dist/fake-async-test.js',
+
+            // System.js for module loading
+            'node_modules/systemjs/dist/system.src.js',
+
+            // Typescript
+            { pattern: 'node_modules/typescript/**/*.js', included: false, watched: false },
+            { pattern: 'node_modules/plugin-typescript/**/*.js', included: false, watched: false },
 
             // RxJs
             { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
