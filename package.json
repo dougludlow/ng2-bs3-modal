@@ -1,84 +1,99 @@
 {
-  "name": "ng2-bs3-modal",
-  "version": "0.10.4",
-  "description": "Angular2 Boostrap3 Modal Component",
-  "main": "ng2-bs3-modal.js",
-  "scripts": {
-    "start": "static",
-    "lint": "tslint ./src/**/*.ts",
-    "clean": "rimraf bundles components directives **/*.ngfactory.ts **/*.ngsummary.json src/**/*.js src/**/*.js.map ng2-bs3-modal.* ",
-    "tsc": "ngc -p .",
-    "tsc:bundle": "tsc -p tsconfig.bundle.json",
-    "uglify:bundle": "uglifyjs ./bundles/ng2-bs3-modal.js --output ./bundles/ng2-bs3-modal.min.js",
-    "uglify:umd": "uglifyjs ./bundles/ng2-bs3-modal.umd.js --output ./bundles/ng2-bs3-modal.umd.min.js",
-    "build:bundle": "npm run tsc:bundle && npm run uglify:bundle",
-    "build:umd": "rollup -c rollup.config.js && npm run uglify:umd",
-    "build": "npm run clean && npm run lint && npm run tsc && npm run build:bundle && npm run build:umd",
-    "prepublish": "npm run build",
-    "test": "karma start",
-    "test:w": "karma start --no-single-run"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/dougludlow/ng2-bs3-modal.git"
-  },
-  "keywords": [
-    "angular2",
-    "bootstrap",
-    "modal",
-    "component"
-  ],
-  "author": "Douglas Ludlow <doug.ludlow@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dougludlow/ng2-bs3-modal/issues"
-  },
-  "homepage": "https://github.com/dougludlow/ng2-bs3-modal#readme",
-  "devDependencies": {
-    "@angular/common": "^2.0.0",
-    "@angular/compiler": "^2.0.0",
-    "@angular/compiler-cli": "^2.4.10",
-    "@angular/core": "^2.0.0",
-    "@angular/forms": "^2.0.0",
-    "@angular/platform-browser": "^2.0.0",
-    "@angular/platform-browser-dynamic": "^2.0.0",
-    "@angular/platform-server": "^2.0.1",
-    "@angular/router": "^3.0.0",
-    "@types/jasmine": "^2.5.46",
-    "@types/jquery": "^2.0.41",
-    "bootstrap": "^3.3.6",
-    "core-js": "^2.4.1",
-    "es6-shim": "^0.35.0",
-    "jasmine": "^2.4.1",
-    "jasmine-core": "^2.5.2",
-    "jasmine-jquery-matchers": "^1.4.2",
-    "jquery": "^3.2.1",
-    "karma": "^1.5.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-jasmine": "^1.1.0",
-    "karma-phantomjs-launcher": "^1.0.2",
-    "karma-spec-reporter": "^0.0.30",
-    "node-static": "^0.7.8",
-    "phantomjs-prebuilt": "^2.1.7",
-    "plugin-typescript": "^7.0.6",
-    "reflect-metadata": "^0.1.3",
-    "rimraf": "^2.5.1",
-    "rollup": "^0.41.6",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "rxjs": "^5.0.0-beta.12",
-    "systemjs": "^0.20.10",
-    "tslint": "^4.5.1",
-    "typescript": "^2.0.3",
-    "uglify-js": "^2.8.15",
-    "zone.js": "^0.7.2"
-  },
-  "peerDependencies": {
-    "@angular/common": "^2.0.0",
-    "@angular/compiler": "^2.0.0",
-    "@angular/core": "^2.0.0",
-    "@angular/platform-browser": "^2.0.0",
-    "@angular/platform-browser-dynamic": "^2.0.0",
-    "bootstrap": "~3.3.x"
-  }
+    "name": "ng2-bs3-modal",
+    "version": "0.12.0",
+    "description": "Angular Boostrap 3 Modal Component",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/dougludlow/ng2-bs3-modal.git"
+    },
+    "bugs": {
+        "url": "https://github.com/dougludlow/ng2-bs3-modal/issues"
+    },
+    "keywords": [
+        "angular2",
+        "bootstrap",
+        "modal",
+        "component"
+    ],
+    "main": "bundles/ng2-bs3-modal.umd.js",
+    "es2015": "ng2-bs3-modal.js",
+    "typings": "ng2-bs3-modal.d.ts",
+    "jspm": {
+        "main": "bundles/ng2-bs3-modal.system.js",
+        "deps": ["jquery", "bootstrap"],
+        "shim": {
+            "jquery": {
+                "exports": "jQuery"
+            },
+            "bootstrap": {
+                "exports": "jQuery"
+            }
+        }
+    },
+    "scripts": {
+        "ng": "ng",
+        "start": "ng serve",
+        "build": "ng build",
+        "test": "ng test",
+        "lint": "ng lint",
+        "e2e": "ng e2e",
+        "prepublish": "yarn run build && yarn run bundles",
+        "clean": "rimraf bundles modal autofocus utils **/*.ngfactory.ts **/*.ngsummary.json src/**/*.js src/**/*.js.map ng2-bs3-modal.* ",
+        "tsc:system": "tsc -p tsconfig.system.json",
+        "tsc:umd": "ngc -p tsconfig.umd.json",
+        "uglify:system": "uglifyjs ./bundles/ng2-bs3-modal.system.js --output ./bundles/ng2-bs3-modal.system.min.js",
+        "uglify:umd": "uglifyjs ./bundles/ng2-bs3-modal.umd.js --output ./bundles/ng2-bs3-modal.umd.min.js",
+        "build:umd": "yarn run tsc:umd && rollup -c rollup.config.js && yarn run uglify:umd",
+        "build:system": "yarn run tsc:system && yarn run uglify:system",
+        "bundles": "yarn run clean && yarn run lint && yarn run build:system && yarn run build:umd"
+    },
+    "devDependencies": {
+        "@angular/cli": "1.0.0",
+        "@angular/common": "^4.0.0",
+        "@angular/compiler": "^4.0.0",
+        "@angular/compiler-cli": "^4.0.0",
+        "@angular/core": "^4.0.0",
+        "@angular/forms": "^4.0.0",
+        "@angular/http": "^4.0.0",
+        "@angular/platform-browser": "^4.0.0",
+        "@angular/platform-browser-dynamic": "^4.0.0",
+        "@angular/router": "^4.0.0",
+        "@types/jasmine": "^2.5.46",
+        "@types/jquery": "^2.0.41",
+        "@types/node": "^7.0.10",
+        "bootstrap": "^3.3.7",
+        "codelyzer": "^3.0.0-beta.4",
+        "core-js": "^2.4.1",
+        "jasmine": "^2.5.3",
+        "jasmine-core": "^2.5.2",
+        "jasmine-jquery-matchers": "^1.4.2",
+        "jasmine-spec-reporter": "~3.2.0",
+        "jquery": "^3.2.1",
+        "karma": "^1.5.0",
+        "karma-chrome-launcher": "~2.0.0",
+        "karma-cli": "~1.0.1",
+        "karma-coverage-istanbul-reporter": "^1.0.0",
+        "karma-jasmine": "~1.1.0",
+        "karma-jasmine-html-reporter": "^0.2.2",
+        "protractor": "~5.1.0",
+        "rimraf": "^2.6.1",
+        "rollup": "^0.41.6",
+        "rollup-plugin-commonjs": "^8.0.2",
+        "rollup-plugin-node-resolve": "^3.0.0",
+        "rxjs": "^5.1.0",
+        "ts-node": "^3.0.2",
+        "tslint": "~4.5.0",
+        "typescript": "~2.2.0",
+        "uglify-js": "^2.8.16",
+        "zone.js": "^0.8.4"
+    },
+    "peerDependencies": {
+        "@angular/common": "^2.0.0",
+        "@angular/compiler": "^2.0.0",
+        "@angular/core": "^2.0.0",
+        "@angular/platform-browser": "^2.0.0",
+        "@angular/platform-browser-dynamic": "^2.0.0",
+        "bootstrap": "~3.3.x"
+    }
 }

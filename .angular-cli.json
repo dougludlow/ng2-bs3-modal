@@ -1,0 +1,59 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "project": {
+        "name": "ng2-bs3-modal"
+    },
+    "packageManager": "yarn",
+    "apps": [{
+        "root": "src",
+        "outDir": "dist",
+        "assets": [
+            "demo/assets",
+            "demo/favicon.ico"
+        ],
+        "index": "demo/index.html",
+        "main": "demo/main.ts",
+        "polyfills": "demo/polyfills.ts",
+        "test": "test/test.ts",
+        "tsconfig": "tsconfig.app.json",
+        "testTsconfig": "tsconfig.spec.json",
+        "prefix": "app",
+        "styles": [
+            "../node_modules/bootstrap/dist/css/bootstrap.css",
+            "demo/styles.css"
+        ],
+        "scripts": [
+            "../node_modules/jquery/dist/jquery.js",
+            "../node_modules/bootstrap/js/modal.js"
+        ],
+        "environmentSource": "environments/environment.ts",
+        "environments": {
+            "dev": "environments/environment.ts",
+            "prod": "environments/environment.prod.ts"
+        }
+    }],
+    "e2e": {
+        "protractor": {
+            "config": "./protractor.conf.js"
+        }
+    },
+    "lint": [{
+            "project": "src/tsconfig.app.json"
+        },
+        {
+            "project": "src/tsconfig.spec.json"
+        },
+        {
+            "project": "e2e/tsconfig.e2e.json"
+        }
+    ],
+    "test": {
+        "karma": {
+            "config": "./karma.conf.js"
+        }
+    },
+    "defaults": {
+        "styleExt": "css",
+        "component": {}
+    }
+}

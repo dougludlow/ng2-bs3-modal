@@ -1,0 +1,115 @@
+<section class="container">
+    <h1>Angular Bootstrap Modal</h1>
+    <hr>
+
+    <h2>Configuration</h2>
+    <hr>
+    <p>
+        <button type="button" class="btn btn-default" (click)="animation = !animation">Toggle Animation ({{ animation }})</button>
+        <button type="button" class="btn btn-default" (click)="keyboard = !keyboard">Toggle Keyboard ({{ keyboard }})</button>
+        <button type="button" class="btn btn-default" (click)="index = index + 1; backdrop = backdropOptions[index%3]">Toggle Backdrop ({{ backdrop }})</button>
+        <button type="button" class="btn btn-default" (click)="cssClass = css ? '' : 'red-text'; css = !css">Toggle CSS Class ({{ cssClass ? cssClass : 'none' }})</button>
+    </p>
+    <br />
+
+    <h2>Common Usage</h2>
+    <hr>
+    <p>
+        <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
+        <button type="button" class="btn btn-default" (click)="modal.open('lg')">Large modal</button>
+        <button type="button" class="btn btn-default" (click)="modal.open('sm')">Small modal</button>
+    </p>
+    <br />
+
+    <h2>Other Usages</h2>
+    <hr>
+    <p>
+        <button type="button" class="btn btn-default" (click)="navigateModal.open()">Navigate in modal</button>
+        <button type="button" class="btn btn-default" (click)="open()">Open from parent component</button>
+        <button type="button" class="btn btn-default" (click)="parentModal.open()">Stacked modals</button>
+        <button type="button" class="btn btn-default" (click)="validationModal.open()">With form validation</button>
+    </p>
+    <br />
+
+    <h2>Output</h2>
+    <pre>{{ output }}</pre>
+
+    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+        (onOpen)="opened()" [cssClass]="cssClass" #modal  >
+        <bs-modal-header [showDismiss]="true">
+            <h4 class="modal-title">I'm a modal!</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            <ul>
+                <li *ngFor="let item of items">
+                    <a href="#" (click)="$event.preventDefault(); selected = item">{{ item }}</a>
+                </li>
+            </ul>
+            <p *ngIf="selected">Selected: <b>{{ selected }}</b></p>
+        </bs-modal-body>
+        <bs-modal-footer [showDefaultButtons]="true"></bs-modal-footer>
+    </bs-modal>
+
+    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="navigate()" (onDismiss)="dismissed()"
+        (onOpen)="opened()" [cssClass]="cssClass" #navigateModal>
+        <bs-modal-header [showDismiss]="true">
+            <h4 class="modal-title">I'm a modal!</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            <p>I will navigate to another route when you close the modal.</p>
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-default" (click)="navigateModal.dismiss()">Close</button>
+            <button type="button" class="btn btn-primary" autofocus (click)="navigateModal.close()">Go</button>
+        </bs-modal-footer>
+    </bs-modal>
+
+    <bs-modal style="z-index: 1049" [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+        (onOpen)="opened()" [cssClass]="cssClass" #parentModal>
+        <bs-modal-header [showDismiss]="true">
+            <h4 class="modal-title">I'm a modal!</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            <p><strong>Note:</strong> My <code>z-index</code> is set to <code>1049</code>.</p>
+            <button type="button" class="btn btn-default" (click)="stackedModel.open()">Open another modal</button>
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-default" (click)="parentModal.dismiss()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="parentModal.close()">Ok</button>
+        </bs-modal-footer>
+    </bs-modal>
+
+    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+        (onOpen)="opened()" [cssClass]="cssClass" #stackedModel>
+        <bs-modal-header [showDismiss]="true">
+            <h4 class="modal-title">I'm a stacked modal!</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            <button type="button" class="btn btn-default" (click)="dismissAll()">Dismiss All Modals</button>
+        </bs-modal-body>
+        <bs-modal-footer [showDefaultButtons]="true"></bs-modal-footer>
+    </bs-modal>
+
+    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+        (onOpen)="opened()" [cssClass]="cssClass" #validationModal>
+        <form #modalForm="ngForm">
+            <bs-modal-header [showDismiss]="true">
+                <h4 class="modal-title">I'm a modal!</h4>
+            </bs-modal-header>
+            <bs-modal-body>
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" required [(ngModel)]="model.firstName" name="firstName" id="firstName">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" required [(ngModel)]="model.lastName" name="lastName" id="lastName">
+                </div>
+            </bs-modal-body>
+            <bs-modal-footer>
+                <button type="button" class="btn btn-default" (click)="validationModal.dismiss()">Cancel</button>
+                <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="validationModal.close()">Save</button>
+            </bs-modal-footer>
+        </form>
+    </bs-modal>
+</section>

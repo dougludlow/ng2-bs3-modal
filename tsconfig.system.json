@@ -1,0 +1,18 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "module": "system",
+        "rootDir": "src/ng2-bs3-modal",
+        "outFile": "./bundles/ng2-bs3-modal.system.js",
+        "types": [
+            "jquery"
+        ]
+    },
+    "exclude": [
+        "e2e",
+        "node_modules",
+        "src/demo",
+        "src/test",
+        "**/*.spec.ts"
+    ]
+}

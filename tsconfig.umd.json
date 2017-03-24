@@ -1,0 +1,20 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "declaration": true,
+        "rootDir": "src/ng2-bs3-modal",
+        "outDir": "",
+        "module": "es2015",
+        "baseUrl": "",
+        "types": [
+            "jquery"
+        ]
+    },
+    "exclude": [
+        "e2e",
+        "node_modules",
+        "src/demo",
+        "src/test",
+        "**/*.spec.ts"
+    ]
+}

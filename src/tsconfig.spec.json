@@ -1,0 +1,23 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../out-tsc/spec",
+        "module": "commonjs",
+        "target": "es5",
+        "baseUrl": "",
+        "types": [
+            "jasmine",
+            "jasmine-jquery-matchers",
+            "node",
+            "jquery"
+        ]
+    },
+    "files": [
+        "test/test.ts",
+        "test/common.ts"
+    ],
+    "include": [
+        "**/*.spec.ts",
+        "**/*.d.ts"
+    ]
+}

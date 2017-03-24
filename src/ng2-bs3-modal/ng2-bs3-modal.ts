@@ -1,36 +1,41 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ModalComponent } from './components/modal';
-import { ModalHeaderComponent } from './components/modal-header';
-import { ModalBodyComponent } from './components/modal-body';
-import { ModalFooterComponent } from './components/modal-footer';
-import { AutofocusDirective } from './directives/autofocus';
+import { BsModalService } from './modal/modal-service';
+import { BsModalComponent } from './modal/modal';
+import { BsModalHeaderComponent } from './modal/modal-header';
+import { BsModalBodyComponent } from './modal/modal-body';
+import { BsModalFooterComponent } from './modal/modal-footer';
+import { BsAutofocusDirective } from './autofocus/autofocus';
 
-export * from './components/modal';
-export * from './components/modal-header';
-export * from './components/modal-body';
-export * from './components/modal-footer';
-export * from './components/modal-instance';
+export * from './modal/modal-service';
+export * from './modal/modal';
+export * from './modal/modal-header';
+export * from './modal/modal-body';
+export * from './modal/modal-footer';
+export * from './modal/models';
 
 @NgModule({
     imports: [
         CommonModule
     ],
     declarations: [
-        ModalComponent,
-        ModalHeaderComponent,
-        ModalBodyComponent,
-        ModalFooterComponent,
-        AutofocusDirective
+        BsModalComponent,
+        BsModalHeaderComponent,
+        BsModalBodyComponent,
+        BsModalFooterComponent,
+        BsAutofocusDirective
+    ],
+    providers: [
+        BsModalService
     ],
     exports: [
-        ModalComponent,
-        ModalHeaderComponent,
-        ModalBodyComponent,
-        ModalFooterComponent,
-        AutofocusDirective
+        BsModalComponent,
+        BsModalHeaderComponent,
+        BsModalBodyComponent,
+        BsModalFooterComponent,
+        BsAutofocusDirective
     ]
 })
-export class Ng2Bs3ModalModule {
+export class BsModalModule {
 }

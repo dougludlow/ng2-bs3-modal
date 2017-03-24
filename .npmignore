@@ -2,18 +2,23 @@
 .vscode
 
 node_modules
-npm-debug.log
 yarn.lock
 
 Thumbs.db
 Desktop.ini
-.DS_Store
 
-demo
+e2e
+src
 test
-index.html
+
+.angular-cls.json
+.editorconfig
+.gitignore
+.travis.yml
+karma.conf.js
+progractor.conf.js
+rollup.config.js
 tsconfig.json
+tsconfig.bundle.json
 tslint.json
 *.tgz
-src/**/*.js
-src/**/*.js.map

@@ -49,7 +49,7 @@ import { NgModule } from '@angular/core';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @NgModule({
-    imports: [ Ng2Bs3ModalModule ]
+    imports: [ BsModalModule ]
     ...
 })
 export class MyAppModule { }
@@ -69,7 +69,7 @@ Feel free to request more.
 
 ## API
 
-### ModalComponent
+### BsModalComponent
 
 #### Inputs
 
@@ -121,29 +121,29 @@ Feel free to request more.
 
    Dismisses the modal. Causes `onDismiss` to be emitted. Returns a promise that resolves when the modal is completely hidden.
 
-### ModalHeaderComponent
+### BsModalHeaderComponent
 
 #### Inputs
 
-- `show-close: boolean`, default: `false`
+- `showDismiss: boolean`, default: `false`
 
    Show or hide the close button in the header. Specify `true` to show.
    
-### ModalFooterComponent
+### BsModalFooterComponent
 
 #### Inputs
 
-- `show-default-buttons: boolean`, default: `false`
+- `showDefaultButtons: boolean`, default: `false`
 
    Show or hide the default 'Close' and 'Dismiss' buttons in the footer. Specify `true` to show.
 
-- `close-button-label: string`, default: `'Close'`
+- `closeButtonLabel: string`, default: `'Close'`
 
-   Change the label in the default 'Close' button in the footer. Has no effect if show-default-buttons aren't set.
+   Change the label in the default 'Close' button in the footer. Has no effect if showDefaultButtons aren't set.
 
-- `dismiss-button-label: string`, default: `'Dismiss'`
+- `dismissButtonLabel: string`, default: `'Dismiss'`
 
-   Change the label in the default 'Dismiss' button in the footer. Has no effect if show-default-buttons aren't set.
+   Change the label in the default 'Dismiss' button in the footer. Has no effect if showDefaultButtons aren't set.
 
 ## Example Usage
 
@@ -152,15 +152,15 @@ Feel free to request more.
 ```html
 <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
 
-<modal #modal>
-    <modal-header [show-close]="true">
+<bs-modal #modal>
+    <bs-modal-header [showDismiss]="true">
         <h4 class="modal-title">I'm a modal!</h4>
-    </modal-header>
-    <modal-body>
+    </bs-modal-header>
+    <bs-modal-body>
         Hello World!
-    </modal-body>
-    <modal-footer [show-default-buttons]="true"></modal-footer>
-</modal>
+    </bs-modal-body>
+    <bs-modal-footer [showDefaultButtons]="true"></bs-modal-footer>
+</bs-modal>
 ```
     
 ![Example](demo/images/modal.png)
@@ -170,32 +170,32 @@ Feel free to request more.
 This will create a modal that cannot be closed with the escape key or by clicking outside of the modal.
 
 ```html
-<modal #modal [keyboard]="false" [backdrop]="'static'">
-    <modal-header [show-close]="false">
+<bs-modal #modal [keyboard]="false" [backdrop]="'static'">
+    <bs-modal-header [showDismiss]="false">
         <h4 class="modal-title">I'm a modal!</h4>
-    </modal-header>
-    <modal-body>
+    </bs-modal-header>
+    <bs-modal-body>
         Hello World!
-    </modal-body>
-    <modal-footer [show-default-buttons]="true"></modal-footer>
-</modal>
+    </bs-modal-body>
+    <bs-modal-footer [showDefaultButtons]="true"></bs-modal-footer>
+</bs-modal>
 ```
     
 ### Use custom buttons in footer
 
 ```html    
-<modal #modal>
-    <modal-header>
+<bs-modal #modal>
+    <bs-modal-header>
         <h4 class="modal-title">I'm a modal!</h4>
-    </modal-header>
-    <modal-body>
+    </bs-modal-header>
+    <bs-modal-body>
         Hello World!
-    </modal-body>
-    <modal-footer>
+    </bs-modal-body>
+    <bs-modal-footer>
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="modal.close()">Ok</button>
-    </modal-footer>
-</modal>
+    </bs-modal-footer>
+</bs-modal>
 ```
     
 ![Example](demo/images/modal-custom-footer.png)
@@ -209,9 +209,9 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 @Component({
     selector: 'parent-component',
     template: `
-        <modal #myModal>
+        <bs-modal #myModal>
             ...
-        </modal>
+        </bs-modal>
     `
 })
 export class ParentComponent {
@@ -237,9 +237,9 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 @Component({
     selector: 'parent-component',
     template: `
-        <modal #myModal>
+        <bs-modal #myModal>
             ...
-        </modal>
+        </bs-modal>
     `
 })
 export class ParentComponent implements AfterViewInit {
@@ -263,12 +263,12 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 @Component({
     selector: 'parent-component',
     template: `
-        <modal #myFirstModal>
+        <bs-modal #myFirstModal>
             ...
-        </modal>
-        <modal #mySecondModal>
+        </bs-modal>
+        <bs-modal #mySecondModal>
             ...
-        </modal>
+        </bs-modal>
     `
 })
 export class ParentComponent {
@@ -292,9 +292,9 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
     selector: 'parent-component',
     styles: ['>>> .modal-xl { width: 1100px; }'],
     template: `
-        <modal cssClass="modal-xl" #modal>
+        <bs-modal cssClass="modal-xl" #modal>
             ...
-        </modal>
+        </bs-modal>
     `
 })
 export class ParentComponent {
@@ -315,15 +315,15 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
     template: `
         <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
         <div *ngFor="let item in items; trackBy: item.id">
-            <modal #modal>
+            <bs-modal #modal>
                 ...
-            </modal>
+            </bs-modal>
         </div>
     `
 })
 export class ParentComponent {
     @ViewChildren(ModalComponent)
-    modals: QueryList<ModalComponent>; // How to access a collection of modals
+    modals: QueryList<bs-modalComponent>; // How to access a collection of modals
     ...
 }
 ```
@@ -333,12 +333,12 @@ Note: If you are updating items asynchronously, make sure you are using `trackBy
 ### Modal with validation
 
 ``` html
-<modal #validationModal>
+<bs-modal #validationModal>
     <form #modalForm="ngForm">
-        <modal-header [show-close]="true">
+        <bs-modal-header [showDismiss]="true">
             <h4 class="modal-title">I'm a modal!</h4>
-        </modal-header>
-        <modal-body>
+        </bs-modal-header>
+        <bs-modal-body>
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" class="form-control" required [(ngModel)]="firstName" name="firstName" id="firstName">
@@ -347,30 +347,30 @@ Note: If you are updating items asynchronously, make sure you are using `trackBy
                 <label for="lastName">Last Name</label>
                 <input type="text" class="form-control" required [(ngModel)]="lastName" name="lastName" id="lastName">
             </div>
-        </modal-body>
-        <modal-footer>
+        </bs-modal-body>
+        <bs-modal-footer>
             <button type="button" class="btn btn-default" data-dismiss="modal" (click)="validationModal.dismiss()">Cancel</button>
             <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="validationModal.close()">Save</button>
-        </modal-footer>
+        </bs-modal-footer>
     </form>
-</modal>
+</bs-modal>
 ```
 
 ### Autofocus on a textbox when modal is opened
 
 ```html    
-<modal #modal>
-    <modal-header>
+<bs-modal #modal>
+    <bs-modal-header>
         <h4 class="modal-title">I'm a modal!</h4>
-    </modal-header>
-    <modal-body>
+    </bs-modal-header>
+    <bs-modal-body>
         <div class="form-group">
             <label for="textbox">I'm a textbox!</label>
             <input autofocus type="text" class="form-control" id="textbox">
         </div>        
-    </modal-body>
-    <modal-footer [show-default-buttons]="true"></modal-footer>
-</modal>
+    </bs-modal-body>
+    <bs-modal-footer [showDefaultButtons]="true"></bs-modal-footer>
+</bs-modal>
 ```
 
 ## Building

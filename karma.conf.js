@@ -1,54 +1,45 @@
-/* global module */
+// Karma configuration file, see link for more information
+// https://karma-runner.github.io/0.13/config/configuration-file.html
+
 module.exports = function (config) {
-    'use strict';
     config.set({
-
-        basePath: '.',
-        singleRun: true,
-        frameworks: ['jasmine'],
-        reporters: ['spec'],
-        browsers: ['PhantomJS'],
-        // browsers: ['Chrome'],
-        files: [
-            'node_modules/jquery/dist/jquery.js',
-            'node_modules/bootstrap/dist/js/bootstrap.js',
-            'node_modules/jasmine-jquery-matchers/dist/jasmine-jquery-matchers.js',
-
-            // Polyfills
-            'node_modules/es6-shim/es6-shim.js',
-            'node_modules/core-js/client/shim.js',
-            'node_modules/reflect-metadata/Reflect.js',
-
-            // zone.js
-            'node_modules/zone.js/dist/zone.js',
-            'node_modules/zone.js/dist/long-stack-trace-zone.js',
-            'node_modules/zone.js/dist/proxy.js',
-            'node_modules/zone.js/dist/sync-test.js',
-            'node_modules/zone.js/dist/jasmine-patch.js',
-            'node_modules/zone.js/dist/async-test.js',
-            'node_modules/zone.js/dist/fake-async-test.js',
-
-            // System.js for module loading
-            'node_modules/systemjs/dist/system.src.js',
-
-            // Typescript
-            { pattern: 'node_modules/typescript/**/*.js', included: false, watched: false },
-            { pattern: 'node_modules/plugin-typescript/**/*.js', included: false, watched: false },
-
-            // RxJs
-            { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
-            { pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false },
-
-            // Paths loaded via module imports:
-            // Angular itself
-            { pattern: 'node_modules/@angular/**/*.js', included: false, watched: false },
-            { pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false },
-
-            { pattern: 'systemjs.config.js', included: false, watched: false },
-            'karma-test-shim.js',
-
-            // Project files
-            { pattern: 'src/**/*.ts', included: false, served: true, watched: true },
-        ]
+        basePath: '',
+        frameworks: ['jasmine', '@angular/cli'],
+        plugins: [
+            require('karma-jasmine'),
+            require('karma-chrome-launcher'),
+            require('karma-jasmine-html-reporter'),
+            require('karma-coverage-istanbul-reporter'),
+            require('@angular/cli/plugins/karma')
+        ],
+        client: {
+            clearContext: false // leave Jasmine Spec Runner output visible in browser
+        },
+        files: [{
+            pattern: './src/test/test.ts',
+            watched: false
+        }],
+        preprocessors: {
+            './src/test/test.ts': ['@angular/cli']
+        },
+        mime: {
+            'text/x-typescript': ['ts', 'tsx']
+        },
+        coverageIstanbulReporter: {
+            reports: ['html', 'lcovonly'],
+            fixWebpackSourcePaths: true
+        },
+        angularCli: {
+            environment: 'dev'
+        },
+        reporters: config.angularCli && config.angularCli.codeCoverage ?
+            ['progress', 'coverage-istanbul'] :
+            ['progress', 'kjhtml'],
+        port: 9876,
+        colors: true,
+        logLevel: config.LOG_INFO,
+        autoWatch: true,
+        browsers: ['Chrome'],
+        singleRun: false
     });
 };
