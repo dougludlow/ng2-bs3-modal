@@ -257,7 +257,7 @@ class GlueService {
 @Component({
     selector: 'test-component',
     template: `
-        <button type="button" class="btn btn-default" (click)="modal.open()" (onClose)="onClose()">Open me!</button>
+        <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
 
         <bs-modal #modal [animation]="animate">
             <bs-modal-header [showDismiss]="true">

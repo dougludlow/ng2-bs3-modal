@@ -19,5 +19,5 @@ export class BsModalFooterComponent {
     @Input() showDefaultButtons = false;
     @Input() dismissButtonLabel = 'Dismiss';
     @Input() closeButtonLabel = 'Close';
-    constructor(private modal: BsModalComponent) { }
+    constructor(public modal: BsModalComponent) { }
 }

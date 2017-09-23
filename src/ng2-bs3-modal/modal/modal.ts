@@ -199,12 +199,12 @@ export class BsModalComponent implements OnDestroy, OnChanges {
             .map(x => <BsModalCloseEvent>{ event: x[0], type: x[1] })
             .toEventEmitter(this.zone);
 
-        this.onHidden = Observable.zip(onHiddenEvent, onClose)
+        this.onHidden = Observable.zip<BsModalCloseSource>(onHiddenEvent, onClose)
             .map(x => x[1])
             .do(this.setVisible(false))
             .share();
 
-        this.onShow = Observable.fromEvent(this.$modal, SHOW_EVENT_NAME).toEventEmitter(this.zone);
+        this.onShow = Observable.fromEvent<Event>(this.$modal, SHOW_EVENT_NAME).toEventEmitter(this.zone);
         this.onShown = Observable.fromEvent(this.$modal, SHOWN_EVENT_NAME)
             .do(this.setVisible(true))
             .share();

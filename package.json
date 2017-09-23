@@ -21,7 +21,10 @@
     "typings": "ng2-bs3-modal.d.ts",
     "jspm": {
         "main": "bundles/ng2-bs3-modal.system.js",
-        "deps": ["jquery", "bootstrap"],
+        "deps": [
+            "jquery",
+            "bootstrap"
+        ],
         "shim": {
             "jquery": {
                 "exports": "jQuery"
@@ -49,7 +52,7 @@
         "bundles": "yarn run clean && yarn run lint && yarn run build:system && yarn run build:umd"
     },
     "devDependencies": {
-        "@angular/cli": "1.0.0",
+        "@angular/cli": "^1.4.3",
         "@angular/common": "^4.0.0",
         "@angular/compiler": "^4.0.0",
         "@angular/compiler-cli": "^4.0.0",
@@ -85,7 +88,7 @@
         "ts-node": "^3.0.2",
         "tslint": "~4.5.0",
         "typescript": "~2.2.0",
-        "uglify-js": "^2.8.16",
+        "uglify-js": "^3.1.1",
         "zone.js": "^0.8.4"
     },
     "peerDependencies": {

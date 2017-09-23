@@ -14,5 +14,5 @@ import { BsModalComponent } from './modal';
 })
 export class BsModalHeaderComponent {
     @Input() showDismiss = false;
-    constructor(private modal: BsModalComponent) { }
+    constructor(public modal: BsModalComponent) { }
 }
