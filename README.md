@@ -19,8 +19,14 @@ If you're using Typescript in your project, `ng2-bs3-modal` requires Typescript 
 
 ## Install
 
+npm
 ```bash
 npm install --save ng2-bs3-modal
+```
+
+yarn
+```bash
+yarn add ng2-bs3-modal
 ```
 
 Then include the `ng2-bs3-modal` in your project.
@@ -46,7 +52,7 @@ Then include the module in the `imports` collection of your app's module:
 
 ```typescript
 import { NgModule } from '@angular/core';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { BsModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @NgModule({
     imports: [ BsModalModule ]
@@ -163,7 +169,7 @@ Feel free to request more.
 </bs-modal>
 ```
     
-![Example](demo/images/modal.png)
+![Example](src/demo/assets/modal.png)
     
 ### Static modal
 
@@ -198,7 +204,7 @@ This will create a modal that cannot be closed with the escape key or by clickin
 </bs-modal>
 ```
     
-![Example](demo/images/modal-custom-footer.png)
+![Example](src/demo/assets/modal-custom-footer.png)
     
 ### Opening and closing the modal from a parent component
 
@@ -377,14 +383,14 @@ Note: If you are updating items asynchronously, make sure you are using `trackBy
 
 ```bash
 git clone https://github.com/dougludlow/ng2-bs3-modal.git
-npm install
-npm run build
+yarn
+yarn build
 ```
 
 ## Running 
 
 ```bash
-npm start
+yarn start
 ```
 
 Navigate to http://127.0.0.1:8080 in your browser.
@@ -392,12 +398,12 @@ Navigate to http://127.0.0.1:8080 in your browser.
 ## Testing
 
 ```bash
-npm test
+yarn test
 ```
 
 To have karma to watch for changes:
 ```bash
-npm run test:w
+yarn test:w
 ```
 
 ## Bugs/Contributions
