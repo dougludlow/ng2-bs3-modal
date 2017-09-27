@@ -1,7 +1,8 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, fakeAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
+import {  } from '@angular/core/testing';
 
 describe('AppComponent', () => {
     beforeEach(async(() => {
@@ -12,7 +13,7 @@ describe('AppComponent', () => {
             declarations: [
                 AppComponent
             ],
-        }).compileComponents();
+        });
     }));
 
     it('should create the app', async(() => {

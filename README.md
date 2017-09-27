@@ -2,7 +2,7 @@
 Angular2 Bootstrap3 Modal Component
 
 ## Demo
-http://dougludlow.github.io/ng2-bs3-modal/
+http://dougludlow.github.io/ng2-bs3-modal/demo/
 
 ## Prerequisites
 
@@ -401,9 +401,9 @@ Navigate to http://127.0.0.1:8080 in your browser.
 yarn test
 ```
 
-To have karma to watch for changes:
+To run tests once without watching:
 ```bash
-yarn test:w
+yarn test:single
 ```
 
 ## Bugs/Contributions

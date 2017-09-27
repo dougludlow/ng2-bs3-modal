@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import { BsModalComponent } from './modal';
 import { BsModalCloseSource } from './models';
+import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
 
 const EVENT_SUFFIX = 'ng2-bs3-modal';
 const KEYUP_EVENT_NAME = `keyup.${EVENT_SUFFIX}`;
@@ -17,12 +18,12 @@ export class BsModalService {
     public onKeyboardClose: Observable<BsModalCloseSource>;
 
     constructor() {
-        this.onBackdropClose = Observable.fromEvent(jQuery(document), CLICK_EVENT_NAME)
+        this.onBackdropClose = Observable.fromEvent(jQuery(document) as JQueryStyleEventEmitter, CLICK_EVENT_NAME)
             .filter((e: MouseEvent) => e.target === jQuery('.modal')[0])
             .map(() => BsModalCloseSource.Backdrop)
             .share();
 
-        this.onKeyboardClose = Observable.fromEvent(jQuery(document), KEYUP_EVENT_NAME)
+        this.onKeyboardClose = Observable.fromEvent(jQuery(document) as JQueryStyleEventEmitter, KEYUP_EVENT_NAME)
             .filter((e: KeyboardEvent) => e.which === 27)
             .map(() => BsModalCloseSource.Keyboard)
             .share();

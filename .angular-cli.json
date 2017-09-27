@@ -8,6 +8,8 @@
         "root": "src",
         "outDir": "dist",
         "assets": [
+            "_config.yml",
+            "index.html",
             "demo/assets",
             "demo/favicon.ico"
         ],
@@ -21,10 +23,6 @@
         "styles": [
             "../node_modules/bootstrap/dist/css/bootstrap.css",
             "demo/styles.css"
-        ],
-        "scripts": [
-            "../node_modules/jquery/dist/jquery.js",
-            "../node_modules/bootstrap/js/modal.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {

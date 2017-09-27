@@ -2,9 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 import { TestBed, ComponentFixture, fakeAsync, tick, flushMicrotasks } from '@angular/core/testing';
 
 import { BsModalModule, BsModalComponent } from '../ng2-bs3-modal';
-import { createRoot, advance } from '../../test/common';
+import { createRoot, advance, removeModals } from '../../test/common';
 
 describe('AutofocusDirective', () => {
+
+    let fixture: ComponentFixture<any>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -14,30 +16,31 @@ describe('AutofocusDirective', () => {
     });
 
     afterEach(fakeAsync(() => {
-        TestBed.resetTestingModule();
-        tick(300); // backdrop transition
-        tick(150); // modal transition
+        removeModals();
     }));
 
     it('should not throw an error if a modal isn\'t present', () => {
-        const fixture = createRoot(MissingModalComponent);
+        fixture = createRoot(MissingModalComponent);
     });
 
     it('should autofocus on element when modal is opened', fakeAsync(() => {
-        const fixture = createRoot(TestComponent);
+        fixture = createRoot(TestComponent);
         fixture.componentInstance.open();
         tick();
-        expect(<Element> document.getElementById('text')).toBe(document.activeElement);
+        const element: Element = document.getElementById('text');
+        expect(element).toBe(document.activeElement);
     }));
 
     it('should autofocus on element when modal is opened with animations', fakeAsync(() => {
-        const fixture = createRoot(TestComponent);
+        fixture = createRoot(TestComponent);
         fixture.componentInstance.animation = true;
         fixture.detectChanges();
         fixture.componentInstance.open();
+        fixture.componentInstance.modal.triggerTransitionEnd();
         tick(150); // backdrop transition
         tick(300); // modal transition
-        expect(<Element> document.getElementById('text')).toBe(document.activeElement);
+        const element: Element = document.getElementById('text');
+        expect(element).toBe(document.activeElement);
     }));
 });
 

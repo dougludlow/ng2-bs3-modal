@@ -7,7 +7,6 @@
         "baseUrl": "",
         "types": [
             "jasmine",
-            "jasmine-jquery-matchers",
             "node",
             "jquery"
         ]
