@@ -1,5 +1,6 @@
 import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
+import ignore from 'rollup-plugin-ignore';
 
 export default {
     entry: 'ng2-bs3-modal.js',
@@ -74,8 +75,6 @@ export default {
             jsnext: true,
             module: true
         }),
-        commonjs({
-            include: 'node_modules/rxjs/**',
-        })
+        ignore(['rxjs', '@angular/core', '@angular/common'])
     ]
 }
