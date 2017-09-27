@@ -1,4 +1,16 @@
-import { Component, OnChanges, OnDestroy, AfterViewInit, Input, Output, EventEmitter, ElementRef, HostBinding, Inject, NgZone } from '@angular/core';
+import {
+    Component,
+    OnChanges,
+    OnDestroy,
+    AfterViewInit,
+    Input,
+    Output,
+    EventEmitter,
+    ElementRef,
+    HostBinding,
+    Inject,
+    NgZone
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subject } from 'rxjs/Subject';

@@ -14,6 +14,7 @@ export function toEventEmitter<T>(this: Observable<T>, zone: NgZone): EventEmitt
 }
 
 declare module 'rxjs/Observable' {
+    // tslint:disable-next-line:no-shadowed-variable
     interface Observable<T> {
         toEventEmitter: typeof toEventEmitter;
     }

@@ -59,9 +59,9 @@ describe('ModalComponent', () => {
 
     it('should emit onClose when modal is closed and animation is disabled', fakeAsync(() => {
         fixture = createRoot(TestComponent);
-        const modal:BsModalComponent = fixture.componentInstance.modal;
+        const modal: BsModalComponent = fixture.componentInstance.modal;
         const spy = jasmine.createSpy('onClose');
-        
+
         modal.onClose.subscribe(spy);
         modal.open();
         modal.close();
@@ -98,7 +98,7 @@ describe('ModalComponent', () => {
 
     it('should emit onDismiss when modal is dismissed and animation is enabled', fakeAsync(() => {
         fixture = createRoot(TestComponent);
-        const modal:BsModalComponent = fixture.componentInstance.modal;
+        const modal: BsModalComponent = fixture.componentInstance.modal;
         const spy = jasmine.createSpy('onDismiss');
 
         fixture.componentInstance.animate = true;
@@ -289,7 +289,7 @@ class TestComponent {
     animate = false;
     defaultButtons = true;
 
-    constructor(@Inject(GlueService) public glue: GlueService) {
+    constructor( @Inject(GlueService) public glue: GlueService) {
         glue.testComponent = this;
     }
 }
