@@ -46,6 +46,11 @@ export class BsModalService {
         if (index > -1) this.modals.splice(index, 1);
     }
 
+    public focusNext() {
+        const visible = this.modals.filter(m => m.visible);
+        if (visible.length) visible[visible.length - 1].focus();
+    }
+
     public dismissAll() {
         return Promise.all(this.modals.map((m) => {
             return m.dismiss();

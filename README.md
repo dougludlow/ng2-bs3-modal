@@ -101,17 +101,17 @@ Feel free to request more.
 
 #### Outputs
 
-- `onClose: EventEmitter`
+- `onClose: EventEmitter<any>`
 
-   Emits when `ModalComponent.close()` is called. 
+   Emits when `ModalComponent.close()` is called. Will emit whatever was passed into `ModalComponent.close()`.
 
-- `onDismiss: EventEmitter`
+- `onDismiss: EventEmitter<BsModalCloseSource>`
     
-   Emits when `ModalComponent.dismiss()` is called, or when the modal is dismissed with the keyboard or backdrop. 
+   Emits when `ModalComponent.dismiss()` is called, or when the modal is dismissed with the keyboard or backdrop. Returns a `BsModalCloseSource` that can be used to determine how the modal was dismissed.
 
 - `onOpen: EventEmitter`
     
-   Emits when `ModalComponent.open()` is called.  
+   Emits when `ModalComponent.open()` is called.
 
 #### Methods
 

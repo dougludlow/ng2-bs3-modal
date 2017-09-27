@@ -118,6 +118,10 @@ export class BsModalComponent implements OnDestroy, OnChanges, AfterViewInit {
         this.$dialog.trigger('transitionend');
     }
 
+    public focus() {
+        this.$modal.trigger('focus');
+    }
+
     public ngAfterViewInit() {
         this.$dialog = this.$modal.find('.modal-dialog');
     }
@@ -186,7 +190,7 @@ export class BsModalComponent implements OnDestroy, OnChanges, AfterViewInit {
                 // https://github.com/twbs/bootstrap/issues/11793
                 if (this.animation) {
                     this.$dialog.one('transitionend', () => {
-                        this.$modal.trigger(SHOWN_EVENT_NAME);
+                        this.$modal.trigger('focus').trigger(SHOWN_EVENT_NAME);
                     });
                 }
 
@@ -236,6 +240,7 @@ export class BsModalComponent implements OnDestroy, OnChanges, AfterViewInit {
         this.onHidden = Observable.zip<BsModalCloseSource>(onHiddenEvent, onClose)
             .map(x => x[1])
             .do(this.setVisible(false))
+            .do(() => this.service.focusNext())
             .share();
 
         this.onShow = Observable.fromEvent<Event>(this.$modal as JQueryStyleEventEmitter, SHOW_EVENT_NAME)

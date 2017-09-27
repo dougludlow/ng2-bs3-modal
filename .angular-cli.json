@@ -5,6 +5,32 @@
     },
     "packageManager": "yarn",
     "apps": [{
+        "name": "default",
+        "root": "src",
+        "outDir": "dist",
+        "assets": [
+            "demo/assets",
+            "demo/favicon.ico"
+        ],
+        "index": "demo/index.html",
+        "main": "demo/main.ts",
+        "polyfills": "demo/polyfills.ts",
+        "test": "test/test.ts",
+        "tsconfig": "tsconfig.app.json",
+        "testTsconfig": "tsconfig.spec.json",
+        "prefix": "app",
+        "styles": [
+            "../node_modules/bootstrap/dist/css/bootstrap.css",
+            "demo/styles.css"
+        ],
+        "environmentSource": "environments/environment.ts",
+        "environments": {
+            "dev": "environments/environment.ts",
+            "prod": "environments/environment.prod.ts"
+        }
+    },
+    {
+        "name": "gh-pages",
         "root": "src",
         "outDir": "dist",
         "assets": [
