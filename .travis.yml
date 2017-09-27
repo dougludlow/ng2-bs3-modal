@@ -4,4 +4,4 @@ node_js:
 
 script:
 - npm run build
-- npm test:single
+- npm run test:single
