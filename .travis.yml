@@ -3,5 +3,6 @@ node_js:
   - "6"
 
 script:
+- npm run build
 - npm run bundles
 - npm run test:single
