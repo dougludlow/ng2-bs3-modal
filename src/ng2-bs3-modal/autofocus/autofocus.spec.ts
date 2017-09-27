@@ -27,8 +27,6 @@ describe('AutofocusDirective', () => {
         const fixture = createRoot(TestComponent);
         fixture.componentInstance.open();
         tick();
-        console.log('$(\'[autofocus]\').length', $('[autofocus]').length);
-        console.log('document.activeElement', document.activeElement);
         expect(<Element> document.getElementById('text')).toBe(document.activeElement);
     }));
 
@@ -39,8 +37,6 @@ describe('AutofocusDirective', () => {
         fixture.componentInstance.open();
         tick(150); // backdrop transition
         tick(300); // modal transition
-        console.log('$(\'[autofocus]\').length', $('[autofocus]').length);
-        console.log('document.activeElement', document.activeElement);
         expect(<Element> document.getElementById('text')).toBe(document.activeElement);
     }));
 });

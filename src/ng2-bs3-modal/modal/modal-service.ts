@@ -17,8 +17,6 @@ export class BsModalService {
     public onKeyboardClose: Observable<BsModalCloseSource>;
 
     constructor() {
-        console.log('service ctor');
-
         this.onBackdropClose = Observable.fromEvent(jQuery(document), CLICK_EVENT_NAME)
             .filter((e: MouseEvent) => e.target === jQuery('.modal')[0])
             .map(() => BsModalCloseSource.Backdrop)

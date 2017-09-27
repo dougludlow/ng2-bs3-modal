@@ -44,7 +44,6 @@ export class ModalDemoComponent {
     }
 
     dismissed() {
-        console.log('huh');
         this.output = '(dismissed)';
     }
 

@@ -92,7 +92,6 @@ export class BsModalComponent implements OnDestroy, OnChanges {
         this.service.remove(this);
         return this.hide().do(() => {
             if (this.$modal) {
-                console.log('destroy');
                 this.$modal.data(DATA_KEY, null);
                 this.$modal.remove();
                 this.$modal = null;
