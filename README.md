@@ -151,6 +151,14 @@ Feel free to request more.
 
    Change the label in the default 'Dismiss' button in the footer. Has no effect if showDefaultButtons aren't set.
 
+### BsModalService
+
+#### Methods
+
+- `dismissAll(): void`
+   
+   Dismiss all open modals.
+
 ## Example Usage
 
 ### Default modal
