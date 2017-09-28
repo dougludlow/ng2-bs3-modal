@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/filter';
+
 import { BsModalComponent } from './modal';
 import { BsModalCloseSource } from './models';
 import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';

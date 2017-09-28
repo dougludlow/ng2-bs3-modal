@@ -54,3 +54,4 @@ src/**.*.d.ts
 **/*.ngfactory.ts
 **/*.ngsummary.json
 .idea/
+*.tgz
