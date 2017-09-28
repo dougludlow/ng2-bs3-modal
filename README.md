@@ -218,7 +218,7 @@ This will create a modal that cannot be closed with the escape key or by clickin
 
 ```typescript
 import { Component, ViewChild } from '@angular/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { BsModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'parent-component',
@@ -230,7 +230,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 })
 export class ParentComponent {
     @ViewChild('myModal')
-    modal: ModalComponent;
+    modal: BsModalComponent;
 
     close() {
         this.modal.close();
@@ -246,7 +246,7 @@ export class ParentComponent {
 
 ```typescript
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { BsModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'parent-component',
@@ -258,7 +258,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 })
 export class ParentComponent implements AfterViewInit {
     @ViewChild('myModal')
-    modal: ModalComponent;
+    modal: BsModalComponent;
 
     ngAfterViewInit() {
         this.modal.open();
@@ -272,7 +272,7 @@ Note: `ViewChild` doesn't resolve the `modal` property until `AfterViewInit`. `O
 
 ```typescript
 import { Component, ViewChild } from '@angular/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { BsModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'parent-component',
@@ -287,10 +287,10 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 })
 export class ParentComponent {
     @ViewChild('myFirstModal')
-    modal1: ModalComponent;
+    modal1: BsModalComponent;
     
     @ViewChild('mySecondModal')
-    modal2: ModalComponent;
+    modal2: BsModalComponent;
     
     ...
 }
@@ -300,7 +300,7 @@ export class ParentComponent {
 
 ```typescript
 import { Component, ViewChild } from '@angular/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { BsModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'parent-component',
@@ -322,7 +322,7 @@ Note: Angular2 emulates the shadow dom by prefixing component styles with a uniq
 
 ```typescript
 import { Component, ViewChildren } from '@angular/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { BsModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'parent-component',
@@ -336,7 +336,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
     `
 })
 export class ParentComponent {
-    @ViewChildren(ModalComponent)
+    @ViewChildren(BsModalComponent)
     modals: QueryList<bs-modalComponent>; // How to access a collection of modals
     ...
 }
