@@ -337,7 +337,7 @@ import { BsModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 })
 export class ParentComponent {
     @ViewChildren(BsModalComponent)
-    modals: QueryList<bs-modalComponent>; // How to access a collection of modals
+    modals: QueryList<BsModalComponent>; // How to access a collection of modals
     ...
 }
 ```
