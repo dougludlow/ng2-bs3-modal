@@ -346,7 +346,7 @@ Note: If you are updating items asynchronously, make sure you are using `trackBy
 
 ### Modal with validation
 
-``` html
+```html
 <bs-modal #validationModal>
     <form #modalForm="ngForm">
         <bs-modal-header [showDismiss]="true">
