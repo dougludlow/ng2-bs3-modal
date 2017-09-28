@@ -52,7 +52,7 @@ Then include the module in the `imports` collection of your app's module:
 
 ```typescript
 import { NgModule } from '@angular/core';
-import { BsModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { BsModalModule } from 'ng2-bs3-modal';
 
 @NgModule({
     imports: [ BsModalModule ]
