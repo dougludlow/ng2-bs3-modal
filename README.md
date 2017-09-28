@@ -45,7 +45,7 @@ System.config({
 Or you can include a reference to the bundle in your html:
 
 ```html
-<script src="node_modules/ng2-bs3-modal/bundles/ng2-bs3-modal.js"></script>
+<script src="node_modules/ng2-bs3-modal/bundles/ng2-bs3-modal.system.js"></script>
 ```
 
 Then include the module in the `imports` collection of your app's module:
