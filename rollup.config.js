@@ -31,14 +31,15 @@ export default {
         'rxjs/Subject',
         'rxjs/add/observable/fromEvent',
         'rxjs/add/observable/merge',
+        'rxjs/add/observable/of',
         'rxjs/add/observable/zip',
         'rxjs/add/operator/do',
         'rxjs/add/operator/filter',
-        'rxjs/add/operator/first',
         'rxjs/add/operator/map',
         'rxjs/add/operator/partition',
         'rxjs/add/operator/share',
         'rxjs/add/operator/startWith',
+        'rxjs/add/operator/take',
         'rxjs/add/operator/toPromise'
     ],
     globals: {
@@ -51,14 +52,15 @@ export default {
         'rxjs/Subject': 'Rx',
         'rxjs/add/observable/fromEvent': 'Rx.Observable',
         'rxjs/add/observable/merge': 'Rx.Observable',
+        'rxjs/add/observable/of': 'Rx.Observable',
         'rxjs/add/observable/zip': 'Rx.Observable',
         'rxjs/add/operator/do': 'Rx.Observable.prototype',
         'rxjs/add/operator/filter': 'Rx.Observable.prototype',
-        'rxjs/add/operator/first': 'Rx.Observable.prototype',
         'rxjs/add/operator/map': 'Rx.Observable.prototype',
         'rxjs/add/operator/partition': 'Rx.Observable.prototype',
         'rxjs/add/operator/share': 'Rx.Observable.prototype',
         'rxjs/add/operator/startWith': 'Rx.Observable.prototype',
+        'rxjs/add/operator/take': 'Rx.Observable.prototype',
         'rxjs/add/operator/toPromise': 'Rx.Observable.prototype'
     },
     plugins: [

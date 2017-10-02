@@ -17,7 +17,6 @@ import { Observer } from 'rxjs/Observer';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
-import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/of';
@@ -28,7 +27,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/catch';
 
 import { BsModalHideEvent, BsModalHideType, BsModalOptions, BsModalSize } from './models';
 import { BsModalService } from './modal-service';
