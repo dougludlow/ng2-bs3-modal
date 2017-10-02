@@ -1,6 +1,6 @@
-import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { BsModalComponent, BsModalService } from '../../ng2-bs3-modal/ng2-bs3-modal';
+import { BsModalComponent, BsModalService, BsModalHideType } from '../../ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     moduleId: module.id,
@@ -36,6 +36,7 @@ export class ModalDemoComponent {
     keyboard = true;
     backdrop: string | boolean = true;
     css = false;
+    intercept = true;
 
     constructor(private router: Router, private modalservice: BsModalService) { }
 
@@ -43,8 +44,8 @@ export class ModalDemoComponent {
         this.output = '(closed) ' + this.selected;
     }
 
-    dismissed() {
-        this.output = '(dismissed)';
+    dismissed(type) {
+        this.output = `(dismissed) ${BsModalHideType[type]}`;
     }
 
     opened() {
@@ -61,6 +62,20 @@ export class ModalDemoComponent {
 
     dismissAll() {
         this.modalservice.dismissAll();
+    }
+
+    interceptDismiss(e) {
+        if (this.intercept && e.type === BsModalHideType.Dismiss) {
+            e.event.preventDefault();
+            this.output = '(intercepted) Dismiss';
+        }
+    }
+
+    interceptOpen(e) {
+        if (this.intercept) {
+            e.preventDefault();
+            this.output = '(intercepted) Open';
+        }
     }
 }
 

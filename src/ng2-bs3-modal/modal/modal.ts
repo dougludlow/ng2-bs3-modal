@@ -1,8 +1,9 @@
 import {
     Component,
+    OnInit,
+    AfterViewInit,
     OnChanges,
     OnDestroy,
-    AfterViewInit,
     Input,
     Output,
     EventEmitter,
@@ -14,20 +15,23 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
+import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/partition';
 import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/catch';
 
-import { BsModalCloseEvent, BsModalCloseSource, BsModalOptions, BsModalSize } from './models';
+import { BsModalHideEvent, BsModalHideType, BsModalOptions, BsModalSize } from './models';
 import { BsModalService } from './modal-service';
-import '../utils/to-event-emitter';
 
 const EVENT_SUFFIX = 'ng2-bs3-modal';
 const SHOW_EVENT_NAME = `show.bs.modal.${EVENT_SUFFIX}`;
@@ -47,15 +51,22 @@ const DATA_KEY = 'bs.modal';
         </div>
     `
 })
-export class BsModalComponent implements OnDestroy, OnChanges, AfterViewInit {
+export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
     private overrideSize: string = null;
     private $modal: JQuery;
     private $dialog: JQuery;
-    private onManualClose: Subject<{}> = new Subject<{}>();
-    private onShown: Observable<{}>;
-    private onHidden: Observable<BsModalCloseSource>;
-    private onCloseInternal: Observable<BsModalCloseSource>;
+    private onShowEvent$: Observable<Event>;
+    private onShownEvent$: Observable<Event>;
+    private onHideEvent$: Observable<Event>;
+    private onHiddenEvent$: Observable<Event>;
+    private onLoadedEvent$: Observable<Event>;
+    private onShown$: Observable<{}>;
+    private onInternalClose$: Subject<BsModalHideType> = new Subject<BsModalHideType>();
+    private onDismiss$: Observable<BsModalHideType>;
+    private onHide$: Observable<BsModalHideEvent>;
+    private onHidden$: Observable<BsModalHideType>;
+    private subscriptions: Subscription[] = [];
     private get options() {
         if (!this.$modal) this.init();
         return this.$modal.data(DATA_KEY).options;
@@ -69,12 +80,12 @@ export class BsModalComponent implements OnDestroy, OnChanges, AfterViewInit {
     @Input() public size: string;
     @Input() public cssClass: string;
 
+    @Output() public onShow: EventEmitter<Event> = new EventEmitter<any>();
+    @Output() public onOpen: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public onHide: EventEmitter<any> = new EventEmitter<any>();
     @Output() public onClose: EventEmitter<any> = new EventEmitter<any>();
-    @Output() public onDismiss: EventEmitter<BsModalCloseSource>;
-    @Output() public onOpen: EventEmitter<any>;
-    @Output() public onShow: EventEmitter<Event>;
-    @Output() public onHide: EventEmitter<any>;
-    @Output() public onLoaded: EventEmitter<any>;
+    @Output() public onDismiss: EventEmitter<BsModalHideType> = new EventEmitter<BsModalHideType>();
+    @Output() public onLoaded: EventEmitter<any> = new EventEmitter<any>();
 
     @HostBinding('class.fade')
     get fadeClass() { return this.animation; }
@@ -93,6 +104,14 @@ export class BsModalComponent implements OnDestroy, OnChanges, AfterViewInit {
         this.init();
     }
 
+    public ngOnInit() {
+        this.wireUpEventEmitters();
+    }
+
+    public ngAfterViewInit() {
+        this.$dialog = this.$modal.find('.modal-dialog');
+    }
+
     public ngOnChanges() {
         this.setOptions({
             backdrop: this.backdrop,
@@ -101,14 +120,8 @@ export class BsModalComponent implements OnDestroy, OnChanges, AfterViewInit {
     }
 
     public ngOnDestroy() {
-        this.service.remove(this);
-        return this.hide().do(() => {
-            if (this.$modal) {
-                this.$modal.data(DATA_KEY, null);
-                this.$modal.remove();
-                this.$modal = null;
-            }
-        }).toPromise();
+        this.onInternalClose$.next(BsModalHideType.Destroy);
+        return this.destroy();
     }
 
     public triggerTransitionEnd() {
@@ -119,29 +132,27 @@ export class BsModalComponent implements OnDestroy, OnChanges, AfterViewInit {
         this.$modal.trigger('focus');
     }
 
-    public ngAfterViewInit() {
-        this.$dialog = this.$modal.find('.modal-dialog');
-    }
-
     public routerCanDeactivate(): any {
-        return this.ngOnDestroy();
+        this.onInternalClose$.next(BsModalHideType.RouteChange);
+        return this.destroy();
     }
 
     public open(size?: string) {
+        this.overrideSize = null;
         if (BsModalSize.isValidSize(size)) this.overrideSize = size;
         return this.show().toPromise();
     }
 
     public close(value?: any): Promise<{}> {
-        this.onManualClose.next(BsModalCloseSource.Confirm);
+        this.onInternalClose$.next(BsModalHideType.Close);
         return this.hide()
             .do(() => this.onClose.emit(value))
             .toPromise()
-            .then(() => value)
+            .then(() => value);
     }
 
     public dismiss(): Promise<{}> {
-        this.onManualClose.next(BsModalCloseSource.Dismiss);
+        this.onInternalClose$.next(BsModalHideType.Dismiss);
         return this.hide().toPromise();
     }
 
@@ -175,84 +186,103 @@ export class BsModalComponent implements OnDestroy, OnChanges, AfterViewInit {
             || this.overrideSize === BsModalSize.Large;
     }
 
-    private show(): Observable<{}> {
+    private show(): Observable<any> {
+        if (this.visible) return Observable.of(null);
+
         return Observable.create((o: Observer<any>) => {
-            if (!this.visible) {
-                this.onShown.first().subscribe((next) => {
-                    o.next(next);
-                    o.complete();
-                });
-
-                // Fix for shown.bs.modal not firing when .fade is present
-                // https://github.com/twbs/bootstrap/issues/11793
-                if (this.animation) {
-                    this.$dialog.one('transitionend', () => {
-                        this.$modal.trigger('focus').trigger(SHOWN_EVENT_NAME);
-                    });
-                }
-
-                this.$modal.modal('show');
-            }
-            else {
-                o.next(null);
+            this.onShown$.take(1).subscribe(next => {
+                o.next(next);
                 o.complete();
-            }
+            });
+
+            this.transitionFix();
+            this.$modal.modal('show');
         });
     }
 
-    private hide(): Observable<BsModalCloseSource> {
-        return Observable.create((o: Observer<BsModalCloseSource>) => {
-            if (this.visible) {
-                this.onHidden.first().subscribe((next) => {
-                    o.next(next);
-                    o.complete();
-                });
-                this.$modal.modal('hide');
-            }
-            else {
-                o.next(null);
+    private transitionFix() {
+        // Fix for shown.bs.modal not firing when .fade is present
+        // https://github.com/twbs/bootstrap/issues/11793
+        if (this.animation) {
+            this.$dialog.one('transitionend', () => {
+                this.$modal.trigger('focus').trigger(SHOWN_EVENT_NAME);
+            });
+        }
+    }
+
+    private hide(): Observable<BsModalHideType> {
+        if (!this.visible) return Observable.of<BsModalHideType>(null);
+
+        return Observable.create((o: Observer<any>) => {
+            this.onHidden$.take(1).subscribe(next => {
+                o.next(next);
                 o.complete();
-            }
+            });
+
+            this.$modal.modal('hide');
         });
     }
 
     private init() {
         this.$modal = jQuery(this.element.nativeElement);
-        this.$modal.appendTo('body');
+        this.$modal.appendTo(document.body);
         this.$modal.modal({
             show: false
         });
 
-        const onHideEvent = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, HIDE_EVENT_NAME);
-        const onHiddenEvent = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, HIDDEN_EVENT_NAME);
+        this.onShowEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, SHOW_EVENT_NAME);
+        this.onShownEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, SHOWN_EVENT_NAME);
+        this.onHideEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, HIDE_EVENT_NAME);
+        this.onHiddenEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, HIDDEN_EVENT_NAME);
+        this.onLoadedEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, LOADED_EVENT_NAME);
 
-        const onClose = Observable
-            .merge(this.onManualClose, this.service.onBackdropClose, this.service.onKeyboardClose)
-            .share();
+        const onClose$ = Observable
+            .merge(this.onInternalClose$, this.service.onBackdropClose$, this.service.onKeyboardClose$)
+            .filter(() => this.visible);
 
-        this.onHide = Observable.zip(onHideEvent, onClose)
-            .map(x => <BsModalCloseEvent>{ event: x[0], type: x[1] })
-            .toEventEmitter(this.zone);
+        this.onHide$ = Observable.zip(this.onHideEvent$, onClose$)
+            .map(x => <BsModalHideEvent>{ event: x[0], type: x[1] });
 
-        this.onHidden = Observable.zip<BsModalCloseSource>(onHiddenEvent, onClose)
+        this.onHidden$ = Observable.zip<BsModalHideType>(this.onHiddenEvent$, onClose$)
             .map(x => x[1])
             .do(this.setVisible(false))
             .do(() => this.service.focusNext())
             .share();
 
-        this.onShow = Observable.fromEvent<Event>(this.$modal as JQueryStyleEventEmitter, SHOW_EVENT_NAME)
-            .toEventEmitter(this.zone);
-
-        this.onShown = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, SHOWN_EVENT_NAME)
+        this.onShown$ = this.onShownEvent$
             .do(this.setVisible(true))
             .share();
 
-        const [closed, dismissed] = this.onHidden.partition((x) => x === BsModalCloseSource.Confirm);
+        this.onDismiss$ = this.onHidden$
+            .filter((x) => x !== BsModalHideType.Close);
 
-        this.onCloseInternal = closed;
-        this.onDismiss = dismissed.toEventEmitter(this.zone);
-        this.onOpen = this.onShown.toEventEmitter(this.zone);
-        this.onLoaded = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, LOADED_EVENT_NAME).toEventEmitter(this.zone);
+        // Start watching for events
+        this.subscriptions.push(...[
+            this.onShown$.subscribe(() => { }),
+            this.onHidden$.subscribe(() => { }),
+            this.service.onModalStack$.subscribe(() => { })
+        ]);
+    }
+
+    private wireUpEventEmitters() {
+
+        this.wireUpEventEmitter(this.onShow, this.onShowEvent$);
+        this.wireUpEventEmitter(this.onOpen, this.onShown$);
+        this.wireUpEventEmitter(this.onHide, this.onHide$);
+        this.wireUpEventEmitter(this.onDismiss, this.onDismiss$);
+        this.wireUpEventEmitter(this.onLoaded, this.onLoadedEvent$);
+    }
+
+    private wireUpEventEmitter<T>(emitter: EventEmitter<T>, stream$: Observable<T>) {
+        if (emitter.observers.length === 0) return;
+
+        const sub = stream$.subscribe((next) => {
+            this.zone.run(() => {
+                emitter.next(next);
+            });
+        });
+
+        this.subscriptions.push(sub);
     }
 
     private setVisible = (isVisible) => {
@@ -268,5 +298,18 @@ export class BsModalComponent implements OnDestroy, OnChanges, AfterViewInit {
 
         if (options.backdrop !== undefined) this.options.backdrop = backdrop;
         if (options.keyboard !== undefined) this.options.keyboard = options.keyboard;
+    }
+
+    private destroy() {
+        return this.hide().do(() => {
+            this.service.remove(this);
+            this.subscriptions.forEach(s => s.unsubscribe());
+            this.subscriptions = [];
+            if (this.$modal) {
+                this.$modal.data(DATA_KEY, null);
+                this.$modal.remove();
+                this.$modal = null;
+            }
+        }).toPromise();
     }
 }

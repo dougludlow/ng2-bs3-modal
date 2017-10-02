@@ -64,6 +64,7 @@ describe('ModalComponent', () => {
 
         modal.onClose.subscribe(spy);
         modal.open();
+        tick();
         modal.close();
         tick();
 
@@ -86,25 +87,29 @@ describe('ModalComponent', () => {
     }));
 
     it('should emit onDismiss when modal is dimissed and animation is disabled', fakeAsync(() => {
-        fixture = createRoot(TestComponent);
+        fixture = createRoot(TestComponent, null, false);
         const modal = fixture.componentInstance.modal;
-        const spy = jasmine.createSpy('');
+        const spy = jasmine.createSpy('onDismiss');
+
         modal.onDismiss.subscribe(spy);
+        fixture.detectChanges();
+
         modal.open();
+        tick();
         modal.dismiss();
         tick();
+
         expect(spy).toHaveBeenCalled();
     }));
 
     it('should emit onDismiss when modal is dismissed and animation is enabled', fakeAsync(() => {
-        fixture = createRoot(TestComponent);
+        fixture = createRoot(TestComponent, null, false);
         const modal: BsModalComponent = fixture.componentInstance.modal;
         const spy = jasmine.createSpy('onDismiss');
 
+        modal.onDismiss.subscribe(spy);
         fixture.componentInstance.animate = true;
         fixture.detectChanges();
-        modal.ngAfterViewInit();
-        modal.onDismiss.subscribe(spy);
 
         modal.open();
         modal.triggerTransitionEnd();
@@ -116,13 +121,13 @@ describe('ModalComponent', () => {
     }));
 
     it('should emit onDismiss only once', fakeAsync(() => {
-        fixture = createRoot(TestComponent);
+        fixture = createRoot(TestComponent, null, false);
         const modal = fixture.componentInstance.modal;
         const spy = jasmine.createSpy('onDismiss').and.callFake(() => { });
 
+        modal.onDismiss.subscribe(spy);
         fixture.componentInstance.animate = true;
         fixture.detectChanges();
-        modal.onDismiss.subscribe(spy);
 
         modal.open();
         modal.triggerTransitionEnd();
@@ -134,14 +139,14 @@ describe('ModalComponent', () => {
     }));
 
     it('should emit onDismiss only once when showDefaultButtons is false', fakeAsync(() => {
-        fixture = createRoot(TestComponent);
+        fixture = createRoot(TestComponent, null, false);
         const modal = fixture.componentInstance.modal;
         const spy = jasmine.createSpy('onDismiss');
 
+        modal.onDismiss.subscribe(spy);
         fixture.componentInstance.animate = true;
         fixture.componentInstance.defaultButtons = false;
         fixture.detectChanges();
-        modal.onDismiss.subscribe(spy);
 
         modal.open();
         modal.triggerTransitionEnd();
@@ -153,13 +158,13 @@ describe('ModalComponent', () => {
     }));
 
     it('should emit onDismiss when modal is closed, opened, then dimissed from backdrop', fakeAsync(() => {
-        fixture = createRoot(TestComponent);
+        fixture = createRoot(TestComponent, null, false);
         const modal = fixture.componentInstance.modal;
         const spy = jasmine.createSpy('onDismiss');
 
+        modal.onDismiss.subscribe(spy);
         fixture.componentInstance.animate = true;
         fixture.detectChanges();
-        modal.onDismiss.subscribe(spy);
 
         modal.open();
         modal.triggerTransitionEnd();
@@ -176,13 +181,13 @@ describe('ModalComponent', () => {
     }));
 
     it('should emit onDismiss when modal is dismissed a second time from backdrop', fakeAsync(() => {
-        fixture = createRoot(TestComponent);
+        fixture = createRoot(TestComponent, null, false);
         const modal = fixture.componentInstance.modal;
         const spy = jasmine.createSpy('onDismiss');
 
+        modal.onDismiss.subscribe(spy);
         fixture.componentInstance.animate = true;
         fixture.detectChanges();
-        modal.onDismiss.subscribe(spy);
 
         modal.open();
         modal.triggerTransitionEnd();
@@ -199,14 +204,14 @@ describe('ModalComponent', () => {
     }));
 
     it('should emit onDismiss when modal is dismissed a second time from backdrop and showDefaultButtons is false', fakeAsync(() => {
-        fixture = createRoot(TestComponent);
+        fixture = createRoot(TestComponent, null, false);
         const modal = fixture.componentInstance.modal;
         const spy = jasmine.createSpy('onDismiss');
 
+        modal.onDismiss.subscribe(spy);
         fixture.componentInstance.animate = true;
         fixture.componentInstance.defaultButtons = false;
         fixture.detectChanges();
-        modal.onDismiss.subscribe(spy);
 
         modal.open();
         modal.triggerTransitionEnd();
@@ -223,13 +228,13 @@ describe('ModalComponent', () => {
     }));
 
     it('should emit onOpen when modal is opened and animations have been enabled', fakeAsync(() => {
-        fixture = createRoot(TestComponent);
+        fixture = createRoot(TestComponent, null, false);
         const modal = fixture.componentInstance.modal;
         const spy = jasmine.createSpy('onOpenAnimated');
 
+        modal.onOpen.subscribe(spy);
         fixture.componentInstance.animate = true;
         fixture.detectChanges();
-        modal.onOpen.subscribe(spy);
 
         modal.open();
         modal.triggerTransitionEnd();

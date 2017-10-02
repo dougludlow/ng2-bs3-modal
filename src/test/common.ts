@@ -2,9 +2,9 @@ import { Type, } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
 
-export function createRoot<T>(type: Type<T>, router?: Router): ComponentFixture<T> {
+export function createRoot<T>(type: Type<T>, router?: Router, detect = true): ComponentFixture<T> {
     const f = TestBed.createComponent<T>(type);
-    f.detectChanges();
+    if (detect) f.detectChanges();
     if (router) {
         router.initialNavigation();
         advance(f);

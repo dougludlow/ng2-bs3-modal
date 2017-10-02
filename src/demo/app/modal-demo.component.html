@@ -18,6 +18,7 @@
         <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
         <button type="button" class="btn btn-default" (click)="modal.open('lg')">Large modal</button>
         <button type="button" class="btn btn-default" (click)="modal.open('sm')">Small modal</button>
+        <button type="button" class="btn btn-default" (click)="noEventsModal.open()">No Events</button>
     </p>
     <br />
 
@@ -31,11 +32,20 @@
     </p>
     <br />
 
+    <h2>Intercepting events</h2>
+    <hr>
+    <p>
+        <button type="button" class="btn btn-default" (click)="interceptDismissModal.open()">Intercept hide</button>
+        <button type="button" class="btn btn-default" (click)="interceptOpenModal.open()">Intercept show</button>
+        | <button type="button" class="btn btn-default" (click)="intercept = !intercept">Toggle intercept ({{intercept}})</button>
+    </p>
+    <br />
+
     <h2>Output</h2>
     <pre>{{ output }}</pre>
 
-    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
-        (onOpen)="opened()" [cssClass]="cssClass" #modal  >
+    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed($event)"
+        (onOpen)="opened()" [cssClass]="cssClass" #modal>
         <bs-modal-header [showDismiss]="true">
             <h4 class="modal-title">I'm a modal!</h4>
         </bs-modal-header>
@@ -45,12 +55,31 @@
                     <a href="#" (click)="$event.preventDefault(); selected = item">{{ item }}</a>
                 </li>
             </ul>
-            <p *ngIf="selected">Selected: <b>{{ selected }}</b></p>
+            <p *ngIf="selected">Selected:
+                <b>{{ selected }}</b>
+            </p>
         </bs-modal-body>
         <bs-modal-footer [showDefaultButtons]="true"></bs-modal-footer>
     </bs-modal>
 
-    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="navigate()" (onDismiss)="dismissed()"
+    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" [cssClass]="cssClass" #noEventsModal>
+        <bs-modal-header [showDismiss]="true">
+            <h4 class="modal-title">I'm a modal!</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            <ul>
+                <li *ngFor="let item of items">
+                    <a href="#" (click)="$event.preventDefault(); selected = item">{{ item }}</a>
+                </li>
+            </ul>
+            <p *ngIf="selected">Selected:
+                <b>{{ selected }}</b>
+            </p>
+        </bs-modal-body>
+        <bs-modal-footer [showDefaultButtons]="true"></bs-modal-footer>
+    </bs-modal>
+
+    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="navigate()" (onDismiss)="dismissed($event)"
         (onOpen)="opened()" [cssClass]="cssClass" #navigateModal>
         <bs-modal-header [showDismiss]="true">
             <h4 class="modal-title">I'm a modal!</h4>
@@ -64,13 +93,16 @@
         </bs-modal-footer>
     </bs-modal>
 
-    <bs-modal style="z-index: 1049" [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
-        (onOpen)="opened()" [cssClass]="cssClass" #parentModal>
+    <bs-modal style="z-index: 1049" [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()"
+        (onDismiss)="dismissed($event)" (onOpen)="opened()" [cssClass]="cssClass" #parentModal>
         <bs-modal-header [showDismiss]="true">
             <h4 class="modal-title">I'm a modal!</h4>
         </bs-modal-header>
         <bs-modal-body>
-            <p><strong>Note:</strong> My <code>z-index</code> is set to <code>1049</code>.</p>
+            <p>
+                <strong>Note:</strong> My
+                <code>z-index</code> is set to
+                <code>1049</code>.</p>
             <button type="button" class="btn btn-default" (click)="stackedModel.open()">Open another modal</button>
         </bs-modal-body>
         <bs-modal-footer>
@@ -79,7 +111,7 @@
         </bs-modal-footer>
     </bs-modal>
 
-    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed($event)"
         (onOpen)="opened()" [cssClass]="cssClass" #stackedModel>
         <bs-modal-header [showDismiss]="true">
             <h4 class="modal-title">I'm a stacked modal!</h4>
@@ -90,7 +122,7 @@
         <bs-modal-footer [showDefaultButtons]="true"></bs-modal-footer>
     </bs-modal>
 
-    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed($event)"
         (onOpen)="opened()" [cssClass]="cssClass" #validationModal>
         <form #modalForm="ngForm">
             <bs-modal-header [showDismiss]="true">
@@ -112,4 +144,49 @@
             </bs-modal-footer>
         </form>
     </bs-modal>
+
+    <bs-modal [animation]="animation" [keyboard]="false" [backdrop]="'static'" (onClose)="closed()" (onDismiss)="dismissed($event)"
+        (onOpen)="opened()" [cssClass]="cssClass" (onHide)="interceptDismiss($event)" #interceptDismissModal>
+        <bs-modal-header [showDismiss]="true">
+            <h4 class="modal-title">Can't dismiss if <code>intercept</code> is enabled</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            <p>
+                Note: Keyboard and backdrop events cannot be prevented with
+                <code>event.preventDefault()</code>. Use the
+                <code>keyboard</code> and
+                <code>backdrop</code> options.
+            </p>
+            <ul>
+                <li *ngFor="let item of items">
+                    <a href="#" (click)="$event.preventDefault(); selected = item">{{ item }}</a>
+                </li>
+            </ul>
+            <p *ngIf="selected">Selected:
+                <b>{{ selected }}</b>
+            </p>
+            <button type="button" class="btn btn-default" (click)="intercept = !intercept" >Toggle intercept ({{intercept}})</button>
+        </bs-modal-body>
+        <bs-modal-footer [showDefaultButtons]="true"></bs-modal-footer>
+    </bs-modal>
+
+    <bs-modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed($event)"
+        (onOpen)="opened()" (onShow)="interceptOpen($event)" [cssClass]="cssClass" #interceptOpenModal>
+        <bs-modal-header [showDismiss]="true">
+            <h4 class="modal-title">I'm a modal!</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            <ul>
+                <li *ngFor="let item of items">
+                    <a href="#" (click)="$event.preventDefault(); selected = item">{{ item }}</a>
+                </li>
+            </ul>
+            <p *ngIf="selected">Selected:
+                <b>{{ selected }}</b>
+            </p>
+        </bs-modal-body>
+        <bs-modal-footer [showDefaultButtons]="true"></bs-modal-footer>
+    </bs-modal>
+
+
 </section>

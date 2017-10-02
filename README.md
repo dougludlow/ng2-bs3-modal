@@ -101,13 +101,21 @@ Feel free to request more.
 
 #### Outputs
 
+- `onShow: EventEmitter<Event>`
+
+   Emits when the `show.bs.modal` event is triggered, just before the modal is shown. Call `Event.preventDefault()` to cancel the modal from showing.
+
+- `onHide: EventEmitter<BsModalHideEvent>`
+
+   Emits when the `hide.bs.modal` event is triggered, just before the modal is hidden. Call `BsModalHideEvent.event.preventDefault()` to cancel the modal from hiding.
+
 - `onClose: EventEmitter<any>`
 
    Emits when `ModalComponent.close()` is called. Will emit whatever was passed into `ModalComponent.close()`.
 
-- `onDismiss: EventEmitter<BsModalCloseSource>`
+- `onDismiss: EventEmitter<BsModalHideType>`
     
-   Emits when `ModalComponent.dismiss()` is called, or when the modal is dismissed with the keyboard or backdrop. Returns a `BsModalCloseSource` that can be used to determine how the modal was dismissed.
+   Emits when `ModalComponent.dismiss()` is called, or when the modal is dismissed with the keyboard or backdrop. Returns a `BsModalHideType` that can be used to determine how the modal was dismissed.
 
 - `onOpen: EventEmitter`
     
@@ -157,7 +165,7 @@ Feel free to request more.
 
 - `dismissAll(): void`
    
-   Dismiss all open modals.
+   Dismiss all open modals. Inject the `BsModalService` into a componet/service to use.
 
 ## Example Usage
 

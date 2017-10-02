@@ -4,39 +4,46 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/filter';
 
 import { BsModalComponent } from './modal';
-import { BsModalCloseSource } from './models';
+import { BsModalHideType } from './models';
 import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
 
 const EVENT_SUFFIX = 'ng2-bs3-modal';
 const KEYUP_EVENT_NAME = `keyup.${EVENT_SUFFIX}`;
 const CLICK_EVENT_NAME = `click.${EVENT_SUFFIX}`;
+const SHOW_EVENT_NAME = `show.bs.modal.${EVENT_SUFFIX}`;
 
 @Injectable()
 export class BsModalService {
 
     private modals: BsModalComponent[] = [];
+    private $body: JQuery;
 
-    public onBackdropClose: Observable<BsModalCloseSource>;
-    public onKeyboardClose: Observable<BsModalCloseSource>;
+    public onBackdropClose$: Observable<BsModalHideType>;
+    public onKeyboardClose$: Observable<BsModalHideType>;
+    public onModalStack$: Observable<Event>;
 
     constructor() {
-        this.onBackdropClose = Observable.fromEvent(jQuery(document) as JQueryStyleEventEmitter, CLICK_EVENT_NAME)
-            .filter((e: MouseEvent) => e.target === jQuery('.modal')[0])
-            .map(() => BsModalCloseSource.Backdrop)
+        this.$body = jQuery(document.body);
+
+        this.onBackdropClose$ = Observable.fromEvent(this.$body as JQueryStyleEventEmitter, CLICK_EVENT_NAME)
+            .filter((e: MouseEvent) => jQuery(e.target).is('.modal'))
+            .map(() => BsModalHideType.Backdrop)
             .share();
 
-        this.onKeyboardClose = Observable.fromEvent(jQuery(document) as JQueryStyleEventEmitter, KEYUP_EVENT_NAME)
+        this.onKeyboardClose$ = Observable.fromEvent(this.$body as JQueryStyleEventEmitter, KEYUP_EVENT_NAME)
             .filter((e: KeyboardEvent) => e.which === 27)
-            .map(() => BsModalCloseSource.Keyboard)
+            .map(() => BsModalHideType.Keyboard)
             .share();
 
-        jQuery(document).on('show.bs.modal', '.modal', function () {
-            const zIndex = 1040 + (10 * $('.modal:visible').length);
-            $(this).css('z-index', zIndex);
-            setTimeout(function() {
-                $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
-            }, 0);
-        });
+        this.onModalStack$ = Observable.fromEvent<Event>(this.$body as JQueryStyleEventEmitter, SHOW_EVENT_NAME)
+            .do(() => {
+                const zIndex = 1040 + (10 * $('.modal:visible').length);
+                $(this).css('z-index', zIndex);
+                setTimeout(function() {
+                    $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+                }, 0);
+            })
+            .share();
     }
 
     public add(modal: BsModalComponent) {
@@ -50,7 +57,10 @@ export class BsModalService {
 
     public focusNext() {
         const visible = this.modals.filter(m => m.visible);
-        if (visible.length) visible[visible.length - 1].focus();
+        if (visible.length) {
+            this.$body.addClass('modal-open');
+            visible[visible.length - 1].focus();
+        }
     }
 
     public dismissAll() {
