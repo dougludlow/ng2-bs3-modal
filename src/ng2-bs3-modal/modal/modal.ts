@@ -71,6 +71,8 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
     }
 
     public visible = false;
+    public showing = false;
+    public hiding = false;
 
     @Input() public animation = true;
     @Input() public backdrop: string | boolean = true;
@@ -120,10 +122,6 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
     public ngOnDestroy() {
         this.onInternalClose$.next(BsModalHideType.Destroy);
         return this.destroy();
-    }
-
-    public triggerTransitionEnd() {
-        this.$dialog.trigger('transitionend');
     }
 
     public focus() {
@@ -185,7 +183,8 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
     }
 
     private show(): Observable<any> {
-        if (this.visible) return Observable.of(null);
+        if (this.visible && !this.hiding) return Observable.of(null);
+        this.showing = true;
 
         return Observable.create((o: Observer<any>) => {
             this.onShown$.take(1).subscribe(next => {
@@ -202,14 +201,15 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
         // Fix for shown.bs.modal not firing when .fade is present
         // https://github.com/twbs/bootstrap/issues/11793
         if (this.animation) {
-            this.$dialog.one('transitionend', () => {
+            setTimeout(() => {
                 this.$modal.trigger('focus').trigger(SHOWN_EVENT_NAME);
-            });
+            }, $.fn.modal['Constructor'].TRANSITION_DURATION);
         }
     }
 
     private hide(): Observable<BsModalHideType> {
-        if (!this.visible) return Observable.of<BsModalHideType>(null);
+        if (!this.visible && !this.showing) return Observable.of<BsModalHideType>(null);
+        this.hiding = true;
 
         return Observable.create((o: Observer<any>) => {
             this.onHidden$.take(1).subscribe(next => {
@@ -235,8 +235,7 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
         this.onLoadedEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, LOADED_EVENT_NAME);
 
         const onClose$ = Observable
-            .merge(this.onInternalClose$, this.service.onBackdropClose$, this.service.onKeyboardClose$)
-            .filter(() => this.visible);
+            .merge(this.onInternalClose$, this.service.onBackdropClose$, this.service.onKeyboardClose$);
 
         this.onHide$ = Observable.zip(this.onHideEvent$, onClose$)
             .map(x => <BsModalHideEvent>{ event: x[0], type: x[1] });
@@ -286,6 +285,8 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
     private setVisible = (isVisible) => {
         return () => {
             this.visible = isVisible;
+            this.showing = false;
+            this.hiding = false;
         }
     }
 

@@ -36,7 +36,6 @@ describe('AutofocusDirective', () => {
         fixture.componentInstance.animation = true;
         fixture.detectChanges();
         fixture.componentInstance.open();
-        fixture.componentInstance.modal.triggerTransitionEnd();
         tick(150); // backdrop transition
         tick(300); // modal transition
         const element: Element = document.getElementById('text');

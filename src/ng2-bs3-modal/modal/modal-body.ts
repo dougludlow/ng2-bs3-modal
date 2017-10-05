@@ -9,5 +9,4 @@ import { BsModalComponent } from './modal';
         </div>
     `
 })
-export class BsModalBodyComponent {
-}
+export class BsModalBodyComponent { }

@@ -112,7 +112,6 @@ describe('ModalComponent', () => {
         fixture.detectChanges();
 
         modal.open();
-        modal.triggerTransitionEnd();
         ticks(150, 300); // backdrop, modal transitions
         modal.dismiss();
         ticks(300, 150); // backdrop, modal transitions
@@ -130,7 +129,6 @@ describe('ModalComponent', () => {
         fixture.detectChanges();
 
         modal.open();
-        modal.triggerTransitionEnd();
         ticks(150, 300); // backdrop, modal transitions
         modal.dismiss();
         ticks(300, 150); // backdrop, modal transitions
@@ -149,7 +147,6 @@ describe('ModalComponent', () => {
         fixture.detectChanges();
 
         modal.open();
-        modal.triggerTransitionEnd();
         ticks(150, 300); // backdrop, modal transitions
         modal.dismiss();
         ticks(300, 150); // backdrop, modal transitions
@@ -167,12 +164,10 @@ describe('ModalComponent', () => {
         fixture.detectChanges();
 
         modal.open();
-        modal.triggerTransitionEnd();
         ticks(150, 300); // backdrop, modal transitions
         modal.close();
         ticks(300, 150); // backdrop, modal transitions
         modal.open();
-        modal.triggerTransitionEnd();
         ticks(150, 300); // backdrop, modal transitions
         (<HTMLElement>document.querySelector('.modal')).click();
         ticks(300, 150); // backdrop, modal transitions
@@ -190,12 +185,10 @@ describe('ModalComponent', () => {
         fixture.detectChanges();
 
         modal.open();
-        modal.triggerTransitionEnd();
         ticks(150, 300); // backdrop, modal transitions
         modal.dismiss();
         ticks(300, 150); // backdrop, modal transitions
         modal.open();
-        modal.triggerTransitionEnd();
         ticks(150, 300); // backdrop, modal transitions
         (<HTMLElement>document.querySelector('.modal')).click();
         ticks(300, 150); // backdrop, modal transitions
@@ -214,12 +207,10 @@ describe('ModalComponent', () => {
         fixture.detectChanges();
 
         modal.open();
-        modal.triggerTransitionEnd();
         ticks(150, 300); // backdrop, modal transitions
         modal.dismiss();
         ticks(300, 150); // backdrop, modal transitions
         modal.open();
-        modal.triggerTransitionEnd();
         ticks(150, 300); // backdrop, modal transitions
         (<HTMLElement>document.querySelector('.modal')).click();
         ticks(300, 150); // backdrop, modal transitions
@@ -237,7 +228,6 @@ describe('ModalComponent', () => {
         fixture.detectChanges();
 
         modal.open();
-        modal.triggerTransitionEnd();
         ticks(150, 300); // backdrop, modal transitions
 
         expect(spy).toHaveBeenCalled();

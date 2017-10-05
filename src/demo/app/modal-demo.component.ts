@@ -58,6 +58,12 @@ export class ModalDemoComponent {
 
     open() {
         this.modal.open();
+        if (this.intercept)
+            this.modal.close();
+    }
+
+    close() {
+        this.modal.close().then(() => console.log('CLOSED'));
     }
 
     dismissAll() {
