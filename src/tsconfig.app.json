@@ -3,13 +3,10 @@
     "compilerOptions": {
         "outDir": "../out-tsc/app",
         "module": "es2015",
-        "baseUrl": "",
-        "types": [
-            "jquery"
-        ]
+        "types": []
     },
     "exclude": [
-        "test",
+        "test.ts",
         "**/*.spec.ts"
     ]
 }
