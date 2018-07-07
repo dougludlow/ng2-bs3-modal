@@ -12,21 +12,8 @@ import {
     Inject,
     NgZone
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
-import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/zip';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/toPromise';
+import { Observable, Observer, Subject, Subscription, of as observableOf, fromEvent, merge, zip } from 'rxjs';
+import { take, filter, tap, share, map } from 'rxjs/operators';
 
 import { BsModalHideEvent, BsModalHideType, BsModalOptions, BsModalSize } from './models';
 import { BsModalService } from './modal-service';
@@ -141,10 +128,9 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
 
     public close(value?: any): Promise<{}> {
         this.onInternalClose$.next(BsModalHideType.Close);
-        return this.hide()
-            .do(() => this.onClose.emit(value))
-            .toPromise()
-            .then(() => value);
+        return this.hide().pipe(
+            tap(() => this.onClose.emit(value)),
+        ).toPromise().then(() => value);
     }
 
     public dismiss(): Promise<{}> {
@@ -183,11 +169,13 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
     }
 
     private show(): Observable<any> {
-        if (this.visible && !this.hiding) return Observable.of(null);
+        if (this.visible && !this.hiding) return observableOf(null);
         this.showing = true;
 
         return Observable.create((o: Observer<any>) => {
-            this.onShown$.take(1).subscribe(next => {
+            this.onShown$.pipe(
+                take(1),
+            ).subscribe(next => {
                 o.next(next);
                 o.complete();
             });
@@ -208,11 +196,13 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
     }
 
     private hide(): Observable<BsModalHideType> {
-        if (!this.visible && !this.showing) return Observable.of<BsModalHideType>(null);
+        if (!this.visible && !this.showing) return observableOf<BsModalHideType>(null);
         this.hiding = true;
 
         return Observable.create((o: Observer<any>) => {
-            this.onHidden$.take(1).subscribe(next => {
+            this.onHidden$.pipe(
+                take(1)
+            ).subscribe(next => {
                 o.next(next);
                 o.complete();
             });
@@ -228,30 +218,33 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
             show: false
         });
 
-        this.onShowEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, SHOW_EVENT_NAME);
-        this.onShownEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, SHOWN_EVENT_NAME);
-        this.onHideEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, HIDE_EVENT_NAME);
-        this.onHiddenEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, HIDDEN_EVENT_NAME);
-        this.onLoadedEvent$ = Observable.fromEvent(this.$modal as JQueryStyleEventEmitter, LOADED_EVENT_NAME);
+        this.onShowEvent$ = fromEvent(this.$modal, SHOW_EVENT_NAME);
+        this.onShownEvent$ = fromEvent(this.$modal, SHOWN_EVENT_NAME);
+        this.onHideEvent$ = fromEvent(this.$modal, HIDE_EVENT_NAME);
+        this.onHiddenEvent$ = fromEvent(this.$modal, HIDDEN_EVENT_NAME);
+        this.onLoadedEvent$ = fromEvent(this.$modal, LOADED_EVENT_NAME);
 
-        const onClose$ = Observable
-            .merge(this.onInternalClose$, this.service.onBackdropClose$, this.service.onKeyboardClose$);
+        const onClose$ = merge(this.onInternalClose$, this.service.onBackdropClose$, this.service.onKeyboardClose$);
 
-        this.onHide$ = Observable.zip(this.onHideEvent$, onClose$)
-            .map(x => <BsModalHideEvent>{ event: x[0], type: x[1] });
+        this.onHide$ = zip(this.onHideEvent$, onClose$).pipe(
+            map(x => <BsModalHideEvent>{ event: x[0], type: x[1] }),
+        );
 
-        this.onHidden$ = Observable.zip<BsModalHideType>(this.onHiddenEvent$, onClose$)
-            .map(x => x[1])
-            .do(this.setVisible(false))
-            .do(() => this.service.focusNext())
-            .share();
+        this.onHidden$ = zip<BsModalHideType>(this.onHiddenEvent$, onClose$).pipe(
+            map(x => x[1]),
+            tap(this.setVisible(false)),
+            tap(() => this.service.focusNext()),
+            share(),
+        );
 
-        this.onShown$ = this.onShownEvent$
-            .do(this.setVisible(true))
-            .share();
+        this.onShown$ = this.onShownEvent$.pipe(
+            tap(this.setVisible(true)),
+            share()
+        );
 
-        this.onDismiss$ = this.onHidden$
-            .filter((x) => x !== BsModalHideType.Close);
+        this.onDismiss$ = this.onHidden$.pipe(
+            filter((x) => x !== BsModalHideType.Close)
+        );
 
         // Start watching for events
         this.subscriptions.push(...[
@@ -300,15 +293,17 @@ export class BsModalComponent implements OnInit, AfterViewInit, OnChanges, OnDes
     }
 
     private destroy() {
-        return this.hide().do(() => {
-            this.service.remove(this);
-            this.subscriptions.forEach(s => s.unsubscribe());
-            this.subscriptions = [];
-            if (this.$modal) {
-                this.$modal.data(DATA_KEY, null);
-                this.$modal.remove();
-                this.$modal = null;
-            }
-        }).toPromise();
+        return this.hide().pipe(
+            tap(() => {
+                this.service.remove(this);
+                this.subscriptions.forEach(s => s.unsubscribe());
+                this.subscriptions = [];
+                if (this.$modal) {
+                    this.$modal.data(DATA_KEY, null);
+                    this.$modal.remove();
+                    this.$modal = null;
+                }
+            })
+        ).toPromise();
     }
 }

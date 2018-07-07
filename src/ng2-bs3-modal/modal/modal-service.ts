@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/filter';
+import { Observable, fromEvent } from 'rxjs';
+import { filter, map, share, tap } from 'rxjs/operators';
 
 import { BsModalComponent } from './modal';
 import { BsModalHideType } from './models';
-import { JQueryStyleEventEmitter } from 'rxjs/observable/FromEventObservable';
 
 const EVENT_SUFFIX = 'ng2-bs3-modal';
 const KEYUP_EVENT_NAME = `keyup.${EVENT_SUFFIX}`;
@@ -25,25 +23,28 @@ export class BsModalService {
     constructor() {
         this.$body = jQuery(document.body);
 
-        this.onBackdropClose$ = Observable.fromEvent(this.$body as JQueryStyleEventEmitter, CLICK_EVENT_NAME)
-            .filter((e: MouseEvent) => jQuery(e.target).is('.modal'))
-            .map(() => BsModalHideType.Backdrop)
-            .share();
+        this.onBackdropClose$ = fromEvent(this.$body, CLICK_EVENT_NAME).pipe(
+            filter((e: MouseEvent) => jQuery(e.target).is('.modal')),
+            map(() => BsModalHideType.Backdrop),
+            share(),
+        );
 
-        this.onKeyboardClose$ = Observable.fromEvent(this.$body as JQueryStyleEventEmitter, KEYUP_EVENT_NAME)
-            .filter((e: KeyboardEvent) => e.which === 27)
-            .map(() => BsModalHideType.Keyboard)
-            .share();
+        this.onKeyboardClose$ = fromEvent(this.$body, KEYUP_EVENT_NAME).pipe(
+            filter((e: KeyboardEvent) => e.which === 27),
+            map(() => BsModalHideType.Keyboard),
+            share()
+        );
 
-        this.onModalStack$ = Observable.fromEvent<Event>(this.$body as JQueryStyleEventEmitter, SHOW_EVENT_NAME)
-            .do(() => {
+        this.onModalStack$ = fromEvent<Event>(this.$body, SHOW_EVENT_NAME).pipe(
+            tap(() => {
                 const zIndex = 1040 + (10 * $('.modal:visible').length);
                 $(this).css('z-index', zIndex);
                 setTimeout(function() {
                     $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
                 }, 0);
-            })
-            .share();
+            }),
+            share()
+        );
     }
 
     public add(modal: BsModalComponent) {

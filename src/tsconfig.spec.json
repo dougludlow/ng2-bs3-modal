@@ -13,8 +13,9 @@
     },
     "files": [
         "test/test.ts",
-        "test/common.ts"
-    ],
+        "test/common.ts",
+      "demo/polyfills.ts"
+  ],
     "include": [
         "**/*.spec.ts",
         "**/*.d.ts"
