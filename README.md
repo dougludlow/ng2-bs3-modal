@@ -2,7 +2,7 @@
 Angular (2+) Bootstrap 3 Modal Component
 
 ## Demo
-http://dougludlow.github.io/ng2-bs3-modal/demo/
+http://dougludlow.github.io/ng2-bs3-modal/
 
 ## Prerequisites
 
