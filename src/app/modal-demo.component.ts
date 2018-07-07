@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { BsModalComponent, BsModalService, BsModalHideType } from 'projects/ng2-bs3-modal/src/public-api';
+import { BsModalComponent, BsModalService, BsModalHideType } from 'projects/ng2-bs3-modal/src';
 
 @Component({
     selector: 'app-modal-demo',

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { BsModalModule } from 'projects/ng2-bs3-modal/src/public-api';
+import { BsModalModule } from 'projects/ng2-bs3-modal/src';
 
 import { routing } from './app.routes';
 import { AppComponent } from './app.component';
