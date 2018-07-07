@@ -3,6 +3,5 @@ node_js:
   - "8.9"
 
 script:
-- npm run build
-- npm run bundles
-- npm run test:single
+- yarn build:lib
+- yarn test:lib
