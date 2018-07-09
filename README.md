@@ -4,17 +4,25 @@ Angular (2+) Bootstrap 3 Modal Component
 ## Demo
 http://dougludlow.github.io/ng2-bs3-modal/
 
-## Prerequisites
-
-If you're using Typescript in your project, `ng2-bs3-modal` requires Typescript v2.0.0 or greater. Also make sure that your editor (Visual Studio Code, Atom, Webstorm, etc.) supports Typescript >= v2.0.0 or you'll see errors even though it compiles.
-
 ## Dependencies
 
-`ng2-bs3-modal` depends on `bootstrap` which depends on `jquery`, you'll need to include both scripts before `ng2-bs3-modal` or somehow make them available globally, depending on your build system.
+`ng2-bs3-modal` depends on `bootstrap` which depends on `jquery`. yYou'll need to include both scripts before `ng2-bs3-modal` or somehow make them available globally, depending on your build system. Example:
 
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
+```bash
+npm install jquery bootstrap@^3.3.7
+```
+
+**`./jquery.ts`**
+```typescript
+import * as $ from 'jquery';
+window['jQuery'] = window['$'] = $;
+```
+
+**`./main.ts`**
+```typescript
+import './jquery';
+import 'bootstrap/js/modal'; // or just 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.css'; // optional
 ```
 
 ## Install
@@ -29,25 +37,6 @@ yarn
 yarn add ng2-bs3-modal
 ```
 
-Then include the `ng2-bs3-modal` in your project.
-
-Using [SystemJS](https://github.com/systemjs/systemjs), you can add a mapping to your `System.config`:
-
-```javascript
-System.config({
-    defaultJSExtensions: true,
-    map: {
-        'ng2-bs3-modal': 'node_modules/ng2-bs3-modal'
-    }
-});
-```
-
-Or you can include a reference to the bundle in your html:
-
-```html
-<script src="node_modules/ng2-bs3-modal/bundles/ng2-bs3-modal.system.js"></script>
-```
-
 Then include the module in the `imports` collection of your app's module:
 
 ```typescript
@@ -60,18 +49,6 @@ import { BsModalModule } from 'ng2-bs3-modal';
 })
 export class MyAppModule { }
 ```
-
-## Example Projects
-
-The following is a list of basic demo projects that use the `ng2-bs3-modal`:
-
-- [npm](https://github.com/dougludlow/ng2-bs3-modal-demo-npm)
-- [SystemJS](https://github.com/dougludlow/ng2-bs3-modal-demo-systemjs)
-- [jspm](https://github.com/dougludlow/ng2-bs3-modal-demo-jspm)
-- [angular-cli](https://github.com/dougludlow/ng2-bs3-modal-demo-angular-cli)
-- [webpack](https://github.com/dougludlow/ng2-bs3-modal-demo-webpack)
-
-Feel free to request more.
 
 ## API
 
@@ -185,7 +162,7 @@ Feel free to request more.
 </bs-modal>
 ```
     
-![Example](src/demo/assets/modal.png)
+![Example](src/assets/modal.png)
     
 ### Static modal
 
@@ -220,7 +197,7 @@ This will create a modal that cannot be closed with the escape key or by clickin
 </bs-modal>
 ```
     
-![Example](src/demo/assets/modal-custom-footer.png)
+![Example](src/assets/modal-custom-footer.png)
     
 ### Opening and closing the modal from a parent component
 
@@ -414,12 +391,7 @@ Navigate to http://localhost:4200/ in your browser.
 ## Testing
 
 ```bash
-yarn test
-```
-
-To run tests once without watching:
-```bash
-yarn test:single
+yarn test:lib
 ```
 
 ## Bugs/Contributions
