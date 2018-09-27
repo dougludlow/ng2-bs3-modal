@@ -6,7 +6,7 @@ http://dougludlow.github.io/ng2-bs3-modal/
 
 ## Dependencies
 
-`ng2-bs3-modal` depends on `bootstrap` which depends on `jquery`. yYou'll need to include both scripts before `ng2-bs3-modal` or somehow make them available globally, depending on your build system. Example:
+`ng2-bs3-modal` depends on `bootstrap` which depends on `jquery`. You'll need to include both scripts before `ng2-bs3-modal` or somehow make them available globally, depending on your build system. Example:
 
 ```bash
 npm install jquery bootstrap@^3.3.7
